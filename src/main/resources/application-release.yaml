@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  host: localhost
+  forward-headers-strategy: framework
+app-config:
+  pathFile: ${PPI_PATH_FILE} # /Users/bobirival/Documents/02-Work/07-Grasia-Prima/02-PPI-WARWICK/02-Path-File/
+  jwtSecret: ${PPI_JWT_SECRET} # 256 bit : 357643192F423F44284GXabT72B4B6250655368566D597133743677397A2543164629
+  jwtExpiredDuration: ${PPI_JWT_EXPIRED_DURATION} # 31536000000 = 1000L * 60L * 60L * 24L * 365L (1 year)
+spring:
+  application:
+    name: ppi-api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${PPI_DB_USERNAME} # bobirival
+    password: ${PPI_DB_PASSWORD} # password@147
+    url: jdbc:postgresql://${PPI_DB_HOST}:${PPI_DB_PORT}/${PPI_DB_NAME} # jdbc:postgresql://localhost:5432/ppi-warwick
+  jpa:
+    show-sql: ${PPI_SHOW_SQL} # false
+    hibernate:
+      ddl-auto: ${PPI_DDL_AUTO} # update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+springdoc:
+  swagger-ui:
+    doc-expansion: none
