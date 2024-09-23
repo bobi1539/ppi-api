@@ -6,8 +6,11 @@ import com.grasia.prima.ppi.api.dto.PageDto;
 import com.grasia.prima.ppi.api.dto.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
+import com.grasia.prima.ppi.api.dto.request.UserRoleRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
+import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
 import com.grasia.prima.ppi.api.entity.MUser;
+import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
 import java.text.ParseException;
@@ -44,7 +47,7 @@ public final class ObjectDummy {
     }
 
     public static HeaderRequest getHeaderRequest() {
-        return HeaderRequest.builder().userId(1L).userName("Ucup").build();
+        return HeaderRequest.builder().userId(1L).userFullName("Ucup").build();
     }
 
     public static LoginRequest getLoginRequest() {
@@ -65,10 +68,30 @@ public final class ObjectDummy {
                 .id(1L)
                 .username("admin")
                 .password("$2a$12$aXJHIHcSPjINQaVjgxmKgOtsN9Ifb7D3TatHZYBjIk4ZEVu6E7lb2")
+                .fullName("admin")
                 .build();
     }
 
     public static JwtComponentDto getJwtComponentDto() {
-        return JwtComponentDto.builder().username("admin").build();
+        return JwtComponentDto.builder()
+                .userId("1")
+                .username("admin")
+                .userFullName("admin")
+                .build();
+    }
+
+    public static MUserRole getUserRole() {
+        return MUserRole.builder()
+                .id(1L)
+                .name("admin")
+                .build();
+    }
+
+    public static UserRoleRequest getUserRoleRequest() {
+        return UserRoleRequest.builder().name("admin").build();
+    }
+
+    public static UserRoleResponse getUserRoleResponse() {
+        return UserRoleResponse.builder().id(1L).name("admin").userCount(1).build();
     }
 }

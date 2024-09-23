@@ -41,13 +41,15 @@ class JwtServiceImplTest {
     }
 
     @Test
-    void testExtractUsername() {
+    void testExtractToken() {
         when(appConfig.getJwtSecret()).thenReturn(ObjectDummy.JWT_SECRET);
         when(appConfig.getJwtExpiredDuration()).thenReturn(ObjectDummy.JWT_EXPIRED_DURATION);
 
         String token = jwtService.generateToken(jwtComponentDto);
-        String username = jwtService.extractUsername(token);
-        assertEquals(jwtComponentDto.getUsername(), username);
+        JwtComponentDto result = jwtService.extractToken(token);
+        assertEquals(jwtComponentDto.getUserId(), result.getUserId());
+        assertEquals(jwtComponentDto.getUsername(), result.getUsername());
+        assertEquals(jwtComponentDto.getUserFullName(), result.getUserFullName());
 
         verify(appConfig, times(2)).getJwtSecret();
         verify(appConfig, times(1)).getJwtExpiredDuration();

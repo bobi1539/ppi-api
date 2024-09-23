@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.filter;
 
+import com.grasia.prima.ppi.api.dto.JwtComponentDto;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.service.JwtService;
 import jakarta.servlet.FilterChain;
@@ -36,6 +37,7 @@ class JwtAuthFilterTest {
     private FilterChain filterChain;
 
     private final UserDetails userDetails = ObjectDummy.getUser();
+    private final JwtComponentDto jwtComponentDto = ObjectDummy.getJwtComponentDto();
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
 
@@ -49,11 +51,10 @@ class JwtAuthFilterTest {
     @Test
     void testDoFilterInternal_ValidToken() throws ServletException, IOException {
         String token = "validToken";
-        String username = "testUser";
         request.addHeader("Authorization", "Bearer " + token);
 
-        when(jwtService.extractUsername(token)).thenReturn(username);
-        when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
+        when(jwtService.extractToken(token)).thenReturn(jwtComponentDto);
+        when(userDetailsService.loadUserByUsername(anyString())).thenReturn(userDetails);
 
         // create context authentication
         jwtAuthFilter.doFilterInternal(request, response, filterChain);

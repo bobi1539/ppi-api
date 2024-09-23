@@ -17,4 +17,6 @@ public final class Constant {
     public static final String AUTHORIZATION = "Authorization";
     public static final String USERNAME_REQUIRED = "Username Is Required";
     public static final String PASSWORD_REQUIRED = "Password Is Required";
+    public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
+    public static final String HEADER = "header";
 }

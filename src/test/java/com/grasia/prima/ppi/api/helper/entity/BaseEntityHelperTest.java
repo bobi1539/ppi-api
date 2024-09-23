@@ -1,7 +1,7 @@
-package com.grasia.prima.ppi.api.helper;
+package com.grasia.prima.ppi.api.helper.entity;
 
-import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
+import com.grasia.prima.ppi.api.exception.BusinessException;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -9,11 +9,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EntityHelperTest {
+class BaseEntityHelperTest {
 
     @Test
-    void testInstanceEntityHelper() throws NoSuchMethodException {
-        Constructor<EntityHelper> constructor = EntityHelper.class.getDeclaredConstructor();
+    void testInstanceBaseEntityHelper() throws NoSuchMethodException {
+        Constructor<BaseEntityHelper> constructor = BaseEntityHelper.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         InvocationTargetException e = assertThrows(InvocationTargetException.class, constructor::newInstance);
         assertTrue(e.getCause() instanceof BusinessException);

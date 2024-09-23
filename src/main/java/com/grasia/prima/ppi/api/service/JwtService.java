@@ -6,5 +6,5 @@ public interface JwtService {
 
     String generateToken(JwtComponentDto dto);
 
-    String extractUsername(String token);
+    JwtComponentDto extractToken(String token);
 }

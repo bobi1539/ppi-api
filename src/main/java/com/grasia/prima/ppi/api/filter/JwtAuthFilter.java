@@ -1,12 +1,15 @@
 package com.grasia.prima.ppi.api.filter;
 
 import com.grasia.prima.ppi.api.constant.Constant;
+import com.grasia.prima.ppi.api.dto.JwtComponentDto;
+import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +24,7 @@ import java.util.Objects;
 
 @AllArgsConstructor
 @Component
+@Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
@@ -45,10 +49,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader(Constant.AUTHORIZATION);
         if (Objects.nonNull(authHeader) && authHeader.startsWith(BEARER)) {
             String token = authHeader.substring(7);
-            return jwtService.extractUsername(token);
+            JwtComponentDto jwtComponentDto = jwtService.extractToken(token);
+            setAttributeHeader(request, jwtComponentDto);
+            return jwtComponentDto.getUsername();
         }
 
         return null;
+    }
+
+    private void setAttributeHeader(HttpServletRequest request, JwtComponentDto jwtComponentDto) {
+        HeaderRequest header = HeaderRequest.builder()
+                .userId(Long.parseLong(jwtComponentDto.getUserId()))
+                .userFullName(jwtComponentDto.getUserFullName())
+                .build();
+        request.setAttribute(Constant.HEADER, header);
     }
 
     private void setAuthentication(HttpServletRequest request, String username) {

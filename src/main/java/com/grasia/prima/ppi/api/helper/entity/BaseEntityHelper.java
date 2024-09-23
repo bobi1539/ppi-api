@@ -1,13 +1,13 @@
-package com.grasia.prima.ppi.api.helper;
+package com.grasia.prima.ppi.api.helper.entity;
 
+import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.response.BaseEntityResponse;
 import com.grasia.prima.ppi.api.entity.BaseEntity;
-import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
-public final class EntityHelper {
+public final class BaseEntityHelper {
 
-    private EntityHelper() {
+    private BaseEntityHelper() {
         throw new BusinessException(GlobalMessage.INTERNAL_SERVER_ERROR);
     }
 

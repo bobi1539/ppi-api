@@ -9,5 +9,8 @@ import lombok.*;
 @Builder
 public class HeaderRequest {
     private Long userId;
-    private String userName;
+    private String userFullName;
+
+    public static final String FIELD_USER_ID = "userId";
+    public static final String FIELD_USER_FULL_NAME = "userFullName";
 }

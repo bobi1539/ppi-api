@@ -15,25 +15,36 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @AllArgsConstructor
 @Service
 public class JwtServiceImpl implements JwtService {
 
     private final AppConfig appConfig;
+    private static final String CLAIM_USER_ID = "userId";
     private static final String CLAIM_USERNAME = "username";
+    private static final String CLAIM_USER_FULL_NAME = "userFullName";
 
     @Override
     public String generateToken(JwtComponentDto dto) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put(CLAIM_USER_ID, dto.getUserId());
         claims.put(CLAIM_USERNAME, dto.getUsername());
+        claims.put(CLAIM_USER_FULL_NAME, dto.getUserFullName());
         return createToken(claims, dto.getUsername());
     }
 
     @Override
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    public JwtComponentDto extractToken(String token) {
+        Claims claims = extractAllClaims(token);
+        String userId = (String) claims.get(CLAIM_USER_ID);
+        String username = (String) claims.get(CLAIM_USERNAME);
+        String userFullName = (String) claims.get(CLAIM_USER_FULL_NAME);
+        return JwtComponentDto.builder()
+                .userId(userId)
+                .username(username)
+                .userFullName(userFullName)
+                .build();
     }
 
     private String createToken(Map<String, Object> claims, String username) {
@@ -43,11 +54,6 @@ public class JwtServiceImpl implements JwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + getExpiredDuration()))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
-    }
-
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
     }
 
     private Claims extractAllClaims(String token) {
