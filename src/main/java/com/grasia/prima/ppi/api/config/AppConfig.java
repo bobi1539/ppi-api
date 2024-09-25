@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class AppConfig {
+    private String pathFile;
     private String jwtSecret;
     private String jwtExpiredDuration;
 }
