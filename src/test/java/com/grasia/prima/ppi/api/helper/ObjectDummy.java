@@ -4,13 +4,12 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
 import com.grasia.prima.ppi.api.dto.PageDto;
 import com.grasia.prima.ppi.api.dto.SearchDto;
-import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
-import com.grasia.prima.ppi.api.dto.request.LoginRequest;
-import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
-import com.grasia.prima.ppi.api.dto.request.UserRoleRequest;
+import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
+import com.grasia.prima.ppi.api.dto.response.SystemParameterResponse;
 import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
 import com.grasia.prima.ppi.api.entity.LogAuth;
+import com.grasia.prima.ppi.api.entity.MSystemParameter;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.exception.BusinessException;
@@ -109,5 +108,17 @@ public final class ObjectDummy {
 
     public static RefreshTokenRequest getRefreshTokenRequest() {
         return RefreshTokenRequest.builder().refreshToken("refresh-token").build();
+    }
+
+    public static MSystemParameter getSystemParameter() {
+        return MSystemParameter.builder().id(1L).name("GENDER").build();
+    }
+
+    public static SystemParameterRequest getSystemParameterRequest() {
+        return SystemParameterRequest.builder().name("GENDER").build();
+    }
+
+    public static SystemParameterResponse getSystemParameterResponse() {
+        return SystemParameterResponse.builder().id(1L).name("GENDER").build();
     }
 }

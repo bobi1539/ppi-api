@@ -31,19 +31,19 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
     @Override
     public List<UserRoleResponse> findAll(SearchDto searchDto) {
         List<MUserRole> userRoles = userRoleRepository.findAll(getSpecificationFindAll(searchDto), sortByIdAsc());
-        return userRoles.stream().map(UserRoleHelper::toUserRoleResponse).toList();
+        return userRoles.stream().map(this::toResponse).toList();
     }
 
     @Override
     public Page<UserRoleResponse> findAllPagination(PageDto pageDto) {
         Page<MUserRole> userRoles = userRoleRepository.findAll(getSpecificationFindAll(pageDto), pageableSortByIdAsc(pageDto));
-        return userRoles.map(UserRoleHelper::toUserRoleResponse);
+        return userRoles.map(this::toResponse);
     }
 
     @Override
     public UserRoleResponse findById(Long id) {
         MUserRole userRole = getUserRoleById(id);
-        return UserRoleHelper.toUserRoleResponse(userRole);
+        return toResponse(userRole);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         setUpdatedBy(userRole, header);
 
         userRole = userRoleRepository.save(userRole);
-        return UserRoleHelper.toUserRoleResponse(userRole);
+        return toResponse(userRole);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         setUpdatedBy(userRole, header);
 
         userRole = userRoleRepository.save(userRole);
-        return UserRoleHelper.toUserRoleResponse(userRole);
+        return toResponse(userRole);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         setUpdatedBy(userRole, header);
 
         userRole = userRoleRepository.save(userRole);
-        return UserRoleHelper.toUserRoleResponse(userRole);
+        return toResponse(userRole);
     }
 
     private Specification<MUserRole> getSpecificationFindAll(SearchDto searchDto) {
@@ -89,5 +89,9 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
 
     private void setUserRole(MUserRole userRole, UserRoleRequest request) {
         userRole.setName(request.getName());
+    }
+
+    private UserRoleResponse toResponse(MUserRole userRole) {
+        return UserRoleHelper.toUserRoleResponse(userRole);
     }
 }
