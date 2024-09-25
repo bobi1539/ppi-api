@@ -1,6 +1,7 @@
 package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
+import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.service.AuthService;
@@ -21,8 +22,9 @@ class AuthControllerTest {
     @Mock
     private AuthService service;
 
-    private final LoginRequest request = ObjectDummy.getLoginRequest();
-    private final LoginResponse response = ObjectDummy.getLoginResponse();
+    private final LoginRequest loginRequest = ObjectDummy.getLoginRequest();
+    private final LoginResponse loginResponse = ObjectDummy.getLoginResponse();
+    private final RefreshTokenRequest refreshTokenRequest = ObjectDummy.getRefreshTokenRequest();
 
     @BeforeEach
     void setUp() {
@@ -31,11 +33,23 @@ class AuthControllerTest {
 
     @Test
     void testLogin() {
-        when(service.login(request)).thenReturn(response);
+        when(service.login(loginRequest)).thenReturn(loginResponse);
 
-        LoginResponse loginResponse = controller.login(request);
-        assertEquals(response, loginResponse);
+        LoginResponse response = controller.login(loginRequest);
+        assertEquals(loginResponse.getJwt(), response.getJwt());
+        assertEquals(loginResponse.getRefreshToken(), response.getRefreshToken());
 
-        verify(service, times(1)).login(request);
+        verify(service, times(1)).login(loginRequest);
+    }
+
+    @Test
+    void testLoginWithRefreshToken() {
+        when(service.loginWithRefreshToken(refreshTokenRequest)).thenReturn(loginResponse);
+
+        LoginResponse response = controller.loginWithRefreshToken(refreshTokenRequest);
+        assertEquals(loginResponse.getJwt(), response.getJwt());
+        assertEquals(loginResponse.getRefreshToken(), response.getRefreshToken());
+
+        verify(service, times(1)).loginWithRefreshToken(refreshTokenRequest);
     }
 }

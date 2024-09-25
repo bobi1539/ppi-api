@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
+import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.entity.LogAuth;
 import com.grasia.prima.ppi.api.entity.MUser;
@@ -19,8 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -45,6 +45,7 @@ class AuthServiceImplTest {
     private final LoginRequest loginRequest = ObjectDummy.getLoginRequest();
     private final MUser user = ObjectDummy.getUser();
     private final LogAuth logAuth = ObjectDummy.getLogAuth();
+    private final RefreshTokenRequest refreshTokenRequest = ObjectDummy.getRefreshTokenRequest();
     private static final String USERNAME = "admin";
 
 
@@ -62,10 +63,12 @@ class AuthServiceImplTest {
 
         LoginResponse response = authService.login(loginRequest);
         assertEquals(ObjectDummy.JWT, response.getJwt());
+        assertNotNull(response.getRefreshToken());
 
         verify(userRepository, times(1)).findByUsername(USERNAME);
         verify(passwordEncoder, times(1)).matches(anyString(), anyString());
         verify(jwtService, times(1)).generateToken(any());
+        verify(logAuthRepository, times(1)).save(any());
     }
 
     @Test
@@ -90,5 +93,31 @@ class AuthServiceImplTest {
 
         verify(userRepository, times(1)).findByUsername(USERNAME);
         verify(passwordEncoder, times(1)).matches(anyString(), anyString());
+    }
+
+    @Test
+    void tesLoginWithRefreshToken_Success() {
+        when(logAuthRepository.findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any()))
+                .thenReturn(Optional.of(logAuth));
+        when(jwtService.generateToken(any())).thenReturn(ObjectDummy.JWT);
+
+        LoginResponse response = authService.loginWithRefreshToken(refreshTokenRequest);
+        assertEquals(ObjectDummy.JWT, response.getJwt());
+        assertEquals(logAuth.getRefreshToken(), response.getRefreshToken());
+
+        verify(logAuthRepository, times(1)).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
+        verify(jwtService, times(1)).generateToken(any());
+    }
+
+    @Test
+    void tesLoginWithRefreshToken_RefreshTokenNotValid() {
+        when(logAuthRepository.findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any()))
+                .thenReturn(Optional.empty());
+
+        BusinessException e = assertThrows(BusinessException.class, () -> authService.loginWithRefreshToken(refreshTokenRequest));
+        assertEquals(GlobalMessage.REFRESH_TOKEN_NOT_VALID.status, e.getStatus());
+        assertEquals(GlobalMessage.REFRESH_TOKEN_NOT_VALID.message, e.getMessage());
+
+        verify(logAuthRepository, times(1)).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
     }
 }

@@ -3,6 +3,7 @@ package com.grasia.prima.ppi.api.service.impl;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
+import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.entity.LogAuth;
 import com.grasia.prima.ppi.api.entity.MUser;
@@ -35,6 +36,13 @@ public class AuthServiceImpl implements AuthService {
         String jwt = generateToken(user);
         String refreshToken = saveLogAuth(user);
         return buildLoginResponse(jwt, refreshToken);
+    }
+
+    @Override
+    public LoginResponse loginWithRefreshToken(RefreshTokenRequest request) {
+        LogAuth logAuth = findLogAuthByRefreshToken(request.getRefreshToken());
+        String jwt = generateToken(logAuth.getUser());
+        return buildLoginResponse(jwt, logAuth.getRefreshToken());
     }
 
     private MUser getByUsername(String username) {
@@ -73,5 +81,10 @@ public class AuthServiceImpl implements AuthService {
                 .jwt(jwt)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    private LogAuth findLogAuthByRefreshToken(String refreshToken) {
+        return logAuthRepository.findByRefreshTokenAndRefreshTokenExpiryAfter(refreshToken, LocalDate.now())
+                .orElseThrow(() -> new BusinessException(GlobalMessage.REFRESH_TOKEN_NOT_VALID));
     }
 }

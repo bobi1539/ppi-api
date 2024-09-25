@@ -12,11 +12,13 @@ public final class Constant {
     public static final String UNAUTHORIZED = "Unauthorized";
     public static final String DATA_NOT_FOUND = "Data Not Found";
     public static final String WRONG_USERNAME_OR_PASSWORD = "Wrong Username Or Password";
+    public static final String REFRESH_TOKEN_NOT_VALID = "Refresh Token Not Valid";
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
     public static final String ERROR = "Error : {}";
     public static final String AUTHORIZATION = "Authorization";
     public static final String USERNAME_REQUIRED = "Username Is Required";
     public static final String PASSWORD_REQUIRED = "Password Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
+    public static final String REFRESH_TOKEN_REQUIRED = "Refresh Token Is Required";
     public static final String HEADER = "header";
 }

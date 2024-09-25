@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.constant.Endpoint;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
+import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.service.AuthService;
 import jakarta.validation.Valid;
@@ -21,5 +22,10 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody @Valid LoginRequest request) {
         return authService.login(request);
+    }
+
+    @PostMapping("/refresh-token")
+    public LoginResponse loginWithRefreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+        return authService.loginWithRefreshToken(request);
     }
 }

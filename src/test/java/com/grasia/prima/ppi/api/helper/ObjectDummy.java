@@ -6,6 +6,7 @@ import com.grasia.prima.ppi.api.dto.PageDto;
 import com.grasia.prima.ppi.api.dto.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
+import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
@@ -102,6 +103,11 @@ public final class ObjectDummy {
                 .id(1L)
                 .refreshToken("refresh-token")
                 .refreshTokenExpiry(LocalDate.now().plusMonths(1))
+                .user(getUser())
                 .build();
+    }
+
+    public static RefreshTokenRequest getRefreshTokenRequest() {
+        return RefreshTokenRequest.builder().refreshToken("refresh-token").build();
     }
 }
