@@ -9,12 +9,14 @@ import com.grasia.prima.ppi.api.dto.request.LoginRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
+import com.grasia.prima.ppi.api.entity.LogAuth;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 public final class ObjectDummy {
@@ -93,5 +95,13 @@ public final class ObjectDummy {
 
     public static UserRoleResponse getUserRoleResponse() {
         return UserRoleResponse.builder().id(1L).name("admin").userCount(1).build();
+    }
+
+    public static LogAuth getLogAuth() {
+        return LogAuth.builder()
+                .id(1L)
+                .refreshToken("refresh-token")
+                .refreshTokenExpiry(LocalDate.now().plusMonths(1))
+                .build();
     }
 }

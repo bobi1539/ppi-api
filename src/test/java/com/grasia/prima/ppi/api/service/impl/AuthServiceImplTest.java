@@ -1,12 +1,14 @@
 package com.grasia.prima.ppi.api.service.impl;
 
-import com.grasia.prima.ppi.api.helper.ObjectDummy;
-import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
+import com.grasia.prima.ppi.api.entity.LogAuth;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.exception.BusinessException;
+import com.grasia.prima.ppi.api.helper.ObjectDummy;
+import com.grasia.prima.ppi.api.repository.LogAuthRepository;
+import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -36,8 +39,12 @@ class AuthServiceImplTest {
     @Mock
     private JwtService jwtService;
 
+    @Mock
+    private LogAuthRepository logAuthRepository;
+
     private final LoginRequest loginRequest = ObjectDummy.getLoginRequest();
     private final MUser user = ObjectDummy.getUser();
+    private final LogAuth logAuth = ObjectDummy.getLogAuth();
     private static final String USERNAME = "admin";
 
 
@@ -51,6 +58,7 @@ class AuthServiceImplTest {
         when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
         when(jwtService.generateToken(any())).thenReturn(ObjectDummy.JWT);
+        when(logAuthRepository.save(any())).thenReturn(logAuth);
 
         LoginResponse response = authService.login(loginRequest);
         assertEquals(ObjectDummy.JWT, response.getJwt());

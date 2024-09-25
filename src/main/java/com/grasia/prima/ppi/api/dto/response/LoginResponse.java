@@ -9,4 +9,5 @@ import lombok.*;
 @Builder
 public class LoginResponse {
     private String jwt;
+    private String refreshToken;
 }

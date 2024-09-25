@@ -43,4 +43,12 @@ class StringHelperTest {
         String string = StringHelper.queryLike("joko");
         assertEquals("%joko%", string);
     }
+
+    @Test
+    void testRandom() {
+        String random = StringHelper.random();
+        System.out.println(random);
+        assertNotNull(random);
+        assertEquals(20, random.length());
+    }
 }

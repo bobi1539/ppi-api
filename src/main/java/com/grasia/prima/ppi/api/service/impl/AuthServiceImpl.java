@@ -4,14 +4,19 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
+import com.grasia.prima.ppi.api.entity.LogAuth;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.exception.BusinessException;
+import com.grasia.prima.ppi.api.helper.StringHelper;
+import com.grasia.prima.ppi.api.repository.LogAuthRepository;
 import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.service.AuthService;
 import com.grasia.prima.ppi.api.service.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @Service
@@ -20,12 +25,16 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final LogAuthRepository logAuthRepository;
 
     @Override
     public LoginResponse login(LoginRequest request) {
         MUser user = getByUsername(request.getUsername());
         verifyPassword(request.getPassword(), user.getPassword());
-        return buildLoginResponse(generateToken(user));
+
+        String jwt = generateToken(user);
+        String refreshToken = saveLogAuth(user);
+        return buildLoginResponse(jwt, refreshToken);
     }
 
     private MUser getByUsername(String username) {
@@ -49,7 +58,20 @@ public class AuthServiceImpl implements AuthService {
         return jwtService.generateToken(dto);
     }
 
-    private LoginResponse buildLoginResponse(String jwt) {
-        return LoginResponse.builder().jwt(jwt).build();
+    private String saveLogAuth(MUser user) {
+        LogAuth logAuth = LogAuth.builder()
+                .refreshToken(StringHelper.random())
+                .refreshTokenExpiry(LocalDate.now().plusMonths(1))
+                .user(user)
+                .build();
+        logAuthRepository.save(logAuth);
+        return logAuth.getRefreshToken();
+    }
+
+    private LoginResponse buildLoginResponse(String jwt, String refreshToken) {
+        return LoginResponse.builder()
+                .jwt(jwt)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
