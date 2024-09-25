@@ -102,13 +102,13 @@ class UserRoleControllerTest extends ControllerTest {
 
     @Test
     void testDelete() {
-        when(service.delete(any())).thenReturn(positionResponse);
+        when(service.delete(any(), any())).thenReturn(positionResponse);
 
-        UserRoleResponse response = controller.delete(id);
+        UserRoleResponse response = controller.delete(id, header);
         assertEquals(positionResponse.getId(), response.getId());
         assertEquals(positionResponse.getName(), response.getName());
 
-        verify(service, times(1)).delete(any());
+        verify(service, times(1)).delete(any(), any());
     }
 
     @Test

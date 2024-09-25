@@ -60,7 +60,10 @@ public class UserRoleController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
-    public UserRoleResponse delete(@PathVariable Long id) {
-        return userRoleService.delete(id);
+    public UserRoleResponse delete(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return userRoleService.delete(id, header);
     }
 }

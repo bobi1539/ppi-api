@@ -19,5 +19,5 @@ public interface CrudService<T, R> {
 
     R update(Long id, T request, HeaderRequest header);
 
-    R delete(Long id);
+    R delete(Long id, HeaderRequest header);
 }

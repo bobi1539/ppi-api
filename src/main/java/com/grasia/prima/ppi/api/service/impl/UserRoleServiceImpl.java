@@ -68,9 +68,10 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
     }
 
     @Override
-    public UserRoleResponse delete(Long id) {
+    public UserRoleResponse delete(Long id, HeaderRequest header) {
         MUserRole userRole = getUserRoleById(id);
         userRole.setDeleted(true);
+        setUpdatedBy(userRole, header);
 
         userRole = userRoleRepository.save(userRole);
         return UserRoleHelper.toUserRoleResponse(userRole);

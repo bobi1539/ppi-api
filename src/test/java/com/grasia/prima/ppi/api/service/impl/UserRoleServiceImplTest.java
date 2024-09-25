@@ -122,7 +122,7 @@ class UserRoleServiceImplTest extends ServiceTest {
         when(repository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(userRole));
         when(repository.save(any())).thenReturn(userRole);
 
-        UserRoleResponse response = service.delete(id);
+        UserRoleResponse response = service.delete(id, header);
         assertEquals(userRole.getId(), response.getId());
         assertEquals(userRole.getName(), response.getName());
         assertTrue(response.isDeleted());
