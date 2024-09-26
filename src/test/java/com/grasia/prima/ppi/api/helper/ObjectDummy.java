@@ -2,15 +2,14 @@ package com.grasia.prima.ppi.api.helper;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
+import com.grasia.prima.ppi.api.dto.response.SystemParameterListResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.dto.response.SystemParameterResponse;
 import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
-import com.grasia.prima.ppi.api.entity.LogAuth;
-import com.grasia.prima.ppi.api.entity.MSystemParameter;
-import com.grasia.prima.ppi.api.entity.MUser;
-import com.grasia.prima.ppi.api.entity.MUserRole;
+import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
+import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
 import java.text.ParseException;
@@ -41,6 +40,10 @@ public final class ObjectDummy {
 
     public static SearchDto getSearchDto() {
         return SearchDto.builder().search("").page(1).size(10).build();
+    }
+
+    public static SystemParameterListSearchDto getSystemParameterListSearchDto() {
+        return SystemParameterListSearchDto.builder().systemParameterId(1L).search("").page(1).size(10).build();
     }
 
     public static HeaderRequest getHeaderRequest() {
@@ -115,5 +118,21 @@ public final class ObjectDummy {
 
     public static SystemParameterResponse getSystemParameterResponse() {
         return SystemParameterResponse.builder().id(1L).name("GENDER").build();
+    }
+
+    public static MSystemParameterList getSystemParameterList() {
+        return MSystemParameterList.builder().id(1L).name("MAN").systemParameter(getSystemParameter()).build();
+    }
+
+    public static SystemParameterListRequest getSystemParameterListRequest() {
+        return SystemParameterListRequest.builder().name("MAN").systemParameterId(1L).build();
+    }
+
+    public static SystemParameterListResponse getSystemParameterListResponse() {
+        return SystemParameterListResponse.builder()
+                .id(1L)
+                .name("MAN")
+                .systemParameter(getSystemParameterResponse())
+                .build();
     }
 }
