@@ -62,7 +62,7 @@ class SystemParameterServiceImplTest extends ServiceTest {
     void testFindAllPagination_Success() {
         when(repository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(getSystemParameterPage());
 
-        Page<SystemParameterResponse> responses = service.findAllPagination(pageDto);
+        Page<SystemParameterResponse> responses = service.findAllPagination(searchDto);
         assertEquals(2, responses.getTotalElements());
 
         verify(repository, times(1)).findAll(any(Specification.class), any(Pageable.class));

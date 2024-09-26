@@ -25,7 +25,7 @@ public class UserRoleController extends BaseController {
 
     @GetMapping("/all")
     public List<UserRoleResponse> findAll(@RequestParam(required = false) String search) {
-        return userRoleService.findAll(buildSearchDto(search));
+        return userRoleService.findAll(buildSearchDto(search, 0, 0));
     }
 
     @GetMapping
@@ -34,7 +34,7 @@ public class UserRoleController extends BaseController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        return userRoleService.findAllPagination(buildPageDto(search, page, size));
+        return userRoleService.findAllPagination(buildSearchDto(search, page, size));
     }
 
     @GetMapping("/{id}")

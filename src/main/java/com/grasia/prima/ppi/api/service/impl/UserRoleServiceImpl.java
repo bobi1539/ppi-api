@@ -1,11 +1,10 @@
 package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
-import com.grasia.prima.ppi.api.dto.PageDto;
-import com.grasia.prima.ppi.api.dto.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleRequest;
 import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
+import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
@@ -35,8 +34,8 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
     }
 
     @Override
-    public Page<UserRoleResponse> findAllPagination(PageDto pageDto) {
-        Page<MUserRole> userRoles = userRoleRepository.findAll(getSpecificationFindAll(pageDto), pageableSortByIdAsc(pageDto));
+    public Page<UserRoleResponse> findAllPagination(SearchDto searchDto) {
+        Page<MUserRole> userRoles = userRoleRepository.findAll(getSpecificationFindAll(searchDto), pageableSortByIdAsc(searchDto));
         return userRoles.map(this::toResponse);
     }
 

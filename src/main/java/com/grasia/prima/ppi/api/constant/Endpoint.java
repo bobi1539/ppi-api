@@ -12,4 +12,5 @@ public final class Endpoint {
     public static final String AUTH = BASE + "/auths";
     public static final String USER_ROLE = BASE + "/user-roles";
     public static final String SYSTEM_PARAMETER = BASE + "/system-parameters";
+    public static final String SYSTEM_PARAMETER_LIST = BASE + "/system-parameter-lists";
 }

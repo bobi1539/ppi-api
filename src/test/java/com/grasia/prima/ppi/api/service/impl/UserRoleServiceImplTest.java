@@ -61,7 +61,7 @@ class UserRoleServiceImplTest extends ServiceTest {
     void testFindAllPagination_Success() {
         when(repository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(getUserRolePage());
 
-        Page<UserRoleResponse> responses = service.findAllPagination(pageDto);
+        Page<UserRoleResponse> responses = service.findAllPagination(searchDto);
         assertEquals(2, responses.getTotalElements());
 
         verify(repository, times(1)).findAll(any(Specification.class), any(Pageable.class));

@@ -1,11 +1,10 @@
 package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
-import com.grasia.prima.ppi.api.dto.PageDto;
-import com.grasia.prima.ppi.api.dto.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.SystemParameterRequest;
 import com.grasia.prima.ppi.api.dto.response.SystemParameterResponse;
+import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MSystemParameter;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
@@ -34,9 +33,9 @@ public class SystemParameterServiceImpl extends AbstractCrudService implements S
     }
 
     @Override
-    public Page<SystemParameterResponse> findAllPagination(PageDto pageDto) {
+    public Page<SystemParameterResponse> findAllPagination(SearchDto searchDto) {
         Page<MSystemParameter> parameters = parameterRepository
-                .findAll(getSpecificationFindAll(pageDto), pageableSortByIdAsc(pageDto));
+                .findAll(getSpecificationFindAll(searchDto), pageableSortByIdAsc(searchDto));
         return parameters.map(this::toResponse);
     }
 
@@ -65,6 +64,11 @@ public class SystemParameterServiceImpl extends AbstractCrudService implements S
 
         systemParameter = parameterRepository.save(systemParameter);
         return toResponse(systemParameter);
+    }
+
+    @Override
+    public SystemParameterResponse delete(Long id, HeaderRequest header) {
+        throw new BusinessException(GlobalMessage.CANNOT_DELETE_THIS_DATA);
     }
 
     private Specification<MSystemParameter> getSpecificationFindAll(SearchDto searchDto) {

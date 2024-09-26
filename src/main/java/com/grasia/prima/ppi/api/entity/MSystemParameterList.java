@@ -27,4 +27,7 @@ public class MSystemParameterList extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "system_parameter_id")
     private MSystemParameter systemParameter;
+
+    public static final String FIELD_NAME = "name";
+    public static final String FIELD_SYSTEM_PARAMETER = "systemParameter";
 }

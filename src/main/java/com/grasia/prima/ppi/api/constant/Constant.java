@@ -21,6 +21,8 @@ public final class Constant {
     public static final String PASSWORD_REQUIRED = "Password Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
     public static final String SYSTEM_PARAMETER_NAME_REQUIRED = "Parameter Name Is Required";
+    public static final String SYSTEM_PARAMETER_ID_REQUIRED = "Parameter Id Is Required";
+    public static final String SYSTEM_PARAMETER_LIST_NAME_REQUIRED = "Parameter List Name Is Required";
     public static final String REFRESH_TOKEN_REQUIRED = "Refresh Token Is Required";
     public static final String HEADER = "header";
 }

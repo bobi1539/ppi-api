@@ -2,8 +2,7 @@ package com.grasia.prima.ppi.api.helper;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
-import com.grasia.prima.ppi.api.dto.PageDto;
-import com.grasia.prima.ppi.api.dto.SearchDto;
+import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
 import com.grasia.prima.ppi.api.dto.response.SystemParameterResponse;
@@ -41,11 +40,7 @@ public final class ObjectDummy {
     }
 
     public static SearchDto getSearchDto() {
-        return SearchDto.builder().search("").build();
-    }
-
-    public static PageDto getPageDto() {
-        return PageDto.builder().search("").page(1).size(10).build();
+        return SearchDto.builder().search("").page(1).size(10).build();
     }
 
     public static HeaderRequest getHeaderRequest() {

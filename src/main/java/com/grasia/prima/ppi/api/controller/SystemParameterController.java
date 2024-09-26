@@ -25,7 +25,7 @@ public class SystemParameterController extends BaseController {
 
     @GetMapping("/all")
     public List<SystemParameterResponse> findAll(@RequestParam(required = false) String search) {
-        return systemParameterService.findAll(buildSearchDto(search));
+        return systemParameterService.findAll(buildSearchDto(search, 0, 0));
     }
 
     @GetMapping
@@ -34,7 +34,7 @@ public class SystemParameterController extends BaseController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        return systemParameterService.findAllPagination(buildPageDto(search, page, size));
+        return systemParameterService.findAllPagination(buildSearchDto(search, page, size));
     }
 
     @GetMapping("/{id}")

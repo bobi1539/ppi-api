@@ -29,4 +29,13 @@ public final class SpecificationHelper {
             return cb.equal(root.get(attribute), value);
         };
     }
+
+    public static <T> Specification<T> entityIdEquals(String attribute, Long value) {
+        return (root, query, cb) -> {
+            if (Objects.isNull(value)) {
+                return null;
+            }
+            return cb.equal(root.get(attribute).get("id"), value);
+        };
+    }
 }

@@ -1,4 +1,4 @@
-package com.grasia.prima.ppi.api.dto;
+package com.grasia.prima.ppi.api.dto.search;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,8 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class PageDto extends SearchDto {
+public class SearchDto {
+    private String search;
     private int page = 1;
     private int size = 10;
 }

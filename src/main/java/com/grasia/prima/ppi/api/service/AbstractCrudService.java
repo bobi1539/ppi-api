@@ -1,7 +1,7 @@
 package com.grasia.prima.ppi.api.service;
 
-import com.grasia.prima.ppi.api.dto.PageDto;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
+import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.BaseEntity;
 import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
@@ -27,9 +27,9 @@ public abstract class AbstractCrudService {
         return PageHelper.sortByColumnAsc(FIELD_ID);
     }
 
-    protected Pageable pageableSortByIdAsc(PageDto pageDto) {
+    protected Pageable pageableSortByIdAsc(SearchDto searchDto) {
         Sort sort = PageHelper.sortByColumnAsc(FIELD_ID);
-        return PageHelper.buildPageRequest(pageDto.getPage(), pageDto.getSize(), sort);
+        return PageHelper.buildPageRequest(searchDto.getPage(), searchDto.getSize(), sort);
     }
 
     protected <T> Specification<T> getSpecificationIsDeletedFalse() {

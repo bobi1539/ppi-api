@@ -2,8 +2,7 @@ package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
-import com.grasia.prima.ppi.api.dto.PageDto;
-import com.grasia.prima.ppi.api.dto.SearchDto;
+import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.response.BaseResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,12 +22,8 @@ public abstract class BaseController {
                 .build();
     }
 
-    protected SearchDto buildSearchDto(String search) {
-        return SearchDto.builder().search(search).build();
-    }
-
-    protected PageDto buildPageDto(String search, int page, int size) {
-        return PageDto.builder()
+    protected SearchDto buildSearchDto(String search, int page, int size) {
+        return SearchDto.builder()
                 .search(search)
                 .page(page)
                 .size(size)
