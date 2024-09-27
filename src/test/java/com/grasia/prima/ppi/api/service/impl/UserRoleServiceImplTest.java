@@ -118,8 +118,8 @@ class UserRoleServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testDelete_Success() {
-        when(repository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(userRole));
+    void testDelete_IsDeletedFalse() {
+        when(repository.findById(id)).thenReturn(Optional.of(userRole));
         when(repository.save(any())).thenReturn(userRole);
 
         UserRoleResponse response = service.delete(id, header);
@@ -127,7 +127,35 @@ class UserRoleServiceImplTest extends ServiceTest {
         assertEquals(userRole.getName(), response.getName());
         assertTrue(response.isDeleted());
 
-        verify(repository, times(1)).findByIdAndIsDeleted(id, false);
-        verify(repository, times(1)).save(any());
+        verify(repository).findById(id);
+        verify(repository).save(any());
+    }
+
+    @Test
+    void testDelete_IsDeletedTrue() {
+        userRole.setDeleted(true);
+        when(repository.findById(id)).thenReturn(Optional.of(userRole));
+
+        UserRoleResponse response = service.delete(id, header);
+        assertEquals(userRole.getId(), response.getId());
+        assertEquals(userRole.getName(), response.getName());
+        assertTrue(response.isDeleted());
+
+        verify(repository).findById(id);
+        verify(repository).delete(any());
+    }
+
+    @Test
+    void testRestore_Success() {
+        when(repository.findByIdAndIsDeleted(id, true)).thenReturn(Optional.of(userRole));
+        when(repository.save(any())).thenReturn(userRole);
+
+        UserRoleResponse response = service.restore(id, header);
+        assertEquals(userRole.getId(), response.getId());
+        assertEquals(userRole.getName(), response.getName());
+        assertFalse(response.isDeleted());
+
+        verify(repository).findByIdAndIsDeleted(id, true);
+        verify(repository).save(any());
     }
 }

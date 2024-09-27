@@ -112,6 +112,17 @@ class UserRoleControllerTest extends ControllerTest {
     }
 
     @Test
+    void testRestore() {
+        when(service.restore(any(), any())).thenReturn(positionResponse);
+
+        UserRoleResponse response = controller.restore(id, header);
+        assertEquals(positionResponse.getId(), response.getId());
+        assertEquals(positionResponse.getName(), response.getName());
+
+        verify(service, times(1)).restore(any(), any());
+    }
+
+    @Test
     void testBuildHeader() {
         request.setAttribute(Constant.HEADER, header);
         request.setQueryString("search=hello");

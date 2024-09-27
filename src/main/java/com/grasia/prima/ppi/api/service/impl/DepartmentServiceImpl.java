@@ -16,7 +16,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -40,7 +39,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
 
     @Override
     public DepartmentResponse findById(Long id) {
-        MDepartment department = getDepartmentById(id, false);
+        MDepartment department = getDepartmentById(id);
         return toResponse(department);
     }
 
@@ -57,7 +56,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
 
     @Override
     public DepartmentResponse update(Long id, DepartmentRequest request, HeaderRequest header) {
-        MDepartment department = getDepartmentById(id, false);
+        MDepartment department = getDepartmentById(id);
         setDepartment(department, request);
         setUpdatedBy(department, header);
 
@@ -67,7 +66,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
 
     @Override
     public DepartmentResponse delete(Long id, HeaderRequest header) {
-        MDepartment department = getDepartmentById(id, null);
+        MDepartment department = departmentRepository.findById(id).orElseThrow(getNotFoundException());
         if (department.isDeleted()) {
             departmentRepository.delete(department);
         } else {
@@ -75,25 +74,22 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
             setUpdatedBy(department, header);
             department = departmentRepository.save(department);
         }
-
         return toResponse(department);
     }
 
     @Override
     public DepartmentResponse restore(Long id, HeaderRequest header) {
-        MDepartment department = getDepartmentById(id, true);
+        MDepartment department = getDepartmentDeleted(id);
         department.setDeleted(false);
+        setUpdatedBy(department, header);
 
         department = departmentRepository.save(department);
         return toResponse(department);
     }
 
     @Override
-    public MDepartment getDepartmentById(Long id, Boolean isDeleted) {
-        if (Objects.isNull(isDeleted)) {
-            return departmentRepository.findById(id).orElseThrow(getNotFoundException());
-        }
-        return departmentRepository.findByIdAndIsDeleted(id, isDeleted).orElseThrow(getNotFoundException());
+    public MDepartment getDepartmentById(Long id) {
+        return departmentRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
     private Specification<MDepartment> getSpecificationFindAll(SearchDto searchDto) {
@@ -103,6 +99,10 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
 
     private void setDepartment(MDepartment department, DepartmentRequest request) {
         department.setName(request.getName());
+    }
+
+    private MDepartment getDepartmentDeleted(Long id) {
+        return departmentRepository.findByIdAndIsDeleted(id, true).orElseThrow(getNotFoundException());
     }
 
     private DepartmentResponse toResponse(MDepartment department) {

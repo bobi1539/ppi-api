@@ -1,12 +1,10 @@
 package com.grasia.prima.ppi.api.service.impl;
 
-import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleRequest;
 import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MUserRole;
-import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.UserRoleHelper;
 import com.grasia.prima.ppi.api.repository.UserRoleRepository;
@@ -68,8 +66,21 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
 
     @Override
     public UserRoleResponse delete(Long id, HeaderRequest header) {
-        MUserRole userRole = getUserRoleById(id);
-        userRole.setDeleted(true);
+        MUserRole userRole = userRoleRepository.findById(id).orElseThrow(getNotFoundException());
+        if (userRole.isDeleted()) {
+            userRoleRepository.delete(userRole);
+        } else {
+            userRole.setDeleted(true);
+            setUpdatedBy(userRole, header);
+            userRole = userRoleRepository.save(userRole);
+        }
+        return toResponse(userRole);
+    }
+
+    @Override
+    public UserRoleResponse restore(Long id, HeaderRequest header) {
+        MUserRole userRole = getUserRoleDeleted(id);
+        userRole.setDeleted(false);
         setUpdatedBy(userRole, header);
 
         userRole = userRoleRepository.save(userRole);
@@ -78,8 +89,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
 
     @Override
     public MUserRole getUserRoleById(Long id) {
-        return userRoleRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+        return userRoleRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
     private Specification<MUserRole> getSpecificationFindAll(SearchDto searchDto) {
@@ -89,6 +99,10 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
 
     private void setUserRole(MUserRole userRole, UserRoleRequest request) {
         userRole.setName(request.getName());
+    }
+
+    private MUserRole getUserRoleDeleted(Long id) {
+        return userRoleRepository.findByIdAndIsDeleted(id, true).orElseThrow(getNotFoundException());
     }
 
     private UserRoleResponse toResponse(MUserRole userRole) {

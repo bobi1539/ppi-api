@@ -23,5 +23,7 @@ public interface UserRoleService {
 
     UserRoleResponse delete(Long id, HeaderRequest header);
 
+    UserRoleResponse restore(Long id, HeaderRequest header);
+
     MUserRole getUserRoleById(Long id);
 }

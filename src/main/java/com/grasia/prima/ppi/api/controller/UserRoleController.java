@@ -70,4 +70,12 @@ public class UserRoleController extends BaseController {
     ) {
         return userRoleService.delete(id, header);
     }
+
+    @PutMapping("/restore/{id}")
+    public UserRoleResponse restore(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return userRoleService.restore(id, header);
+    }
 }
