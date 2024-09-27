@@ -5,6 +5,7 @@ import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.response.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,6 +33,12 @@ public class ErrorHandlerController {
     public ResponseEntity<BaseResponse<Object>> exception(MethodArgumentNotValidException e) {
         log.error(Constant.ERROR, e);
         return buildResponse(HttpStatus.BAD_REQUEST, getMethodArgumentMessage(e));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<BaseResponse<Object>> exception(DataIntegrityViolationException e) {
+        log.error(Constant.ERROR, e);
+        return buildResponse(HttpStatus.BAD_REQUEST, Constant.CANNOT_DELETE_THIS_DATA);
     }
 
     private String getMethodArgumentMessage(MethodArgumentNotValidException e) {
