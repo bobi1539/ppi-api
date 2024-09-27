@@ -84,7 +84,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
 
     private Specification<MUserRole> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MUserRole> spec = SpecificationHelper.stringLike(MUserRole.FIELD_NAME, searchDto.getSearch());
-        return spec.and(getSpecificationIsDeletedFalse());
+        return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
     }
 
     private void setUserRole(MUserRole userRole, UserRoleRequest request) {

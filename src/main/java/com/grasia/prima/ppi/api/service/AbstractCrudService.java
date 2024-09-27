@@ -1,13 +1,17 @@
 package com.grasia.prima.ppi.api.service;
 
+import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.BaseEntity;
+import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+
+import java.util.function.Supplier;
 
 public abstract class AbstractCrudService {
 
@@ -32,7 +36,11 @@ public abstract class AbstractCrudService {
         return PageHelper.buildPageRequest(searchDto.getPage(), searchDto.getSize(), sort);
     }
 
-    protected <T> Specification<T> getSpecificationIsDeletedFalse() {
-        return SpecificationHelper.objectEquals(BaseEntity.FIELD_IS_DELETED, false);
+    protected <T> Specification<T> getSpecificationIsDeleted(Boolean isDeleted) {
+        return SpecificationHelper.objectEquals(BaseEntity.FIELD_IS_DELETED, isDeleted);
+    }
+
+    protected Supplier<BusinessException> getNotFoundException() {
+        return () -> new BusinessException(GlobalMessage.DATA_NOT_FOUND);
     }
 }

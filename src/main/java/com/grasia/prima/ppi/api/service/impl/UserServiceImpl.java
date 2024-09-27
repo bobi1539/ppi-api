@@ -93,7 +93,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     }
 
     private Specification<MUser> getSpecificationFindAll(SearchDto searchDto) {
-        return getSpecificationStringLike(searchDto.getSearch()).and(getSpecificationIsDeletedFalse());
+        return getSpecificationStringLike(searchDto.getSearch()).and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
     }
 
     private Specification<MUser> getSpecificationStringLike(String value) {

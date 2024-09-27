@@ -9,10 +9,7 @@ import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 public final class ObjectDummy {
 
@@ -25,15 +22,6 @@ public final class ObjectDummy {
             "3MjYxMDUyMDgsImV4cCI6MTc1NzY0MTIwOH0.GCHe-PZy5ES38A8lDxuDkHbxWSM6ZAlkmzMpMrR8HFk";
     public static final String JWT_SECRET = "357643192F423F44284GXabT72B4B6250655368566D597133743677397A2543164629";
     public static final String JWT_EXPIRED_DURATION = "31536000000";
-
-    public static Date getDate(String dateString) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            return formatter.parse(dateString);
-        } catch (ParseException e) {
-            throw new RuntimeException();
-        }
-    }
 
     public static SearchDto getSearchDto() {
         return SearchDto.builder().search("").page(1).size(10).build();

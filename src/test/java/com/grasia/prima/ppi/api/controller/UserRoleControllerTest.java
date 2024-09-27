@@ -43,7 +43,7 @@ class UserRoleControllerTest extends ControllerTest {
     void testFindAll() {
         when(service.findAll(any())).thenReturn(getUserRoleResponses());
 
-        List<UserRoleResponse> responses = controller.findAll("");
+        List<UserRoleResponse> responses = controller.findAll("", null);
         assertEquals(2, responses.size());
 
         verify(service, times(1)).findAll(any());
@@ -57,7 +57,7 @@ class UserRoleControllerTest extends ControllerTest {
     void testFindAllPagination() {
         when(service.findAllPagination(any())).thenReturn(getUserRoleResponsePage());
 
-        Page<UserRoleResponse> responses = controller.findAllPagination("", 1, 10);
+        Page<UserRoleResponse> responses = controller.findAllPagination("", null, 1, 10);
         assertEquals(2, responses.getTotalElements());
 
         verify(service, times(1)).findAllPagination(any());

@@ -25,10 +25,11 @@ public class UserController extends BaseController {
     @GetMapping
     public Page<UserResponse> findAllPagination(
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) Boolean isDeleted,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        return userService.findAllPagination(buildSearchDto(search, page, size));
+        return userService.findAllPagination(buildSearchDto(search, isDeleted, page, size));
     }
 
     @GetMapping("/{id}")

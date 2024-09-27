@@ -74,7 +74,7 @@ public class SystemParameterServiceImpl extends AbstractCrudService implements S
 
     private Specification<MSystemParameter> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MSystemParameter> spec = SpecificationHelper.stringLike(MSystemParameter.FIELD_NAME, searchDto.getSearch());
-        return spec.and(getSpecificationIsDeletedFalse());
+        return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
     }
 
     private void setSystemParameter(MSystemParameter systemParameter, SystemParameterRequest request) {

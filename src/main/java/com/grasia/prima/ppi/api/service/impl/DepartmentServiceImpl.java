@@ -1,12 +1,10 @@
 package com.grasia.prima.ppi.api.service.impl;
 
-import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.DepartmentRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.response.DepartmentResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MDepartment;
-import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.DepartmentHelper;
 import com.grasia.prima.ppi.api.repository.DepartmentRepository;
@@ -18,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -41,7 +40,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
 
     @Override
     public DepartmentResponse findById(Long id) {
-        MDepartment department = getDepartmentById(id);
+        MDepartment department = getDepartmentById(id, false);
         return toResponse(department);
     }
 
@@ -58,7 +57,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
 
     @Override
     public DepartmentResponse update(Long id, DepartmentRequest request, HeaderRequest header) {
-        MDepartment department = getDepartmentById(id);
+        MDepartment department = getDepartmentById(id, false);
         setDepartment(department, request);
         setUpdatedBy(department, header);
 
@@ -68,23 +67,38 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
 
     @Override
     public DepartmentResponse delete(Long id, HeaderRequest header) {
-        MDepartment department = getDepartmentById(id);
-        department.setDeleted(true);
-        setUpdatedBy(department, header);
+        MDepartment department = getDepartmentById(id, null);
+        if (department.isDeleted()) {
+            departmentRepository.delete(department);
+        } else {
+            department.setDeleted(true);
+            setUpdatedBy(department, header);
+            department = departmentRepository.save(department);
+        }
+
+        return toResponse(department);
+    }
+
+    @Override
+    public DepartmentResponse restore(Long id, HeaderRequest header) {
+        MDepartment department = getDepartmentById(id, true);
+        department.setDeleted(false);
 
         department = departmentRepository.save(department);
         return toResponse(department);
     }
 
     @Override
-    public MDepartment getDepartmentById(Long id) {
-        return departmentRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+    public MDepartment getDepartmentById(Long id, Boolean isDeleted) {
+        if (Objects.isNull(isDeleted)) {
+            return departmentRepository.findById(id).orElseThrow(getNotFoundException());
+        }
+        return departmentRepository.findByIdAndIsDeleted(id, isDeleted).orElseThrow(getNotFoundException());
     }
 
     private Specification<MDepartment> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MDepartment> spec = SpecificationHelper.stringLike(MDepartment.FIELD_NAME, searchDto.getSearch());
-        return spec.and(getSpecificationIsDeletedFalse());
+        return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
     }
 
     private void setDepartment(MDepartment department, DepartmentRequest request) {

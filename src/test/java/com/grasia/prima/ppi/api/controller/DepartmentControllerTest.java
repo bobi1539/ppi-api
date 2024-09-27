@@ -16,7 +16,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class DepartmentControllerTest extends ControllerTest {
 
@@ -38,10 +39,10 @@ class DepartmentControllerTest extends ControllerTest {
     void testFindAll() {
         when(service.findAll(any())).thenReturn(getDepartmentResponses());
 
-        List<DepartmentResponse> responses = controller.findAll("");
+        List<DepartmentResponse> responses = controller.findAll("", null);
         assertEquals(2, responses.size());
 
-        verify(service, times(1)).findAll(any());
+        verify(service).findAll(any());
     }
 
     private List<DepartmentResponse> getDepartmentResponses() {
@@ -52,10 +53,10 @@ class DepartmentControllerTest extends ControllerTest {
     void testFindAllPagination() {
         when(service.findAllPagination(any())).thenReturn(getDepartmentResponsePage());
 
-        Page<DepartmentResponse> responses = controller.findAllPagination("", 1, 10);
+        Page<DepartmentResponse> responses = controller.findAllPagination("", null,1, 10);
         assertEquals(2, responses.getTotalElements());
 
-        verify(service, times(1)).findAllPagination(any());
+        verify(service).findAllPagination(any());
     }
 
     private Page<DepartmentResponse> getDepartmentResponsePage() {
@@ -70,7 +71,7 @@ class DepartmentControllerTest extends ControllerTest {
         assertEquals(departmentResponse.getId(), response.getId());
         assertEquals(departmentResponse.getName(), response.getName());
 
-        verify(service, times(1)).findById(id);
+        verify(service).findById(id);
     }
 
     @Test
@@ -81,7 +82,7 @@ class DepartmentControllerTest extends ControllerTest {
         assertEquals(departmentResponse.getId(), response.getId());
         assertEquals(departmentResponse.getName(), response.getName());
 
-        verify(service, times(1)).create(any(), any());
+        verify(service).create(any(), any());
     }
 
     @Test
@@ -92,7 +93,7 @@ class DepartmentControllerTest extends ControllerTest {
         assertEquals(departmentResponse.getId(), response.getId());
         assertEquals(departmentResponse.getName(), response.getName());
 
-        verify(service, times(1)).update(any(), any(), any());
+        verify(service).update(any(), any(), any());
     }
 
     @Test
@@ -103,7 +104,18 @@ class DepartmentControllerTest extends ControllerTest {
         assertEquals(departmentResponse.getId(), response.getId());
         assertEquals(departmentResponse.getName(), response.getName());
 
-        verify(service, times(1)).delete(any(), any());
+        verify(service).delete(any(), any());
+    }
+
+    @Test
+    void testRestore() {
+        when(service.restore(any(), any())).thenReturn(departmentResponse);
+
+        DepartmentResponse response = controller.restore(id, header);
+        assertEquals(departmentResponse.getId(), response.getId());
+        assertEquals(departmentResponse.getName(), response.getName());
+
+        verify(service).restore(any(), any());
     }
 
 }

@@ -24,17 +24,21 @@ public class DepartmentController extends BaseController {
     private final DepartmentService departmentService;
 
     @GetMapping("/all")
-    public List<DepartmentResponse> findAll(@RequestParam(required = false) String search) {
-        return departmentService.findAll(buildSearchDto(search, 0, 0));
+    public List<DepartmentResponse> findAll(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Boolean isDeleted
+    ) {
+        return departmentService.findAll(buildSearchDto(search, isDeleted, 0, 0));
     }
 
     @GetMapping
     public Page<DepartmentResponse> findAllPagination(
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) Boolean isDeleted,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        return departmentService.findAllPagination(buildSearchDto(search, page, size));
+        return departmentService.findAllPagination(buildSearchDto(search, isDeleted, page, size));
     }
 
     @GetMapping("/{id}")
@@ -65,5 +69,13 @@ public class DepartmentController extends BaseController {
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
         return departmentService.delete(id, header);
+    }
+
+    @PutMapping("/restore/{id}")
+    public DepartmentResponse restore(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return departmentService.restore(id, header);
     }
 }

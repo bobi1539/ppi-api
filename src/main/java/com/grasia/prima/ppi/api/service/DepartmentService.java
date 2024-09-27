@@ -23,5 +23,7 @@ public interface DepartmentService {
 
     DepartmentResponse delete(Long id, HeaderRequest header);
 
-    MDepartment getDepartmentById(Long id);
+    DepartmentResponse restore(Long id, HeaderRequest header);
+
+    MDepartment getDepartmentById(Long id, Boolean isDeleted);
 }

@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class SearchDto {
     private String search;
+    private Boolean isDeleted;
     private int page = 1;
     private int size = 10;
 }

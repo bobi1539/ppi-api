@@ -22,9 +22,10 @@ public abstract class BaseController {
                 .build();
     }
 
-    protected SearchDto buildSearchDto(String search, int page, int size) {
+    protected SearchDto buildSearchDto(String search, Boolean isDeleted, int page, int size) {
         return SearchDto.builder()
                 .search(search)
+                .isDeleted(isDeleted)
                 .page(page)
                 .size(size)
                 .build();

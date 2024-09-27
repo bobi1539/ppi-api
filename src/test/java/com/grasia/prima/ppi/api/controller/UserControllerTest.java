@@ -39,7 +39,7 @@ class UserControllerTest extends ControllerTest {
     void testFindAllPagination() {
         when(service.findAllPagination(any())).thenReturn(getUserResponsePage());
 
-        Page<UserResponse> responses = controller.findAllPagination("", 1, 10);
+        Page<UserResponse> responses = controller.findAllPagination("", null, 1, 10);
         assertEquals(2, responses.getTotalElements());
 
         verify(service, times(1)).findAllPagination(any());

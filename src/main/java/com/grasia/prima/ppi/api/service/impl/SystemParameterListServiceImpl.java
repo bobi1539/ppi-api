@@ -89,7 +89,7 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
         Specification<MSystemParameterList> spec = SpecificationHelper.stringLike(MSystemParameterList.FIELD_NAME, searchDto.getSearch());
         return spec
                 .and(SpecificationHelper.entityIdEquals(MSystemParameterList.FIELD_SYSTEM_PARAMETER, searchDto.getSystemParameterId()))
-                .and(getSpecificationIsDeletedFalse());
+                .and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
     }
 
     private void setSystemParameterList(MSystemParameterList parameterList, SystemParameterListRequest request) {
