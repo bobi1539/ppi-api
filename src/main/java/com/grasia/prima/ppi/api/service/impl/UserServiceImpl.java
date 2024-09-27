@@ -15,6 +15,7 @@ import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.UserHelper;
 import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.service.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -53,6 +54,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         return toResponse(user);
     }
 
+    @Transactional
     @Override
     public UserResponse create(UserCreateRequest request, HeaderRequest header) {
         userValidationService.validateCreateUsername(request.getUsername());
@@ -69,6 +71,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         return toResponse(user);
     }
 
+    @Transactional
     @Override
     public UserResponse update(Long id, UserUpdateRequest request, HeaderRequest header) {
         MUser user = getUserById(id);
@@ -82,14 +85,34 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         return toResponse(user);
     }
 
+    @Transactional
     @Override
     public UserResponse delete(Long id, HeaderRequest header) {
-        MUser user = getUserById(id);
-        user.setDeleted(true);
+        MUser user = userRepository.findById(id).orElseThrow(getNotFoundException());
+        if (user.isDeleted()) {
+            userRepository.delete(user);
+        } else {
+            user.setDeleted(true);
+            setUpdatedBy(user, header);
+            user = userRepository.save(user);
+        }
+        return toResponse(user);
+    }
+
+    @Transactional
+    @Override
+    public UserResponse restore(Long id, HeaderRequest header) {
+        MUser user = getUserDeleted(id);
+        user.setDeleted(false);
         setUpdatedBy(user, header);
 
         user = userRepository.save(user);
         return toResponse(user);
+    }
+
+    @Override
+    public MUser getUserById(Long id) {
+        return userRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
     private Specification<MUser> getSpecificationFindAll(SearchDto searchDto) {
@@ -101,11 +124,6 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         return spec
                 .or(SpecificationHelper.stringLike(MUser.FIELD_FULL_NAME, value))
                 .or(SpecificationHelper.stringLike(MUser.FIELD_EMAIL, value));
-    }
-
-    private MUser getUserById(Long id) {
-        return userRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
     }
 
     private UserResponse toResponse(MUser user) {
@@ -129,6 +147,10 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
 
     private MUserRole getUserRoleById(Long id) {
         return roleService.getUserRoleById(id);
+    }
+
+    private MUser getUserDeleted(Long id) {
+        return userRepository.findByIdAndIsDeleted(id, true).orElseThrow(getNotFoundException());
     }
 
     private MSystemParameterList getParameterListById(Long id) {

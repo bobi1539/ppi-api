@@ -151,8 +151,8 @@ class UserServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testDelete_Success() {
-        when(userRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(user));
+    void testDelete_IsDeletedFalse() {
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
         when(userRepository.save(any())).thenReturn(user);
 
         UserResponse response = userService.delete(id, header);
@@ -160,7 +160,35 @@ class UserServiceImplTest extends ServiceTest {
         assertEquals(user.getFullName(), response.getFullName());
         assertTrue(response.isDeleted());
 
-        verify(userRepository).findByIdAndIsDeleted(id, false);
+        verify(userRepository).findById(id);
+        verify(userRepository).save(any());
+    }
+
+    @Test
+    void testDelete_IsDeletedTrue() {
+        user.setDeleted(true);
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+
+        UserResponse response = userService.delete(id, header);
+        assertEquals(user.getId(), response.getId());
+        assertEquals(user.getFullName(), response.getFullName());
+        assertTrue(response.isDeleted());
+
+        verify(userRepository).findById(id);
+        verify(userRepository).delete(any());
+    }
+
+    @Test
+    void testRestore_Success() {
+        when(userRepository.findByIdAndIsDeleted(id, true)).thenReturn(Optional.of(user));
+        when(userRepository.save(any())).thenReturn(user);
+
+        UserResponse response = userService.restore(id, header);
+        assertEquals(user.getId(), response.getId());
+        assertEquals(user.getFullName(), response.getFullName());
+        assertFalse(response.isDeleted());
+
+        verify(userRepository).findByIdAndIsDeleted(id, true);
         verify(userRepository).save(any());
     }
 }

@@ -61,4 +61,12 @@ public class UserController extends BaseController {
     ) {
         return userService.delete(id, header);
     }
+
+    @PutMapping("/restore/{id}")
+    public UserResponse restore(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return userService.restore(id, header);
+    }
 }

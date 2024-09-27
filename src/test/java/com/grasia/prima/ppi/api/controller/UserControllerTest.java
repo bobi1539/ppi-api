@@ -92,4 +92,15 @@ class UserControllerTest extends ControllerTest {
 
         verify(service, times(1)).delete(any(), any());
     }
+
+    @Test
+    void testRestore() {
+        when(service.restore(any(), any())).thenReturn(userResponse);
+
+        UserResponse response = controller.restore(id, header);
+        assertEquals(userResponse.getId(), response.getId());
+        assertEquals(userResponse.getFullName(), response.getFullName());
+
+        verify(service, times(1)).restore(any(), any());
+    }
 }
