@@ -30,6 +30,7 @@ public final class Constant {
     public static final String USER_ROLE_ID_REQUIRED = "User Role Id Is Required";
     public static final String GENDER_ID_REQUIRED = "Gender Id Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
+    public static final String DEPARTMENT_NAME_REQUIRED = "Department Name Is Required";
     public static final String SYSTEM_PARAMETER_NAME_REQUIRED = "Parameter Name Is Required";
     public static final String SYSTEM_PARAMETER_ID_REQUIRED = "Parameter Id Is Required";
     public static final String SYSTEM_PARAMETER_LIST_NAME_REQUIRED = "Parameter List Name Is Required";

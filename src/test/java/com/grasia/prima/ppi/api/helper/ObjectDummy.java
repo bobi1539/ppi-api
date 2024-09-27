@@ -2,9 +2,9 @@ package com.grasia.prima.ppi.api.helper;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
+import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.*;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
-import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
@@ -179,5 +179,17 @@ public final class ObjectDummy {
                 .name("MAN")
                 .systemParameter(getSystemParameterResponse())
                 .build();
+    }
+
+    public static MDepartment getDepartment() {
+        return MDepartment.builder().id(1L).name("department 1").build();
+    }
+
+    public static DepartmentRequest getDepartmentRequest() {
+        return DepartmentRequest.builder().name("department 1").build();
+    }
+
+    public static DepartmentResponse getDepartmentResponse() {
+        return DepartmentResponse.builder().id(1L).name("department 1").build();
     }
 }
