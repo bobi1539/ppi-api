@@ -1,6 +1,5 @@
 package com.grasia.prima.ppi.api.service.impl;
 
-import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserCreateRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRequest;
@@ -10,7 +9,6 @@ import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MSystemParameterList;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.entity.MUserRole;
-import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.UserHelper;
 import com.grasia.prima.ppi.api.repository.UserRepository;
@@ -38,8 +36,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+        return userRepository.findByUsername(username).orElseThrow(getNotFoundException());
     }
 
     @Override

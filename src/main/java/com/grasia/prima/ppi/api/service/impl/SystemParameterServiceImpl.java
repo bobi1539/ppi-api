@@ -1,12 +1,10 @@
 package com.grasia.prima.ppi.api.service.impl;
 
-import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.SystemParameterRequest;
 import com.grasia.prima.ppi.api.dto.response.SystemParameterResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MSystemParameter;
-import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.SystemParameterHelper;
 import com.grasia.prima.ppi.api.repository.SystemParameterRepository;
@@ -68,8 +66,7 @@ public class SystemParameterServiceImpl extends AbstractCrudService implements S
 
     @Override
     public MSystemParameter getSystemParameterById(Long id) {
-        return parameterRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+        return parameterRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
     private Specification<MSystemParameter> getSpecificationFindAll(SearchDto searchDto) {
