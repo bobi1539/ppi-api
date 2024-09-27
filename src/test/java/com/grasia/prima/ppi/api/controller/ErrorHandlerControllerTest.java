@@ -4,6 +4,7 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.response.BaseResponse;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -54,5 +55,11 @@ class ErrorHandlerControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("", Objects.requireNonNull(response.getBody()).getMessage());
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getCode());
+    }
+
+    @Test
+    void testDataIntegrityViolationException() {
+        ResponseEntity<BaseResponse<Object>> response = controller.exception(new DataIntegrityViolationException("error"));
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode().value());
     }
 }
