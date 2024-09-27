@@ -11,6 +11,7 @@ public final class Endpoint {
     public static final String BASE = "/api";
     public static final String AUTH = BASE + "/auths";
     public static final String USER_ROLE = BASE + "/user-roles";
+    public static final String USER = BASE + "/users";
     public static final String SYSTEM_PARAMETER = BASE + "/system-parameters";
     public static final String SYSTEM_PARAMETER_LIST = BASE + "/system-parameter-lists";
 }

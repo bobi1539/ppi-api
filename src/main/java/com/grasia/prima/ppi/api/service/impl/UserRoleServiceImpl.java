@@ -76,14 +76,15 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         return toResponse(userRole);
     }
 
+    @Override
+    public MUserRole getUserRoleById(Long id) {
+        return userRoleRepository.findByIdAndIsDeleted(id, false)
+                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+    }
+
     private Specification<MUserRole> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MUserRole> spec = SpecificationHelper.stringLike(MUserRole.FIELD_NAME, searchDto.getSearch());
         return spec.and(getSpecificationIsDeletedFalse());
-    }
-
-    private MUserRole getUserRoleById(Long id) {
-        return userRoleRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
     }
 
     private void setUserRole(MUserRole userRole, UserRoleRequest request) {

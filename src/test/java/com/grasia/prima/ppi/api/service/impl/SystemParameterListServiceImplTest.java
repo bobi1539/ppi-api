@@ -8,7 +8,7 @@ import com.grasia.prima.ppi.api.entity.MSystemParameterList;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.repository.SystemParameterListRepository;
-import com.grasia.prima.ppi.api.repository.SystemParameterRepository;
+import com.grasia.prima.ppi.api.service.SystemParameterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,7 +25,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class SystemParameterListServiceImplTest extends ServiceTest {
 
@@ -36,7 +37,7 @@ class SystemParameterListServiceImplTest extends ServiceTest {
     private SystemParameterListRepository parameterListRepository;
 
     @Mock
-    private SystemParameterRepository parameterRepository;
+    private SystemParameterService parameterService;
 
     private final MSystemParameterList parameterList = ObjectDummy.getSystemParameterList();
     private final MSystemParameter parameter = parameterList.getSystemParameter();
@@ -55,7 +56,7 @@ class SystemParameterListServiceImplTest extends ServiceTest {
         List<SystemParameterListResponse> responses = service.findAll(parameterListSearchDto);
         assertEquals(2, responses.size());
 
-        verify(parameterListRepository, times(1)).findAll(any(Specification.class), any(Sort.class));
+        verify(parameterListRepository).findAll(any(Specification.class), any(Sort.class));
     }
 
     private List<MSystemParameterList> getSystemParameterLists() {
@@ -70,7 +71,7 @@ class SystemParameterListServiceImplTest extends ServiceTest {
         Page<SystemParameterListResponse> responses = service.findAllPagination(parameterListSearchDto);
         assertEquals(2, responses.getTotalElements());
 
-        verify(parameterListRepository, times(1)).findAll(any(Specification.class), any(Pageable.class));
+        verify(parameterListRepository).findAll(any(Specification.class), any(Pageable.class));
     }
 
     private Page<MSystemParameterList> getSystemParameterListPage() {
@@ -85,7 +86,7 @@ class SystemParameterListServiceImplTest extends ServiceTest {
         assertEquals(parameterList.getId(), response.getId());
         assertEquals(parameterList.getName(), response.getName());
 
-        verify(parameterListRepository, times(1)).findByIdAndIsDeleted(id, false);
+        verify(parameterListRepository).findByIdAndIsDeleted(id, false);
     }
 
     @Test
@@ -96,36 +97,25 @@ class SystemParameterListServiceImplTest extends ServiceTest {
         assertEquals(GlobalMessage.DATA_NOT_FOUND.status, e.getStatus());
         assertEquals(GlobalMessage.DATA_NOT_FOUND.message, e.getMessage());
 
-        verify(parameterListRepository, times(1)).findByIdAndIsDeleted(id, false);
+        verify(parameterListRepository).findByIdAndIsDeleted(id, false);
     }
 
     @Test
     void testCreate_Success() {
-        when(parameterRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(parameter));
+        when(parameterService.getSystemParameterById(id)).thenReturn(parameter);
         when(parameterListRepository.save(any())).thenReturn(parameterList);
 
         SystemParameterListResponse response = service.create(request, header);
         assertEquals(parameterList.getId(), response.getId());
         assertEquals(parameterList.getName(), response.getName());
 
-        verify(parameterRepository, times(1)).findByIdAndIsDeleted(id, false);
-        verify(parameterListRepository, times(1)).save(any());
-    }
-
-    @Test
-    void testCreate_SystemParameterNotFound() {
-        when(parameterRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.empty());
-
-        BusinessException e = assertThrows(BusinessException.class, () -> service.create(request, header));
-        assertEquals(GlobalMessage.DATA_NOT_FOUND.status, e.getStatus());
-        assertEquals(GlobalMessage.DATA_NOT_FOUND.message, e.getMessage());
-
-        verify(parameterRepository, times(1)).findByIdAndIsDeleted(id, false);
+        verify(parameterService).getSystemParameterById(id);
+        verify(parameterListRepository).save(any());
     }
 
     @Test
     void testUpdate_Success() {
-        when(parameterRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(parameter));
+        when(parameterService.getSystemParameterById(id)).thenReturn(parameter);
         when(parameterListRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(parameterList));
         when(parameterListRepository.save(any())).thenReturn(parameterList);
 
@@ -133,9 +123,9 @@ class SystemParameterListServiceImplTest extends ServiceTest {
         assertEquals(parameterList.getId(), response.getId());
         assertEquals(parameterList.getName(), response.getName());
 
-        verify(parameterRepository, times(1)).findByIdAndIsDeleted(id, false);
-        verify(parameterListRepository, times(1)).findByIdAndIsDeleted(id, false);
-        verify(parameterListRepository, times(1)).save(any());
+        verify(parameterService).getSystemParameterById(id);
+        verify(parameterListRepository).findByIdAndIsDeleted(id, false);
+        verify(parameterListRepository).save(any());
     }
 
     @Test
@@ -148,7 +138,7 @@ class SystemParameterListServiceImplTest extends ServiceTest {
         assertEquals(parameterList.getName(), response.getName());
         assertTrue(response.isDeleted());
 
-        verify(parameterListRepository, times(1)).findByIdAndIsDeleted(id, false);
-        verify(parameterListRepository, times(1)).save(any());
+        verify(parameterListRepository).findByIdAndIsDeleted(id, false);
+        verify(parameterListRepository).save(any());
     }
 }

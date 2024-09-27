@@ -67,18 +67,14 @@ public class SystemParameterServiceImpl extends AbstractCrudService implements S
     }
 
     @Override
-    public SystemParameterResponse delete(Long id, HeaderRequest header) {
-        throw new BusinessException(GlobalMessage.CANNOT_DELETE_THIS_DATA);
+    public MSystemParameter getSystemParameterById(Long id) {
+        return parameterRepository.findByIdAndIsDeleted(id, false)
+                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
     }
 
     private Specification<MSystemParameter> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MSystemParameter> spec = SpecificationHelper.stringLike(MSystemParameter.FIELD_NAME, searchDto.getSearch());
         return spec.and(getSpecificationIsDeletedFalse());
-    }
-
-    private MSystemParameter getSystemParameterById(Long id) {
-        return parameterRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
     }
 
     private void setSystemParameter(MSystemParameter systemParameter, SystemParameterRequest request) {

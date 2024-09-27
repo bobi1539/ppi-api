@@ -2,12 +2,9 @@ package com.grasia.prima.ppi.api.helper;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
-import com.grasia.prima.ppi.api.dto.response.SystemParameterListResponse;
+import com.grasia.prima.ppi.api.dto.response.*;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.*;
-import com.grasia.prima.ppi.api.dto.response.LoginResponse;
-import com.grasia.prima.ppi.api.dto.response.SystemParameterResponse;
-import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
 import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
@@ -69,6 +66,54 @@ public final class ObjectDummy {
                 .username("admin")
                 .password("$2a$12$aXJHIHcSPjINQaVjgxmKgOtsN9Ifb7D3TatHZYBjIk4ZEVu6E7lb2")
                 .fullName("admin")
+                .email("admin@gmail.com")
+                .birthDate(LocalDate.of(1990, 1, 1))
+                .education("education")
+                .graduation("graduation")
+                .userRole(getUserRole())
+                .gender(getSystemParameterList())
+                .build();
+    }
+
+    public static UserCreateRequest getUserCreateRequest() {
+        return UserCreateRequest.builder()
+                .username("admin")
+                .password("admin")
+                .passwordConfirm("admin")
+                .fullName("admin")
+                .email("admin@gmail.com")
+                .birthDate(LocalDate.of(1990, 1, 1))
+                .education("education")
+                .graduation("graduation")
+                .userRoleId(1L)
+                .genderId(1L)
+                .build();
+    }
+
+    public static UserUpdateRequest getUserUpdateRequest() {
+        return UserUpdateRequest.builder()
+                .username("admin")
+                .fullName("admin")
+                .email("admin@gmail.com")
+                .birthDate(LocalDate.of(1990, 1, 1))
+                .education("education")
+                .graduation("graduation")
+                .userRoleId(1L)
+                .genderId(1L)
+                .build();
+    }
+
+    public static UserResponse getUserResponse() {
+        return UserResponse.builder()
+                .id(1L)
+                .username("admin")
+                .fullName("admin")
+                .email("admin@gmail.com")
+                .birthDate(LocalDate.of(1990, 1, 1))
+                .education("education")
+                .graduation("graduation")
+                .userRole(getUserRoleResponse())
+                .gender(getSystemParameterListResponse())
                 .build();
     }
 

@@ -33,4 +33,22 @@ public final class StringHelper {
         }
         return result.toString();
     }
+
+    public static boolean isContainUpperCaseLetter(String value) {
+        for (char c : value.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isContainNumber(String value) {
+        for (char c : value.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

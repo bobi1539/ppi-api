@@ -117,11 +117,4 @@ class SystemParameterServiceImplTest extends ServiceTest {
         verify(repository, times(1)).findByIdAndIsDeleted(id, false);
         verify(repository, times(1)).save(any());
     }
-
-    @Test
-    void testDelete_Failed() {
-        BusinessException e = assertThrows(BusinessException.class, () -> service.delete(id, header));
-        assertEquals(GlobalMessage.CANNOT_DELETE_THIS_DATA.status, e.getStatus());
-        assertEquals(GlobalMessage.CANNOT_DELETE_THIS_DATA.message, e.getMessage());
-    }
 }

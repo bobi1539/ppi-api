@@ -11,9 +11,9 @@ import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.SystemParameterListHelper;
 import com.grasia.prima.ppi.api.repository.SystemParameterListRepository;
-import com.grasia.prima.ppi.api.repository.SystemParameterRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.SystemParameterListService;
+import com.grasia.prima.ppi.api.service.SystemParameterService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,7 +26,7 @@ import java.util.List;
 public class SystemParameterListServiceImpl extends AbstractCrudService implements SystemParameterListService {
 
     private final SystemParameterListRepository parameterListRepository;
-    private final SystemParameterRepository parameterRepository;
+    private final SystemParameterService parameterService;
 
     @Override
     public List<SystemParameterListResponse> findAll(SystemParameterListSearchDto searchDto) {
@@ -79,16 +79,17 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
         return toResponse(parameterList);
     }
 
+    @Override
+    public MSystemParameterList getSystemParameterListById(Long id) {
+        return parameterListRepository.findByIdAndIsDeleted(id, false)
+                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+    }
+
     private Specification<MSystemParameterList> getSpecificationFindAll(SystemParameterListSearchDto searchDto) {
         Specification<MSystemParameterList> spec = SpecificationHelper.stringLike(MSystemParameterList.FIELD_NAME, searchDto.getSearch());
         return spec
                 .and(SpecificationHelper.entityIdEquals(MSystemParameterList.FIELD_SYSTEM_PARAMETER, searchDto.getSystemParameterId()))
                 .and(getSpecificationIsDeletedFalse());
-    }
-
-    private MSystemParameterList getSystemParameterListById(Long id) {
-        return parameterListRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
     }
 
     private void setSystemParameterList(MSystemParameterList parameterList, SystemParameterListRequest request) {
@@ -97,8 +98,7 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
     }
 
     private MSystemParameter getSystemParameterById(Long id) {
-        return parameterRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+        return parameterService.getSystemParameterById(id);
     }
 
     private SystemParameterListResponse toResponse(MSystemParameterList parameterList) {
