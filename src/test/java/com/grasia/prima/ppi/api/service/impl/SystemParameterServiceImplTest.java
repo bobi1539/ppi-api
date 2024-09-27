@@ -50,7 +50,7 @@ class SystemParameterServiceImplTest extends ServiceTest {
         List<SystemParameterResponse> responses = service.findAll(searchDto);
         assertEquals(2, responses.size());
 
-        verify(repository, times(1)).findAll(any(Specification.class), any(Sort.class));
+        verify(repository).findAll(any(Specification.class), any(Sort.class));
     }
 
     private List<MSystemParameter> getSystemParameters() {
@@ -65,7 +65,7 @@ class SystemParameterServiceImplTest extends ServiceTest {
         Page<SystemParameterResponse> responses = service.findAllPagination(searchDto);
         assertEquals(2, responses.getTotalElements());
 
-        verify(repository, times(1)).findAll(any(Specification.class), any(Pageable.class));
+        verify(repository).findAll(any(Specification.class), any(Pageable.class));
     }
 
     private Page<MSystemParameter> getSystemParameterPage() {
@@ -80,7 +80,7 @@ class SystemParameterServiceImplTest extends ServiceTest {
         assertEquals(systemParameter.getId(), response.getId());
         assertEquals(systemParameter.getName(), response.getName());
 
-        verify(repository, times(1)).findByIdAndIsDeleted(id, false);
+        verify(repository).findByIdAndIsDeleted(id, false);
     }
 
     @Test
@@ -91,7 +91,7 @@ class SystemParameterServiceImplTest extends ServiceTest {
         assertEquals(GlobalMessage.DATA_NOT_FOUND.status, e.getStatus());
         assertEquals(GlobalMessage.DATA_NOT_FOUND.message, e.getMessage());
 
-        verify(repository, times(1)).findByIdAndIsDeleted(id, false);
+        verify(repository).findByIdAndIsDeleted(id, false);
     }
 
     @Test
@@ -102,7 +102,7 @@ class SystemParameterServiceImplTest extends ServiceTest {
         assertEquals(systemParameter.getId(), response.getId());
         assertEquals(systemParameter.getName(), response.getName());
 
-        verify(repository, times(1)).save(any());
+        verify(repository).save(any());
     }
 
     @Test
@@ -114,7 +114,7 @@ class SystemParameterServiceImplTest extends ServiceTest {
         assertEquals(systemParameter.getId(), response.getId());
         assertEquals(systemParameter.getName(), response.getName());
 
-        verify(repository, times(1)).findByIdAndIsDeleted(id, false);
-        verify(repository, times(1)).save(any());
+        verify(repository).findByIdAndIsDeleted(id, false);
+        verify(repository).save(any());
     }
 }

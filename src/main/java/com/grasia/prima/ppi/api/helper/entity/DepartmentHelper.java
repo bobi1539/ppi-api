@@ -5,7 +5,7 @@ import com.grasia.prima.ppi.api.dto.response.DepartmentResponse;
 import com.grasia.prima.ppi.api.entity.MDepartment;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
-public class DepartmentHelper {
+public final class DepartmentHelper {
 
     private DepartmentHelper() {
         throw new BusinessException(GlobalMessage.INTERNAL_SERVER_ERROR);

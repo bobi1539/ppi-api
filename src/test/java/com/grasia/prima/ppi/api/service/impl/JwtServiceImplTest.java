@@ -36,8 +36,8 @@ class JwtServiceImplTest {
         String token = jwtService.generateToken(jwtComponentDto);
         assertNotNull(token);
 
-        verify(appConfig, times(1)).getJwtSecret();
-        verify(appConfig, times(1)).getJwtExpiredDuration();
+        verify(appConfig).getJwtSecret();
+        verify(appConfig).getJwtExpiredDuration();
     }
 
     @Test
@@ -52,6 +52,6 @@ class JwtServiceImplTest {
         assertEquals(jwtComponentDto.getUserFullName(), result.getUserFullName());
 
         verify(appConfig, times(2)).getJwtSecret();
-        verify(appConfig, times(1)).getJwtExpiredDuration();
+        verify(appConfig).getJwtExpiredDuration();
     }
 }

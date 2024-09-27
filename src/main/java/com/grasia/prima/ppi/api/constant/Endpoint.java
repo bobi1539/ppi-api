@@ -15,4 +15,5 @@ public final class Endpoint {
     public static final String SYSTEM_PARAMETER = BASE + "/system-parameters";
     public static final String SYSTEM_PARAMETER_LIST = BASE + "/system-parameter-lists";
     public static final String DEPARTMENT = BASE + "/departments";
+    public static final String COMMITTEE = BASE + "/committees";
 }

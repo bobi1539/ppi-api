@@ -23,7 +23,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class AuthServiceImplTest {
 
@@ -65,10 +66,10 @@ class AuthServiceImplTest {
         assertEquals(ObjectDummy.JWT, response.getJwt());
         assertNotNull(response.getRefreshToken());
 
-        verify(userRepository, times(1)).findByUsername(USERNAME);
-        verify(passwordEncoder, times(1)).matches(anyString(), anyString());
-        verify(jwtService, times(1)).generateToken(any());
-        verify(logAuthRepository, times(1)).save(any());
+        verify(userRepository).findByUsername(USERNAME);
+        verify(passwordEncoder).matches(anyString(), anyString());
+        verify(jwtService).generateToken(any());
+        verify(logAuthRepository).save(any());
     }
 
     @Test
@@ -79,7 +80,7 @@ class AuthServiceImplTest {
         assertEquals(GlobalMessage.WRONG_USERNAME_OR_PASSWORD.status, e.getStatus());
         assertEquals(GlobalMessage.WRONG_USERNAME_OR_PASSWORD.message, e.getMessage());
 
-        verify(userRepository, times(1)).findByUsername(USERNAME);
+        verify(userRepository).findByUsername(USERNAME);
     }
 
     @Test
@@ -91,8 +92,8 @@ class AuthServiceImplTest {
         assertEquals(GlobalMessage.WRONG_USERNAME_OR_PASSWORD.status, e.getStatus());
         assertEquals(GlobalMessage.WRONG_USERNAME_OR_PASSWORD.message, e.getMessage());
 
-        verify(userRepository, times(1)).findByUsername(USERNAME);
-        verify(passwordEncoder, times(1)).matches(anyString(), anyString());
+        verify(userRepository).findByUsername(USERNAME);
+        verify(passwordEncoder).matches(anyString(), anyString());
     }
 
     @Test
@@ -105,8 +106,8 @@ class AuthServiceImplTest {
         assertEquals(ObjectDummy.JWT, response.getJwt());
         assertEquals(logAuth.getRefreshToken(), response.getRefreshToken());
 
-        verify(logAuthRepository, times(1)).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
-        verify(jwtService, times(1)).generateToken(any());
+        verify(logAuthRepository).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
+        verify(jwtService).generateToken(any());
     }
 
     @Test
@@ -118,6 +119,6 @@ class AuthServiceImplTest {
         assertEquals(GlobalMessage.REFRESH_TOKEN_NOT_VALID.status, e.getStatus());
         assertEquals(GlobalMessage.REFRESH_TOKEN_NOT_VALID.message, e.getMessage());
 
-        verify(logAuthRepository, times(1)).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
+        verify(logAuthRepository).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
     }
 }
