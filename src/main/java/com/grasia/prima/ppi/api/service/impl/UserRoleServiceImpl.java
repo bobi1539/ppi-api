@@ -10,6 +10,7 @@ import com.grasia.prima.ppi.api.helper.entity.UserRoleHelper;
 import com.grasia.prima.ppi.api.repository.UserRoleRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.UserRoleService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -43,6 +44,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         return toResponse(userRole);
     }
 
+    @Transactional
     @Override
     public UserRoleResponse create(UserRoleRequest request, HeaderRequest header) {
         MUserRole userRole = MUserRole.builder().build();
@@ -54,6 +56,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         return toResponse(userRole);
     }
 
+    @Transactional
     @Override
     public UserRoleResponse update(Long id, UserRoleRequest request, HeaderRequest header) {
         MUserRole userRole = getUserRoleById(id);
@@ -64,6 +67,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         return toResponse(userRole);
     }
 
+    @Transactional
     @Override
     public UserRoleResponse delete(Long id, HeaderRequest header) {
         MUserRole userRole = userRoleRepository.findById(id).orElseThrow(getNotFoundException());
@@ -77,6 +81,7 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
         return toResponse(userRole);
     }
 
+    @Transactional
     @Override
     public UserRoleResponse restore(Long id, HeaderRequest header) {
         MUserRole userRole = getUserRoleDeleted(id);

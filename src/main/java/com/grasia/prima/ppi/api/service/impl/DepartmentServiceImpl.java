@@ -10,6 +10,7 @@ import com.grasia.prima.ppi.api.helper.entity.DepartmentHelper;
 import com.grasia.prima.ppi.api.repository.DepartmentRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.DepartmentService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -43,6 +44,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
         return toResponse(department);
     }
 
+    @Transactional
     @Override
     public DepartmentResponse create(DepartmentRequest request, HeaderRequest header) {
         MDepartment department = MDepartment.builder().build();
@@ -54,6 +56,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
         return toResponse(department);
     }
 
+    @Transactional
     @Override
     public DepartmentResponse update(Long id, DepartmentRequest request, HeaderRequest header) {
         MDepartment department = getDepartmentById(id);
@@ -64,6 +67,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
         return toResponse(department);
     }
 
+    @Transactional
     @Override
     public DepartmentResponse delete(Long id, HeaderRequest header) {
         MDepartment department = departmentRepository.findById(id).orElseThrow(getNotFoundException());
@@ -77,6 +81,7 @@ public class DepartmentServiceImpl extends AbstractCrudService implements Depart
         return toResponse(department);
     }
 
+    @Transactional
     @Override
     public DepartmentResponse restore(Long id, HeaderRequest header) {
         MDepartment department = getDepartmentDeleted(id);
