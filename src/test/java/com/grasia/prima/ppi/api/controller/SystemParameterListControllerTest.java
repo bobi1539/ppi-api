@@ -104,4 +104,15 @@ class SystemParameterListControllerTest extends ControllerTest {
 
         verify(service, times(1)).delete(any(), any());
     }
+
+    @Test
+    void testRestore() {
+        when(service.restore(any(), any())).thenReturn(systemParameterListResponse);
+
+        SystemParameterListResponse response = controller.restore(id, header);
+        assertEquals(systemParameterListResponse.getId(), response.getId());
+        assertEquals(systemParameterListResponse.getName(), response.getName());
+
+        verify(service, times(1)).restore(any(), any());
+    }
 }

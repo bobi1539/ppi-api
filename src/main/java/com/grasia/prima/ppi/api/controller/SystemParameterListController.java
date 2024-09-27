@@ -81,4 +81,12 @@ public class SystemParameterListController {
     ) {
         return parameterListService.delete(id, header);
     }
+
+    @PutMapping("/restore/{id}")
+    public SystemParameterListResponse restore(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return parameterListService.restore(id, header);
+    }
 }

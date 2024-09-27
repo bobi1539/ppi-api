@@ -129,8 +129,8 @@ class SystemParameterListServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testDelete_Success() {
-        when(parameterListRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(parameterList));
+    void testDelete_IsDeletedFalse() {
+        when(parameterListRepository.findById(id)).thenReturn(Optional.of(parameterList));
         when(parameterListRepository.save(any())).thenReturn(parameterList);
 
         SystemParameterListResponse response = service.delete(id, header);
@@ -138,7 +138,35 @@ class SystemParameterListServiceImplTest extends ServiceTest {
         assertEquals(parameterList.getName(), response.getName());
         assertTrue(response.isDeleted());
 
-        verify(parameterListRepository).findByIdAndIsDeleted(id, false);
+        verify(parameterListRepository).findById(id);
+        verify(parameterListRepository).save(any());
+    }
+
+    @Test
+    void testDelete_IsDeletedTrue() {
+        parameterList.setDeleted(true);
+        when(parameterListRepository.findById(id)).thenReturn(Optional.of(parameterList));
+
+        SystemParameterListResponse response = service.delete(id, header);
+        assertEquals(parameterList.getId(), response.getId());
+        assertEquals(parameterList.getName(), response.getName());
+        assertTrue(response.isDeleted());
+
+        verify(parameterListRepository).findById(id);
+        verify(parameterListRepository).delete(any());
+    }
+
+    @Test
+    void testRestore_Success() {
+        when(parameterListRepository.findByIdAndIsDeleted(id, true)).thenReturn(Optional.of(parameterList));
+        when(parameterListRepository.save(any())).thenReturn(parameterList);
+
+        SystemParameterListResponse response = service.restore(id, header);
+        assertEquals(parameterList.getId(), response.getId());
+        assertEquals(parameterList.getName(), response.getName());
+        assertFalse(response.isDeleted());
+
+        verify(parameterListRepository).findByIdAndIsDeleted(id, true);
         verify(parameterListRepository).save(any());
     }
 }

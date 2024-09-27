@@ -1,19 +1,18 @@
 package com.grasia.prima.ppi.api.service.impl;
 
-import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.SystemParameterListRequest;
 import com.grasia.prima.ppi.api.dto.response.SystemParameterListResponse;
 import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
 import com.grasia.prima.ppi.api.entity.MSystemParameter;
 import com.grasia.prima.ppi.api.entity.MSystemParameterList;
-import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.SystemParameterListHelper;
 import com.grasia.prima.ppi.api.repository.SystemParameterListRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.SystemParameterListService;
 import com.grasia.prima.ppi.api.service.SystemParameterService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -48,6 +47,7 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
         return toResponse(parameterList);
     }
 
+    @Transactional
     @Override
     public SystemParameterListResponse create(SystemParameterListRequest request, HeaderRequest header) {
         MSystemParameterList parameterList = MSystemParameterList.builder().build();
@@ -59,6 +59,7 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
         return toResponse(parameterList);
     }
 
+    @Transactional
     @Override
     public SystemParameterListResponse update(Long id, SystemParameterListRequest request, HeaderRequest header) {
         MSystemParameterList parameterList = getSystemParameterListById(id);
@@ -69,10 +70,25 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
         return toResponse(parameterList);
     }
 
+    @Transactional
     @Override
     public SystemParameterListResponse delete(Long id, HeaderRequest header) {
-        MSystemParameterList parameterList = getSystemParameterListById(id);
-        parameterList.setDeleted(true);
+        MSystemParameterList parameterList = parameterListRepository.findById(id).orElseThrow(getNotFoundException());
+        if (parameterList.isDeleted()) {
+            parameterListRepository.delete(parameterList);
+        } else {
+            parameterList.setDeleted(true);
+            setUpdatedBy(parameterList, header);
+            parameterList = parameterListRepository.save(parameterList);
+        }
+        return toResponse(parameterList);
+    }
+
+    @Transactional
+    @Override
+    public SystemParameterListResponse restore(Long id, HeaderRequest header) {
+        MSystemParameterList parameterList = getSystemParameterListDeleted(id);
+        parameterList.setDeleted(false);
         setUpdatedBy(parameterList, header);
 
         parameterList = parameterListRepository.save(parameterList);
@@ -81,8 +97,7 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
 
     @Override
     public MSystemParameterList getSystemParameterListById(Long id) {
-        return parameterListRepository.findByIdAndIsDeleted(id, false)
-                .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
+        return parameterListRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
     private Specification<MSystemParameterList> getSpecificationFindAll(SystemParameterListSearchDto searchDto) {
@@ -99,6 +114,10 @@ public class SystemParameterListServiceImpl extends AbstractCrudService implemen
 
     private MSystemParameter getSystemParameterById(Long id) {
         return parameterService.getSystemParameterById(id);
+    }
+
+    private MSystemParameterList getSystemParameterListDeleted(Long id) {
+        return parameterListRepository.findByIdAndIsDeleted(id, true).orElseThrow(getNotFoundException());
     }
 
     private SystemParameterListResponse toResponse(MSystemParameterList parameterList) {

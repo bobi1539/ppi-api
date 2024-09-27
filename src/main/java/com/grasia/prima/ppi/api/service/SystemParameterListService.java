@@ -23,5 +23,7 @@ public interface SystemParameterListService {
 
     SystemParameterListResponse delete(Long id, HeaderRequest header);
 
+    SystemParameterListResponse restore(Long id, HeaderRequest header);
+
     MSystemParameterList getSystemParameterListById(Long id);
 }
