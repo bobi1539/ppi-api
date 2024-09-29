@@ -207,4 +207,33 @@ public final class ObjectDummy {
                 .endDate(LocalDate.of(2024, 10, 1))
                 .build();
     }
+
+    public static MMenu getMenu() {
+        return MMenu.builder()
+                .id(1L)
+                .name("dashboard")
+                .route("dashboard")
+                .icon("icon")
+                .sequence(1)
+                .build();
+    }
+
+    public static MenuRequest getMenuRequest() {
+        return MenuRequest.builder()
+                .name("dashboard")
+                .route("dashboard")
+                .icon("icon")
+                .sequence(1)
+                .build();
+    }
+
+    public static MenuResponse getMenuResponse() {
+        return MenuResponse.builder()
+                .id(1L)
+                .name("dashboard")
+                .route("dashboard")
+                .icon("icon")
+                .sequence(1)
+                .build();
+    }
 }

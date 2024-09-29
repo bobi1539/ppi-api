@@ -44,4 +44,10 @@ public final class Constant {
     public static final String MUST_CONTAIN_UPPER_CASE = "Password Must Consist of Capital Letter";
     public static final String MUST_CONTAIN_NUMBER = "Password Must Consist of Number";
     public static final String PASSWORD_CONFIRM_NOT_EQUALS = "Password Confirm Is Not The Same As Password";
+    public static final String SEQUENCE_MUST_GREATER_THAN_ZERO = "Sequence Must Greater Than Zero";
+    public static final String MENU_SEQUENCE_HAS_BEEN_REGISTERED = "Menu Sequence Has Been Registered";
+    public static final String MENU_NAME_REQUIRED = "Menu Name Is Required";
+    public static final String MENU_ROUTE_REQUIRED = "Menu Route Is Required";
+    public static final String MENU_ICON_REQUIRED = "Menu Icon Is Required";
+    public static final String MENU_SEQUENCE_REQUIRED = "Menu Sequence Is Required";
 }
