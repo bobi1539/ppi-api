@@ -236,4 +236,31 @@ public final class ObjectDummy {
                 .sequence(1)
                 .build();
     }
+
+    public static MSubMenu getSubMenu() {
+        return MSubMenu.builder()
+                .id(1L)
+                .name("Sub Menu 1")
+                .route("sub-menu-1")
+                .sequence(1)
+                .build();
+    }
+
+    public static SubMenuRequest getSubMenuRequest() {
+        return SubMenuRequest.builder()
+                .name("Sub Menu 1")
+                .route("sub-menu-1")
+                .sequence(1)
+                .menuId(1L)
+                .build();
+    }
+
+    public static SubMenuResponse getSubMenuResponse() {
+        return SubMenuResponse.builder()
+                .id(1L)
+                .name("Sub Menu 1")
+                .route("sub-menu-1")
+                .sequence(1)
+                .build();
+    }
 }

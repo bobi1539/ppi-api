@@ -119,7 +119,6 @@ class UserServiceImplTest extends ServiceTest {
 
     @Test
     void testCreate_Success() {
-        userValidationService.validateCreateUsername(anyString());
         when(roleService.getUserRoleById(id)).thenReturn(userRole);
         when(parameterListService.getSystemParameterListById(id)).thenReturn(parameterList);
         when(userRepository.save(any())).thenReturn(user);
@@ -131,6 +130,9 @@ class UserServiceImplTest extends ServiceTest {
         verify(roleService).getUserRoleById(id);
         verify(parameterListService).getSystemParameterListById(id);
         verify(userRepository).save(any());
+        verify(userValidationService).validateCreateUsername(anyString());
+        verify(userValidationService).validateCreateEmail(anyString());
+        verify(userValidationService).validatePassword(anyString(), anyString());
     }
 
     @Test
@@ -148,6 +150,8 @@ class UserServiceImplTest extends ServiceTest {
         verify(parameterListService).getSystemParameterListById(id);
         verify(userRepository).findByIdAndIsDeleted(id, false);
         verify(userRepository).save(any());
+        verify(userValidationService).validateUpdateUsername(any(), anyString());
+        verify(userValidationService).validateUpdateEmail(any(), anyString());
     }
 
     @Test

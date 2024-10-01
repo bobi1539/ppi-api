@@ -17,4 +17,5 @@ public final class Endpoint {
     public static final String DEPARTMENT = BASE + "/departments";
     public static final String COMMITTEE = BASE + "/committees";
     public static final String MENU = BASE + "/menus";
+    public static final String SUB_MENU = BASE + "/sub-menus";
 }

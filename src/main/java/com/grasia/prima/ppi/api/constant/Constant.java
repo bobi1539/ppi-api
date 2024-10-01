@@ -50,4 +50,9 @@ public final class Constant {
     public static final String MENU_ROUTE_REQUIRED = "Menu Route Is Required";
     public static final String MENU_ICON_REQUIRED = "Menu Icon Is Required";
     public static final String MENU_SEQUENCE_REQUIRED = "Menu Sequence Is Required";
+    public static final String SUB_MENU_NAME_REQUIRED = "Sub Menu Name Is Required";
+    public static final String SUB_MENU_ROUTE_REQUIRED = "Sub Menu Route Is Required";
+    public static final String SUB_MENU_SEQUENCE_REQUIRED = "Sub Menu Sequence Is Required";
+    public static final String MENU_ID_REQUIRED = "Menu Id Is Required";
+    public static final String SUB_MENU_SEQUENCE_HAS_BEEN_REGISTERED = "Sub Menu Sequence Has Been Registered";
 }

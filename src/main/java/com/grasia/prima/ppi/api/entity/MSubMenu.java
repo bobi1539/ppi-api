@@ -27,7 +27,7 @@ public class MSubMenu extends BaseEntity {
     @Column(name = "route")
     private String route;
 
-    @Column(name = "sequence", unique = true)
+    @Column(name = "sequence")
     private Integer sequence;
 
     @ManyToOne
