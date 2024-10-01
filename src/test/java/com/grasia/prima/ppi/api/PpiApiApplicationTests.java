@@ -13,6 +13,7 @@ class PpiApiApplicationTests {
     @DynamicPropertySource
     static void dynamicProperties(DynamicPropertyRegistry registry) {
         registry.add("PPI_SHOW_SQL", () -> "false");
+        registry.add("PPI_DB_PORT", () -> "5432");
     }
 
     @Test

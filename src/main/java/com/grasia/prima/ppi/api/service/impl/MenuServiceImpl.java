@@ -5,6 +5,7 @@ import com.grasia.prima.ppi.api.dto.request.MenuRequest;
 import com.grasia.prima.ppi.api.dto.response.MenuResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MMenu;
+import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.MenuHelper;
 import com.grasia.prima.ppi.api.repository.MenuRepository;
@@ -14,6 +15,8 @@ import com.grasia.prima.ppi.api.service.MenuValidationService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +31,13 @@ public class MenuServiceImpl extends AbstractCrudService implements MenuService 
 
     @Override
     public List<MenuResponse> findAll(SearchDto searchDto) {
-        List<MMenu> menus = menuRepository.findAll(getSpecificationFindAll(searchDto), sortByIdAsc());
+        List<MMenu> menus = menuRepository.findAll(getSpecificationFindAll(searchDto), sortBySequence());
         return menus.stream().map(this::toResponse).toList();
     }
 
     @Override
     public Page<MenuResponse> findAllPagination(SearchDto searchDto) {
-        Page<MMenu> menus = menuRepository.findAll(getSpecificationFindAll(searchDto), pageableSortByIdAsc(searchDto));
+        Page<MMenu> menus = menuRepository.findAll(getSpecificationFindAll(searchDto), pageableSortBySequence(searchDto));
         return menus.map(this::toResponse);
     }
 
@@ -76,6 +79,15 @@ public class MenuServiceImpl extends AbstractCrudService implements MenuService 
     private Specification<MMenu> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MMenu> spec = SpecificationHelper.stringLike(MMenu.FIELD_NAME, searchDto.getSearch());
         return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
+    }
+
+    private Sort sortBySequence() {
+        return PageHelper.sortByColumnAsc(MMenu.FIELD_SEQUENCE);
+    }
+
+    protected Pageable pageableSortBySequence(SearchDto searchDto) {
+        Sort sort = PageHelper.sortByColumnAsc(MMenu.FIELD_SEQUENCE);
+        return PageHelper.buildPageRequest(searchDto.getPage(), searchDto.getSize(), sort);
     }
 
     private void setMenu(MMenu menu, MenuRequest request) {

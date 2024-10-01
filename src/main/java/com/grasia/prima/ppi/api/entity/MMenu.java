@@ -40,4 +40,5 @@ public class MMenu extends BaseEntity {
     private List<MSubMenu> subMenus;
 
     public static final String FIELD_NAME = "name";
+    public static final String FIELD_SEQUENCE = "sequence";
 }
