@@ -3,7 +3,10 @@ package com.grasia.prima.ppi.api.service;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.SubMenuRequest;
 import com.grasia.prima.ppi.api.dto.response.SubMenuResponse;
+import com.grasia.prima.ppi.api.entity.MMenu;
 import com.grasia.prima.ppi.api.entity.MSubMenu;
+
+import java.util.List;
 
 public interface SubMenuService {
 
@@ -14,4 +17,6 @@ public interface SubMenuService {
     SubMenuResponse update(Long id, SubMenuRequest request, HeaderRequest header);
 
     MSubMenu getSubMenuById(Long id);
+
+    List<MSubMenu> getSubMenuByIdsAndMenu(List<Long> ids, MMenu menu);
 }

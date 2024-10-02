@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -83,5 +84,16 @@ class SubMenuServiceImplTest extends ServiceTest {
         verify(subMenuValidationService).validateUpdateSequence(subMenu, 1, menu);
         verify(subMenuRepository).findByIdAndIsDeleted(id, false);
         verify(subMenuRepository).save(any());
+    }
+
+    @Test
+    void testGetSubMenuByIdsAndMenu_Success() {
+        List<Long> ids = List.of(1L);
+        when(subMenuRepository.findByIdInAndMenuAndIsDeleted(ids, menu, false)).thenReturn(List.of(subMenu));
+
+        List<MSubMenu> subMenus = subMenuService.getSubMenuByIdsAndMenu(ids, menu);
+        assertEquals(1, subMenus.size());
+
+        verify(subMenuRepository).findByIdInAndMenuAndIsDeleted(ids, menu, false);
     }
 }

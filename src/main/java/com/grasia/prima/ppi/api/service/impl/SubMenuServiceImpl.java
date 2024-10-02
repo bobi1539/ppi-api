@@ -15,6 +15,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class SubMenuServiceImpl extends AbstractCrudService implements SubMenuService {
@@ -58,6 +60,11 @@ public class SubMenuServiceImpl extends AbstractCrudService implements SubMenuSe
     @Override
     public MSubMenu getSubMenuById(Long id) {
         return subMenuRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
+    }
+
+    @Override
+    public List<MSubMenu> getSubMenuByIdsAndMenu(List<Long> ids, MMenu menu) {
+        return subMenuRepository.findByIdInAndMenuAndIsDeleted(ids, menu, false);
     }
 
     private void setSubMenu(MSubMenu subMenu, SubMenuRequest request, MMenu menu) {

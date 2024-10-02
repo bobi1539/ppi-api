@@ -9,7 +9,10 @@ import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public final class ObjectDummy {
 
@@ -22,6 +25,10 @@ public final class ObjectDummy {
             "3MjYxMDUyMDgsImV4cCI6MTc1NzY0MTIwOH0.GCHe-PZy5ES38A8lDxuDkHbxWSM6ZAlkmzMpMrR8HFk";
     public static final String JWT_SECRET = "357643192F423F44284GXabT72B4B6250655368566D597133743677397A2543164629";
     public static final String JWT_EXPIRED_DURATION = "31536000000";
+
+    public static Timestamp getTimestamp() {
+        return Timestamp.valueOf(LocalDateTime.of(2024, 10, 10, 10, 10));
+    }
 
     public static SearchDto getSearchDto() {
         return SearchDto.builder().search("").page(1).size(10).build();
@@ -261,6 +268,48 @@ public final class ObjectDummy {
                 .name("Sub Menu 1")
                 .route("sub-menu-1")
                 .sequence(1)
+                .build();
+    }
+
+    public static TUserRoleMenu getUserRoleMenu() {
+        return TUserRoleMenu.builder()
+                .id(1L)
+                .userRole(getUserRole())
+                .menu(getMenu())
+                .createdAt(getTimestamp())
+                .build();
+    }
+
+    public static TUserRoleSubMenu getUserRoleSubMenu() {
+        MSubMenu subMenu = getSubMenu();
+        subMenu.setMenu(getMenu());
+        return TUserRoleSubMenu.builder()
+                .id(1L)
+                .userRole(getUserRole())
+                .subMenu(subMenu)
+                .createdAt(getTimestamp())
+                .build();
+    }
+
+    public static UserRoleMenuRequest getUserRoleMenuRequest() {
+        return UserRoleMenuRequest.builder()
+                .userRoleId(1L)
+                .menuIds(List.of(getUserRoleSubMenuRequest()))
+                .build();
+    }
+
+    public static UserRoleSubMenuRequest getUserRoleSubMenuRequest() {
+        return UserRoleSubMenuRequest.builder()
+                .menuId(1L)
+                .subMenuIds(List.of(1L, 2L))
+                .build();
+    }
+
+    public static UserRoleMenuResponse getUserRoleMenuResponse() {
+        return UserRoleMenuResponse.builder()
+                .userRoleId(1L)
+                .name("admin")
+                .menus(List.of(getMenuResponse()))
                 .build();
     }
 }
