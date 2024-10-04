@@ -14,4 +14,5 @@ import lombok.experimental.SuperBuilder;
 public class SystemParameterResponse extends BaseEntityResponse {
     private Long id;
     private String name;
+    private String description;
 }

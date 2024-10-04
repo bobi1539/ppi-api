@@ -149,15 +149,15 @@ public final class ObjectDummy {
     }
 
     public static MSystemParameter getSystemParameter() {
-        return MSystemParameter.builder().id(1L).name("GENDER").build();
+        return MSystemParameter.builder().id(1L).name("GENDER").description("gender description").build();
     }
 
     public static SystemParameterRequest getSystemParameterRequest() {
-        return SystemParameterRequest.builder().name("GENDER").build();
+        return SystemParameterRequest.builder().name("GENDER").description("gender description").build();
     }
 
     public static SystemParameterResponse getSystemParameterResponse() {
-        return SystemParameterResponse.builder().id(1L).name("GENDER").build();
+        return SystemParameterResponse.builder().id(1L).name("GENDER").description("gender description").build();
     }
 
     public static MSystemParameterList getSystemParameterList() {

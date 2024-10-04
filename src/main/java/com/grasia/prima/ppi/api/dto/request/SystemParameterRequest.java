@@ -15,4 +15,6 @@ public class SystemParameterRequest {
     @NotNull(message = Constant.SYSTEM_PARAMETER_NAME_REQUIRED)
     @NotEmpty(message = Constant.SYSTEM_PARAMETER_NAME_REQUIRED)
     private String name;
+
+    private String description;
 }

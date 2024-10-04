@@ -15,6 +15,7 @@ public final class SystemParameterHelper {
         SystemParameterResponse response = SystemParameterResponse.builder()
                 .id(systemParameter.getId())
                 .name(systemParameter.getName())
+                .description(systemParameter.getDescription())
                 .build();
         BaseEntityHelper.setBaseEntityResponse(response, systemParameter);
         return response;

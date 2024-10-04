@@ -76,6 +76,7 @@ public class SystemParameterServiceImpl extends AbstractCrudService implements S
 
     private void setSystemParameter(MSystemParameter systemParameter, SystemParameterRequest request) {
         systemParameter.setName(request.getName());
+        systemParameter.setDescription(request.getDescription());
     }
 
     private SystemParameterResponse toResponse(MSystemParameter systemParameter) {

@@ -24,5 +24,8 @@ public class MSystemParameter extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     public static final String FIELD_NAME = "name";
 }
