@@ -15,8 +15,8 @@ import java.time.LocalDate;
 @Setter
 @SuperBuilder
 @Entity
-@Table(name = "m_committee")
-public class MCommittee extends BaseEntity {
+@Table(name = "m_period")
+public class MPeriod extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,9 @@ public class MCommittee extends BaseEntity {
 
     @Column(name = "end_date")
     private LocalDate endDate;
+
+    @Column(name = "status")
+    private Boolean status;
 
     public static final String FIELD_NAME = "name";
 }

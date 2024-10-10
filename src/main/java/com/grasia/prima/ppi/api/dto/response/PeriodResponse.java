@@ -13,9 +13,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @SuperBuilder
-public class CommitteeResponse extends BaseEntityResponse {
+public class PeriodResponse extends BaseEntityResponse {
     private Long id;
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Boolean status;
 }

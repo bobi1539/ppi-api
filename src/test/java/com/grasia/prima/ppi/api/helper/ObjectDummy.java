@@ -188,26 +188,26 @@ public final class ObjectDummy {
         return DepartmentResponse.builder().id(1L).name("department 1").build();
     }
 
-    public static MCommittee getCommittee() {
-        return MCommittee.builder()
+    public static MPeriod getPeriod() {
+        return MPeriod.builder()
                 .id(1L)
-                .name("committee 1")
+                .name("period 1")
                 .startDate(LocalDate.of(2024, 9, 1))
                 .endDate(LocalDate.of(2024, 10, 1))
                 .build();
     }
 
-    public static CommitteeRequest getCommitteeRequest() {
-        return CommitteeRequest
+    public static PeriodRequest getPeriodRequest() {
+        return PeriodRequest
                 .builder()
-                .name("committee 1")
+                .name("period 1")
                 .startDate(LocalDate.of(2024, 9, 1))
                 .endDate(LocalDate.of(2024, 10, 1))
                 .build();
     }
 
-    public static CommitteeResponse getCommitteeResponse() {
-        return CommitteeResponse.builder()
+    public static PeriodResponse getPeriodResponse() {
+        return PeriodResponse.builder()
                 .id(1L)
                 .name("department 1")
                 .startDate(LocalDate.of(2024, 9, 1))

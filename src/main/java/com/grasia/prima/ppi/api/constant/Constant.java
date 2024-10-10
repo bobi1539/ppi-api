@@ -31,9 +31,10 @@ public final class Constant {
     public static final String GENDER_ID_REQUIRED = "Gender Id Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
     public static final String DEPARTMENT_NAME_REQUIRED = "Department Name Is Required";
-    public static final String COMMITTEE_NAME_REQUIRED = "Committee Name Is Required";
+    public static final String PERIOD_NAME_REQUIRED = "Period Name Is Required";
     public static final String START_DATE_REQUIRED = "Start Date Is Required";
     public static final String END_DATE_REQUIRED = "End Date Is Required";
+    public static final String STATUS_REQUIRED = "Status Is Required";
     public static final String SYSTEM_PARAMETER_NAME_REQUIRED = "Parameter Name Is Required";
     public static final String SYSTEM_PARAMETER_ID_REQUIRED = "Parameter Id Is Required";
     public static final String SYSTEM_PARAMETER_LIST_NAME_REQUIRED = "Parameter List Name Is Required";
@@ -55,4 +56,5 @@ public final class Constant {
     public static final String SUB_MENU_SEQUENCE_REQUIRED = "Sub Menu Sequence Is Required";
     public static final String MENU_ID_REQUIRED = "Menu Id Is Required";
     public static final String SUB_MENU_SEQUENCE_HAS_BEEN_REGISTERED = "Sub Menu Sequence Has Been Registered";
+    public static final String START_END_DATE_NOT_VALID = "Start Date Must Less Than End Date";
 }

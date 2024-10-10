@@ -9,11 +9,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CommitteeHelperTest {
+class PeriodHelperTest {
 
     @Test
-    void testInstanceCommitteeHelper() throws NoSuchMethodException {
-        Constructor<CommitteeHelper> constructor = CommitteeHelper.class.getDeclaredConstructor();
+    void testInstancePeriodHelper() throws NoSuchMethodException {
+        Constructor<PeriodHelper> constructor = PeriodHelper.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         InvocationTargetException e = assertThrows(InvocationTargetException.class, constructor::newInstance);
         assertTrue(e.getCause() instanceof BusinessException);

@@ -12,10 +12,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class CommitteeRequest {
+public class PeriodRequest {
 
-    @NotNull(message = Constant.COMMITTEE_NAME_REQUIRED)
-    @NotEmpty(message = Constant.COMMITTEE_NAME_REQUIRED)
+    @NotNull(message = Constant.PERIOD_NAME_REQUIRED)
+    @NotEmpty(message = Constant.PERIOD_NAME_REQUIRED)
     private String name;
 
     @NotNull(message = Constant.START_DATE_REQUIRED)
@@ -23,4 +23,7 @@ public class CommitteeRequest {
 
     @NotNull(message = Constant.END_DATE_REQUIRED)
     private LocalDate endDate;
+
+    @NotNull(message = Constant.STATUS_REQUIRED)
+    private Boolean status;
 }
