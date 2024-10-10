@@ -30,7 +30,8 @@ public final class Constant {
     public static final String USER_ROLE_ID_REQUIRED = "User Role Id Is Required";
     public static final String GENDER_ID_REQUIRED = "Gender Id Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
-    public static final String DEPARTMENT_NAME_REQUIRED = "Department Name Is Required";
+    public static final String DIVISION_NAME_REQUIRED = "Division Name Is Required";
+    public static final String PERIOD_ID_REQUIRED = "Period Id Is Required";
     public static final String PERIOD_NAME_REQUIRED = "Period Name Is Required";
     public static final String START_DATE_REQUIRED = "Start Date Is Required";
     public static final String END_DATE_REQUIRED = "End Date Is Required";

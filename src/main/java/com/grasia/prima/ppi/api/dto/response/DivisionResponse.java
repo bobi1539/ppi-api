@@ -11,7 +11,8 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class DepartmentResponse extends BaseEntityResponse {
+public class DivisionResponse extends BaseEntityResponse {
     private Long id;
     private String name;
+    private PeriodResponse period;
 }

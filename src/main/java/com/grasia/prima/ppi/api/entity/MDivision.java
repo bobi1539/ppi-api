@@ -13,8 +13,8 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @Entity
-@Table(name = "m_department")
-public class MDepartment extends BaseEntity {
+@Table(name = "m_division")
+public class MDivision extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +24,10 @@ public class MDepartment extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "period_id")
+    private MPeriod period;
+
     public static final String FIELD_NAME = "name";
+    public static final String FIELD_PERIOD = "period";
 }

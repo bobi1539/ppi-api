@@ -15,7 +15,7 @@ public final class Endpoint {
     public static final String USER = BASE + "/users";
     public static final String SYSTEM_PARAMETER = BASE + "/system-parameters";
     public static final String SYSTEM_PARAMETER_LIST = BASE + "/system-parameter-lists";
-    public static final String DEPARTMENT = BASE + "/departments";
+    public static final String DIVISION = BASE + "/divisions";
     public static final String PERIOD = BASE + "/periods";
     public static final String MENU = BASE + "/menus";
     public static final String SUB_MENU = BASE + "/sub-menus";

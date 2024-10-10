@@ -10,9 +10,12 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class DepartmentRequest {
+public class DivisionRequest {
 
-    @NotNull(message = Constant.DEPARTMENT_NAME_REQUIRED)
-    @NotEmpty(message = Constant.DEPARTMENT_NAME_REQUIRED)
+    @NotNull(message = Constant.DIVISION_NAME_REQUIRED)
+    @NotEmpty(message = Constant.DIVISION_NAME_REQUIRED)
     private String name;
+
+    @NotNull(message = Constant.PERIOD_ID_REQUIRED)
+    private Long periodId;
 }
