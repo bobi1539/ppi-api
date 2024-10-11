@@ -1,6 +1,7 @@
 package com.grasia.prima.ppi.api.controller;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -30,6 +31,9 @@ public class CustomResponseAdvice extends BaseController implements ResponseBody
             @NonNull ServerHttpResponse response
     ) {
         if (returnType.getContainingClass().isAnnotationPresent(RestController.class)) {
+            if (body instanceof InputStreamResource) {
+                return body;
+            }
             return buildSuccessResponse(body);
         }
         return body;

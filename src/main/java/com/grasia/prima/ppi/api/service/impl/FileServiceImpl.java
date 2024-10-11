@@ -54,8 +54,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String saveFileFromBase64(Base64ToFileDto base64ToFileDto) {
-        this.directoryName = base64ToFileDto.getDirectoryName();
-        this.fileName = base64ToFileDto.getFileName();
+        setDirectoryName(base64ToFileDto.getDirectoryName());
+        setFileName(base64ToFileDto.getFileName());
 
         setFileExtension();
         validateFileExtension();
@@ -66,9 +66,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String saveFileFromBytes(FileRequest fileRequest) {
-        this.directoryName = fileRequest.getDirectoryName();
-        this.fileName = fileRequest.getFileName();
-        this.fileBytes = fileRequest.getFileBytes();
+        setDirectoryName(fileRequest.getDirectoryName());
+        setFileName(fileRequest.getFileName());
+        setFileBytes(fileRequest.getFileBytes());
 
         setFileExtension();
         validateFileExtension();
@@ -78,8 +78,8 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public FileResponse downloadFile(FileRequest fileRequest) {
-        this.directoryName = fileRequest.getDirectoryName();
-        this.fileName = fileRequest.getFileName();
+        setDirectoryName(fileRequest.getDirectoryName());
+        setFileName(fileRequest.getFileName());
 
         setFileExtension();
         validateFileExtension();
@@ -94,7 +94,10 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void deleteFile(FileRequest fileRequest) {
-        String fullPath = appConfig.getPathFile() + fileRequest.getDirectoryName() + fileRequest.getFileName();
+        setDirectoryName(fileRequest.getDirectoryName());
+        setFileName(fileRequest.getFileName());
+
+        String fullPath = appConfig.getPathFile() + directoryName + fileName;
         Path path = Paths.get(fullPath);
         if (!Files.exists(path)) {
             throw new BusinessException(GlobalMessage.FILE_DOES_NOT_EXIST);
@@ -106,6 +109,18 @@ public class FileServiceImpl implements FileService {
             log.error(Constant.ERROR, e.getMessage());
             throw new BusinessException(GlobalMessage.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private void setDirectoryName(String directoryName) {
+        this.directoryName = directoryName + "/";
+    }
+
+    private void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    private void setFileBytes(byte[] fileBytes) {
+        this.fileBytes = fileBytes;
     }
 
     private void setFileExtension() {

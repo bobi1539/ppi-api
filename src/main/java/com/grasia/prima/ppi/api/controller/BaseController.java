@@ -2,13 +2,19 @@ package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
-import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.response.BaseResponse;
+import com.grasia.prima.ppi.api.dto.response.FileResponse;
+import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.io.ByteArrayInputStream;
 
 @ControllerAdvice
 @Slf4j
@@ -20,6 +26,13 @@ public abstract class BaseController {
                 .message(GlobalMessage.SUCCESS.message)
                 .data(data)
                 .build();
+    }
+
+    protected ResponseEntity<InputStreamResource> buildResourceResponse(FileResponse response) {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, Constant.HEADER_INPUT_STREAM + response.getFileName())
+                .contentType(response.getMediaType())
+                .body(new InputStreamResource(new ByteArrayInputStream(response.getFileBytes())));
     }
 
     protected SearchDto buildSearchDto(String search, Boolean isDeleted, int page, int size) {

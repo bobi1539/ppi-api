@@ -29,7 +29,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
     private final StaffRepository staffRepository;
     private final DivisionService divisionService;
     private final FileService fileService;
-    private static final String DIRECTORY_NAME = "staff/";
+    private static final String DIRECTORY_NAME = "staff";
 
     @Override
     public List<StaffResponse> findAll(StaffSearchDto searchDto) {
