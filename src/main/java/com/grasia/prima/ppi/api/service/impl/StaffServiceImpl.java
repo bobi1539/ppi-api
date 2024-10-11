@@ -1,6 +1,7 @@
 package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
+import com.grasia.prima.ppi.api.dto.request.FileRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.StaffRequest;
 import com.grasia.prima.ppi.api.dto.response.StaffResponse;
@@ -14,6 +15,7 @@ import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.DivisionService;
 import com.grasia.prima.ppi.api.service.FileService;
 import com.grasia.prima.ppi.api.service.StaffService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -48,6 +50,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         return toResponse(getStaffById(id));
     }
 
+    @Transactional
     @Override
     public StaffResponse create(StaffRequest request, HeaderRequest header) {
         MStaff staff = MStaff.builder().build();
@@ -58,6 +61,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         return toResponse(staffRepository.save(staff));
     }
 
+    @Transactional
     @Override
     public StaffResponse update(Long id, StaffRequest request, HeaderRequest header) {
         MStaff staff = getStaffById(id);
@@ -67,11 +71,13 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         return toResponse(staffRepository.save(staff));
     }
 
+    @Transactional
     @Override
     public StaffResponse delete(Long id, HeaderRequest header) {
         MStaff staff = staffRepository.findById(id).orElseThrow(getNotFoundException());
         if (staff.isDeleted()) {
             staffRepository.delete(staff);
+            deletePhoto(staff.getPhoto());
         } else {
             staff.setDeleted(true);
             setUpdatedBy(staff, header);
@@ -80,6 +86,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         return toResponse(staff);
     }
 
+    @Transactional
     @Override
     public StaffResponse restore(Long id, HeaderRequest header) {
         MStaff staff = getStaffDeleted(id);
@@ -111,13 +118,22 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         staff.setJobDescription(request.getJobDescription());
         staff.setDivision(getDivisionById(request.getDivisionId()));
 
-        if (Objects.isNull(staff.getPhoto()) || !staff.getPhoto().equals(request.getPhotoFileName())) {
+        if (Objects.isNull(staff.getPhoto())) {
             staff.setPhoto(savePhoto(request));
+        } else {
+            saveAndDeletePhoto(staff, request);
         }
     }
 
     private MDivision getDivisionById(Long id) {
         return divisionService.getDivisionById(id);
+    }
+
+    private void saveAndDeletePhoto(MStaff staff, StaffRequest request) {
+        if (!staff.getPhoto().equals(request.getPhotoFileName())) {
+            staff.setPhoto(savePhoto(request));
+            deletePhoto(staff.getPhoto());
+        }
     }
 
     private String savePhoto(StaffRequest request) {
@@ -127,6 +143,14 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
                 .base64String(request.getPhotoBase64())
                 .build();
         return fileService.saveFileFromBase64(dto);
+    }
+
+    private void deletePhoto(String fileName) {
+        FileRequest fileRequest = FileRequest.builder()
+                .directoryName(DIRECTORY_NAME)
+                .fileName(fileName)
+                .build();
+        fileService.deleteFile(fileRequest);
     }
 
     private MStaff getStaffDeleted(Long id) {
