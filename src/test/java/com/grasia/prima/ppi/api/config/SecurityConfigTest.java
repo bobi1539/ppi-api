@@ -9,6 +9,6 @@ class SecurityConfigTest {
     @Test
     void testGetAllowEndpoints() {
         String[] allowEndpoints = SecurityConfig.getAllowEndpoints();
-        assertEquals(4, allowEndpoints.length);
+        assertEquals(5, allowEndpoints.length);
     }
 }
