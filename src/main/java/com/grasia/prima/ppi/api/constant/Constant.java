@@ -30,6 +30,7 @@ public final class Constant {
     public static final String USER_ROLE_ID_REQUIRED = "User Role Id Is Required";
     public static final String GENDER_ID_REQUIRED = "Gender Id Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
+    public static final String DIVISION_ID_REQUIRED = "Division Id Is Required";
     public static final String DIVISION_NAME_REQUIRED = "Division Name Is Required";
     public static final String PERIOD_ID_REQUIRED = "Period Id Is Required";
     public static final String PERIOD_NAME_REQUIRED = "Period Name Is Required";
@@ -58,4 +59,12 @@ public final class Constant {
     public static final String MENU_ID_REQUIRED = "Menu Id Is Required";
     public static final String SUB_MENU_SEQUENCE_HAS_BEEN_REGISTERED = "Sub Menu Sequence Has Been Registered";
     public static final String START_END_DATE_NOT_VALID = "Start Date Must Less Than End Date";
+    public static final String FILE_NOT_ALLOWED = "File Not Allowed";
+    public static final String MAX_FILE_SIZE_IS_10_MB = "Maximum File Size Is 10 MB";
+    public static final String FILE_DOES_NOT_EXIST = "File Doesn't Exist";
+    public static final String STAFF_NAME_REQUIRED = "Staff Name Is Required";
+    public static final String STAFF_POSITION_REQUIRED = "Staff Position Is Required";
+    public static final String STAFF_IS_HEAD_REQUIRED = "Staff Is Head Is Required";
+    public static final String PHOTO_FILE_NAME_REQUIRED = "Photo File Name Is Required";
+    public static final String REGEX_DOT = "\\.";
 }

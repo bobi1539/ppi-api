@@ -2,9 +2,7 @@ package com.grasia.prima.ppi.api.helper.entity;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.response.DivisionResponse;
-import com.grasia.prima.ppi.api.entity.MDivision;
 import com.grasia.prima.ppi.api.exception.BusinessException;
-import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -24,11 +22,8 @@ class DivisionHelperTest {
     }
 
     @Test
-    void testToDivisionResponse_PeriodIsNull() {
-        MDivision division = ObjectDummy.getDivision();
-        division.setPeriod(null);
-
-        DivisionResponse response = DivisionHelper.toDivisionResponse(division);
-        assertNull(response.getPeriod());
+    void testToDivisionResponse_DivisionIsNull() {
+        DivisionResponse response = DivisionHelper.toDivisionResponse(null);
+        assertNull(response);
     }
 }

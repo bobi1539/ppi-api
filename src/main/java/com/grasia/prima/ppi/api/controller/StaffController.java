@@ -2,11 +2,11 @@ package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.Endpoint;
-import com.grasia.prima.ppi.api.dto.request.DivisionRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
-import com.grasia.prima.ppi.api.dto.response.DivisionResponse;
-import com.grasia.prima.ppi.api.dto.search.DivisionSearchDto;
-import com.grasia.prima.ppi.api.service.DivisionService;
+import com.grasia.prima.ppi.api.dto.request.StaffRequest;
+import com.grasia.prima.ppi.api.dto.response.StaffResponse;
+import com.grasia.prima.ppi.api.dto.search.StaffSearchDto;
+import com.grasia.prima.ppi.api.service.StaffService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -17,80 +17,80 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(Endpoint.DIVISION)
+@RequestMapping(Endpoint.STAFF)
 @AllArgsConstructor
 @SecurityRequirement(name = Constant.AUTHORIZATION)
-public class DivisionController {
+public class StaffController {
 
-    private final DivisionService divisionService;
+    private final StaffService staffService;
 
     @GetMapping("/all")
-    public List<DivisionResponse> findAll(
-            @RequestParam(required = false) Long periodId,
+    public List<StaffResponse> findAll(
+            @RequestParam(required = false) Long divisionId,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isDeleted
     ) {
-        DivisionSearchDto searchDto = DivisionSearchDto.builder()
-                .periodId(periodId)
+        StaffSearchDto searchDto = StaffSearchDto.builder()
+                .divisionId(divisionId)
                 .search(search)
                 .isDeleted(isDeleted)
                 .build();
-        return divisionService.findAll(searchDto);
+        return staffService.findAll(searchDto);
     }
 
     @GetMapping
-    public Page<DivisionResponse> findAllPagination(
-            @RequestParam(required = false) Long periodId,
+    public Page<StaffResponse> findAllPagination(
+            @RequestParam(required = false) Long divisionId,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isDeleted,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        DivisionSearchDto searchDto = DivisionSearchDto.builder()
-                .periodId(periodId)
+        StaffSearchDto searchDto = StaffSearchDto.builder()
+                .divisionId(divisionId)
                 .search(search)
                 .isDeleted(isDeleted)
                 .page(page)
                 .size(size)
                 .build();
-        return divisionService.findAllPagination(searchDto);
+        return staffService.findAllPagination(searchDto);
     }
 
     @GetMapping("/{id}")
-    public DivisionResponse findById(@PathVariable Long id) {
-        return divisionService.findById(id);
+    public StaffResponse findById(@PathVariable Long id) {
+        return staffService.findById(id);
     }
 
     @PostMapping
-    public DivisionResponse create(
-            @RequestBody @Valid DivisionRequest request,
+    public StaffResponse create(
+            @RequestBody @Valid StaffRequest request,
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
-        return divisionService.create(request, header);
+        return staffService.create(request, header);
     }
 
     @PutMapping("/{id}")
-    public DivisionResponse update(
+    public StaffResponse update(
             @PathVariable Long id,
-            @RequestBody @Valid DivisionRequest request,
+            @RequestBody @Valid StaffRequest request,
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
-        return divisionService.update(id, request, header);
+        return staffService.update(id, request, header);
     }
 
     @DeleteMapping("/{id}")
-    public DivisionResponse delete(
+    public StaffResponse delete(
             @PathVariable Long id,
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
-        return divisionService.delete(id, header);
+        return staffService.delete(id, header);
     }
 
     @PutMapping("/restore/{id}")
-    public DivisionResponse restore(
+    public StaffResponse restore(
             @PathVariable Long id,
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
-        return divisionService.restore(id, header);
+        return staffService.restore(id, header);
     }
 }

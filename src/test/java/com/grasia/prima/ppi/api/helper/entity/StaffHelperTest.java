@@ -1,7 +1,7 @@
 package com.grasia.prima.ppi.api.helper.entity;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
-import com.grasia.prima.ppi.api.dto.response.PeriodResponse;
+import com.grasia.prima.ppi.api.dto.response.StaffResponse;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +10,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PeriodHelperTest {
+class StaffHelperTest {
 
     @Test
-    void testInstancePeriodHelper() throws NoSuchMethodException {
-        Constructor<PeriodHelper> constructor = PeriodHelper.class.getDeclaredConstructor();
+    void testInstanceStaffHelper() throws NoSuchMethodException {
+        Constructor<StaffHelper> constructor = StaffHelper.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         InvocationTargetException e = assertThrows(InvocationTargetException.class, constructor::newInstance);
         assertTrue(e.getCause() instanceof BusinessException);
@@ -22,8 +22,8 @@ class PeriodHelperTest {
     }
 
     @Test
-    void testToPeriodResponse_PeriodIsNull() {
-        PeriodResponse response = PeriodHelper.toPeriodResponse(null);
+    void testToStaffResponse_StaffIsNull() {
+        StaffResponse response = StaffHelper.toStaffResponse(null);
         assertNull(response);
     }
 }

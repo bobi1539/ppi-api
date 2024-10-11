@@ -5,6 +5,8 @@ import com.grasia.prima.ppi.api.dto.response.PeriodResponse;
 import com.grasia.prima.ppi.api.entity.MPeriod;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
+import java.util.Objects;
+
 public final class PeriodHelper {
 
     private PeriodHelper() {
@@ -12,6 +14,10 @@ public final class PeriodHelper {
     }
 
     public static PeriodResponse toPeriodResponse(MPeriod period) {
+        if (Objects.isNull(period)) {
+            return null;
+        }
+
         PeriodResponse response = PeriodResponse.builder()
                 .id(period.getId())
                 .name(period.getName())
