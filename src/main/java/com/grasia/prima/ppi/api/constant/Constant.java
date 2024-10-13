@@ -68,4 +68,8 @@ public final class Constant {
     public static final String PHOTO_FILE_NAME_REQUIRED = "Photo File Name Is Required";
     public static final String REGEX_DOT = "\\.";
     public static final String HEADER_INPUT_STREAM = "attachment; filename=";
+    public static final String NEWSLETTER_TITLE_REQUIRED = "Newsletter Title Is Required";
+    public static final String NEWSLETTER_DESCRIPTION_REQUIRED = "Newsletter Description Is Required";
+    public static final String NEWSLETTER_COVER_REQUIRED = "Newsletter Cover Is Required";
+    public static final String NEWSLETTER_FILE_REQUIRED = "Newsletter File Is Required";
 }

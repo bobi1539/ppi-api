@@ -21,4 +21,5 @@ public final class Endpoint {
     public static final String SUB_MENU = BASE + "/sub-menus";
     public static final String STAFF = BASE + "/staffs";
     public static final String FILE = BASE + "/files";
+    public static final String NEWSLETTER = BASE + "/newsletters";
 }

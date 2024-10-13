@@ -131,8 +131,8 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
 
     private void saveAndDeletePhoto(MStaff staff, StaffRequest request) {
         if (!staff.getPhoto().equals(request.getPhotoFileName())) {
-            staff.setPhoto(savePhoto(request));
             deletePhoto(staff.getPhoto());
+            staff.setPhoto(savePhoto(request));
         }
     }
 
