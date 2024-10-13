@@ -97,13 +97,9 @@ public class FileServiceImpl implements FileService {
         setDirectoryName(fileRequest.getDirectoryName());
         setFileName(fileRequest.getFileName());
 
-        String fullPath = appConfig.getPathFile() + directoryName + fileName;
-        Path path = Paths.get(fullPath);
-        if (!Files.exists(path)) {
-            throw new BusinessException(GlobalMessage.FILE_DOES_NOT_EXIST);
-        }
-
         try {
+            String fullPath = appConfig.getPathFile() + directoryName + fileName;
+            Path path = Paths.get(fullPath);
             Files.delete(path);
         } catch (IOException e) {
             log.error(Constant.ERROR, e.getMessage());

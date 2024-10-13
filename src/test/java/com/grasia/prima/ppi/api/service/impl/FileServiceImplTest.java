@@ -15,6 +15,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -79,7 +82,6 @@ class FileServiceImplTest {
 
     @Test
     void testSaveFileFromBase64_FileSizeTooLarge() {
-
         try (MockedStatic<Base64> mockBase64 = mockStatic(Base64.class)) {
             Base64.Decoder decoder = mock(Base64.Decoder.class);
             when(decoder.decode(anyString())).thenReturn(new byte[20_000_000]);
@@ -89,6 +91,18 @@ class FileServiceImplTest {
             BusinessException e = assertThrows(BusinessException.class, () -> fileService.saveFileFromBase64(base64ToFileDto));
             assertEquals(GlobalMessage.MAX_FILE_SIZE_IS_10_MB.status, e.getStatus());
             assertEquals(GlobalMessage.MAX_FILE_SIZE_IS_10_MB.message, e.getMessage());
+        }
+    }
+
+    @Test
+    void testSaveFileFromBase64_WriteFileFailed() {
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.write(any(Path.class), any(byte[].class))).thenThrow(new IOException("Failed"));
+
+            Base64ToFileDto base64ToFileDto = getBase64ToFileDto("test.png");
+            BusinessException e = assertThrows(BusinessException.class, () -> fileService.saveFileFromBase64(base64ToFileDto));
+            assertEquals(GlobalMessage.INTERNAL_SERVER_ERROR.status, e.getStatus());
+            assertEquals(GlobalMessage.INTERNAL_SERVER_ERROR.message, e.getMessage());
         }
     }
 
@@ -129,9 +143,9 @@ class FileServiceImplTest {
     }
 
     @Test
-    void testDeleteFile_FileDoesntExist() {
+    void testDeleteFile_Failed() {
         BusinessException e = assertThrows(BusinessException.class, () -> fileService.deleteFile(getFileRequest()));
-        assertEquals(GlobalMessage.FILE_DOES_NOT_EXIST.status, e.getStatus());
-        assertEquals(GlobalMessage.FILE_DOES_NOT_EXIST.message, e.getMessage());
+        assertEquals(GlobalMessage.INTERNAL_SERVER_ERROR.status, e.getStatus());
+        assertEquals(GlobalMessage.INTERNAL_SERVER_ERROR.message, e.getMessage());
     }
 }

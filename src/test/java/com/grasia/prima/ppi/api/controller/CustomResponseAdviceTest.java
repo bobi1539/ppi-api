@@ -8,11 +8,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
@@ -59,6 +62,22 @@ class CustomResponseAdviceTest {
         );
 
         assertNotNull(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testBeforeBodyWrite_WithRestControllerAnnotationAndBodyIsInputStreamResource() {
+        Object body = new InputStreamResource(new ByteArrayInputStream("hello".getBytes()));
+        MediaType mediaType = MediaType.APPLICATION_JSON;
+        Class<? extends HttpMessageConverter<?>> converterType = (Class<? extends HttpMessageConverter<?>>) mock(HttpMessageConverter.class).getClass();
+
+        doReturn(RestControllerClass.class).when(methodParameter).getContainingClass();
+
+        Object result = customResponseAdvice.beforeBodyWrite(
+                body, methodParameter, mediaType, converterType, serverHttpRequest, serverHttpResponse
+        );
+
+        assertTrue(result instanceof InputStreamResource);
     }
 
     @SuppressWarnings("unchecked")
