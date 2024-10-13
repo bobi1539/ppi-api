@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class FileControllerTest {
@@ -39,5 +40,7 @@ class FileControllerTest {
 
         ResponseEntity<InputStreamResource> response = fileController.download(fileRequest.getDirectoryName(), fileRequest.getFileName());
         assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verify(fileService).downloadFile(any());
     }
 }

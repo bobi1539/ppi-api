@@ -344,4 +344,49 @@ public final class ObjectDummy {
                 .mediaType(MediaType.IMAGE_PNG)
                 .build();
     }
+
+    public static MStaff getStaff() {
+        return MStaff.builder()
+                .id(1L)
+                .name("staff name")
+                .position("president")
+                .isHead(true)
+                .photo("string.png")
+                .quote("staff quote")
+                .funFact("staff fun fact")
+                .description("staff desc")
+                .jobDescription("staff job desc")
+                .division(getDivision())
+                .build();
+    }
+
+    public static StaffRequest getStaffRequest() {
+        return StaffRequest.builder()
+                .name("staff name")
+                .position("president")
+                .isHead(true)
+                .photoBase64("string")
+                .photoFileName("string.png")
+                .quote("staff quote")
+                .funFact("staff fun fact")
+                .description("staff desc")
+                .jobDescription("staff job desc")
+                .divisionId(1L)
+                .build();
+    }
+
+    public static StaffResponse getStaffResponse() {
+        return StaffResponse.builder()
+                .id(1L)
+                .name("staff name")
+                .position("president")
+                .isHead(true)
+                .photo("string.png")
+                .quote("staff quote")
+                .funFact("staff fun fact")
+                .description("staff desc")
+                .jobDescription("staff job desc")
+                .division(getDivisionResponse())
+                .build();
+    }
 }
