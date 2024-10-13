@@ -6,6 +6,7 @@ import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.*;
 import com.grasia.prima.ppi.api.dto.search.DivisionSearchDto;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
+import com.grasia.prima.ppi.api.dto.search.StaffSearchDto;
 import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
@@ -342,6 +343,16 @@ public final class ObjectDummy {
                 .fileBytes("string".getBytes())
                 .fileName("test.png")
                 .mediaType(MediaType.IMAGE_PNG)
+                .build();
+    }
+
+    public static StaffSearchDto getStaffSearchDto() {
+        return StaffSearchDto.builder()
+                .divisionId(1L)
+                .search("")
+                .isDeleted(false)
+                .page(1)
+                .size(10)
                 .build();
     }
 
