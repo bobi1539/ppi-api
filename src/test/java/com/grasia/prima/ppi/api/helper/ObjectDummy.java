@@ -9,6 +9,7 @@ import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
+import org.springframework.http.MediaType;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -325,6 +326,22 @@ public final class ObjectDummy {
                 .userRoleId(1L)
                 .name("admin")
                 .menus(List.of(getMenuResponse()))
+                .build();
+    }
+
+    public static FileRequest getFileRequest() {
+        return FileRequest.builder()
+                .directoryName("test")
+                .fileName("test.png")
+                .fileBytes("string".getBytes())
+                .build();
+    }
+
+    public static FileResponse getFileResponse() {
+        return FileResponse.builder()
+                .fileBytes("string".getBytes())
+                .fileName("test.png")
+                .mediaType(MediaType.IMAGE_PNG)
                 .build();
     }
 }
