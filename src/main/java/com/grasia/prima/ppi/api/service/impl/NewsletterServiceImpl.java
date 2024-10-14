@@ -35,14 +35,14 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
 
     @Override
     public List<NewsletterResponse> findAll(SearchDto searchDto) {
-        List<MNewsletter> newsletters = newsletterRepository.findAll(getSpecificationFindAll(searchDto), sortByIdAsc());
+        List<MNewsletter> newsletters = newsletterRepository.findAll(getSpecificationFindAll(searchDto), sortByIdDesc());
         return newsletters.stream().map(this::toResponse).toList();
     }
 
     @Override
     public Page<NewsletterResponse> findAllPagination(SearchDto searchDto) {
         Page<MNewsletter> newsletters = newsletterRepository
-                .findAll(getSpecificationFindAll(searchDto), pageableSortByIdAsc(searchDto));
+                .findAll(getSpecificationFindAll(searchDto), pageableSortByIdDesc(searchDto));
         return newsletters.map(this::toResponse);
     }
 

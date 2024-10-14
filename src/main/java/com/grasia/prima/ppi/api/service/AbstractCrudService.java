@@ -31,8 +31,17 @@ public abstract class AbstractCrudService {
         return PageHelper.sortByColumnAsc(FIELD_ID);
     }
 
+    protected Sort sortByIdDesc() {
+        return PageHelper.sortByColumnDesc(FIELD_ID);
+    }
+
     protected Pageable pageableSortByIdAsc(SearchDto searchDto) {
         Sort sort = PageHelper.sortByColumnAsc(FIELD_ID);
+        return PageHelper.buildPageRequest(searchDto.getPage(), searchDto.getSize(), sort);
+    }
+
+    protected Pageable pageableSortByIdDesc(SearchDto searchDto) {
+        Sort sort = PageHelper.sortByColumnDesc(FIELD_ID);
         return PageHelper.buildPageRequest(searchDto.getPage(), searchDto.getSize(), sort);
     }
 
