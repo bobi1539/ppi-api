@@ -433,4 +433,39 @@ public final class ObjectDummy {
                 .content("content.png")
                 .build();
     }
+
+    public static MEvent getEvent() {
+        return MEvent.builder()
+                .id(1L)
+                .slug("test")
+                .title("test")
+                .description("test desc")
+                .cover("cover.png")
+                .startDate(LocalDate.of(2024, 10, 10))
+                .endDate(LocalDate.of(2024, 11, 10))
+                .build();
+    }
+
+    public static EventRequest getEventRequest() {
+        return EventRequest.builder()
+                .title("test")
+                .description("test desc")
+                .coverBase64("string")
+                .coverFileName("cover.png")
+                .startDate(LocalDate.of(2024, 10, 10))
+                .endDate(LocalDate.of(2024, 11, 10))
+                .build();
+    }
+
+    public static EventResponse getEventResponse() {
+        return EventResponse.builder()
+                .id(1L)
+                .slug("test")
+                .title("test")
+                .description("test desc")
+                .cover("cover.png")
+                .startDate(LocalDate.of(2024, 10, 10))
+                .endDate(LocalDate.of(2024, 11, 10))
+                .build();
+    }
 }

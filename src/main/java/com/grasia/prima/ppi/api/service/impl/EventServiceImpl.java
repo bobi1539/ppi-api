@@ -72,7 +72,7 @@ public class EventServiceImpl extends AbstractCrudService implements EventServic
     @Transactional
     @Override
     public EventResponse update(Long id, EventRequest request, HeaderRequest header) {
-        MEvent event = MEvent.builder().build();
+        MEvent event = getEventById(id);
         event.setSlug(getSlugWhenUpdate(request.getTitle(), event));
         setEvent(event, request);
         setUpdatedBy(event, header);
