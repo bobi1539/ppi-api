@@ -72,4 +72,5 @@ public final class Constant {
     public static final String NEWSLETTER_DESCRIPTION_REQUIRED = "Newsletter Description Is Required";
     public static final String NEWSLETTER_COVER_REQUIRED = "Newsletter Cover Is Required";
     public static final String NEWSLETTER_FILE_REQUIRED = "Newsletter File Is Required";
+    public static final String SLUG_FROM_TITLE_ALREADY_EXIST = "Slug From Title Already Exist, Please Change The Title";
 }

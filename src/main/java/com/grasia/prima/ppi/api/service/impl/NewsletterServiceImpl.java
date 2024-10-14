@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.service.impl;
 
+import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
 import com.grasia.prima.ppi.api.dto.request.FileRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
@@ -7,7 +8,9 @@ import com.grasia.prima.ppi.api.dto.request.NewsletterRequest;
 import com.grasia.prima.ppi.api.dto.response.NewsletterResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MNewsletter;
+import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
+import com.grasia.prima.ppi.api.helper.StringHelper;
 import com.grasia.prima.ppi.api.helper.entity.NewsletterHelper;
 import com.grasia.prima.ppi.api.repository.NewsletterRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -48,10 +52,18 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
         return toResponse(getNewsletterById(id));
     }
 
+    @Override
+    public NewsletterResponse findBySlug(String slug) {
+        MNewsletter newsletter = newsletterRepository.findBySlug(slug).orElseThrow(getNotFoundException());
+        return toResponse(newsletter);
+    }
+
     @Transactional
     @Override
     public NewsletterResponse create(NewsletterRequest request, HeaderRequest header) {
         MNewsletter newsletter = MNewsletter.builder().build();
+        newsletter.setSlug(getSlugWhenCreate(request.getTitle()));
+
         setNewsletter(newsletter, request);
         setCreatedBy(newsletter, header);
         setUpdatedBy(newsletter, header);
@@ -63,6 +75,8 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
     @Override
     public NewsletterResponse update(Long id, NewsletterRequest request, HeaderRequest header) {
         MNewsletter newsletter = getNewsletterById(id);
+        newsletter.setSlug(getSlugWhenUpdate(request.getTitle(), newsletter));
+
         setNewsletter(newsletter, request);
         setUpdatedBy(newsletter, header);
 
@@ -103,6 +117,24 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
     private Specification<MNewsletter> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MNewsletter> spec = SpecificationHelper.stringLike(MNewsletter.FIELD_TITLE, searchDto.getSearch());
         return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
+    }
+
+    private String getSlugWhenCreate(String title) {
+        String slug = StringHelper.createSlug(title);
+        Optional<MNewsletter> newsletterOptional = newsletterRepository.findBySlug(slug);
+        if (newsletterOptional.isPresent()) {
+            throw new BusinessException(GlobalMessage.SLUG_FROM_TITLE_ALREADY_EXIST);
+        }
+        return slug;
+    }
+
+    private String getSlugWhenUpdate(String title, MNewsletter newsletter) {
+        String slug = StringHelper.createSlug(title);
+        Optional<MNewsletter> newsletterOptional = newsletterRepository.findBySlug(slug);
+        if (newsletterOptional.isPresent() && !newsletterOptional.get().getId().equals(newsletter.getId())) {
+            throw new BusinessException(GlobalMessage.SLUG_FROM_TITLE_ALREADY_EXIST);
+        }
+        return slug;
     }
 
     private void setNewsletter(MNewsletter newsletter, NewsletterRequest request) {

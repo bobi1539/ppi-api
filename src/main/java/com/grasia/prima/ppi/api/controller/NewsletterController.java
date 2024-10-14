@@ -46,6 +46,11 @@ public class NewsletterController extends BaseController {
         return newsletterService.findById(id);
     }
 
+    @GetMapping("/slug/{slug}")
+    public NewsletterResponse findBySlug(@PathVariable String slug) {
+        return newsletterService.findBySlug(slug);
+    }
+
     @PostMapping
     public NewsletterResponse create(
             @RequestBody @Valid NewsletterRequest request,

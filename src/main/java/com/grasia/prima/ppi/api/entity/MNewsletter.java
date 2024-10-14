@@ -24,7 +24,7 @@ public class MNewsletter extends BaseEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "slug")
+    @Column(name = "slug", unique = true)
     private String slug;
 
     @Column(name = "description", columnDefinition = "TEXT")

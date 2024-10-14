@@ -17,6 +17,8 @@ public interface NewsletterService {
 
     NewsletterResponse findById(Long id);
 
+    NewsletterResponse findBySlug(String slug);
+
     NewsletterResponse create(NewsletterRequest request, HeaderRequest header);
 
     NewsletterResponse update(Long id, NewsletterRequest request, HeaderRequest header);

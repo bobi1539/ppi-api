@@ -5,7 +5,10 @@ import com.grasia.prima.ppi.api.exception.BusinessException;
 
 import java.security.SecureRandom;
 import java.text.MessageFormat;
+import java.text.Normalizer;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public final class StringHelper {
 
@@ -50,5 +53,17 @@ public final class StringHelper {
             }
         }
         return false;
+    }
+
+    public static String createSlug(String value) {
+        String normalizedTitle = Normalizer.normalize(value, Normalizer.Form.NFD);
+        String slug = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+                .matcher(normalizedTitle)
+                .replaceAll("");
+
+        slug = slug.replaceAll("[^\\w\\s-]", "").toLowerCase(Locale.ROOT);
+        slug = slug.replaceAll("[-\\s]+", "-");
+        slug = slug.replaceAll("^-|-$", "");
+        return slug;
     }
 }
