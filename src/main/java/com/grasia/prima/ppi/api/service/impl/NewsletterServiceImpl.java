@@ -23,7 +23,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -63,8 +62,10 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
     public NewsletterResponse create(NewsletterRequest request, HeaderRequest header) {
         MNewsletter newsletter = MNewsletter.builder().build();
         newsletter.setSlug(getSlugWhenCreate(request.getTitle()));
-
-        setNewsletter(newsletter, request);
+        newsletter.setTitle(request.getTitle());
+        newsletter.setDescription(request.getDescription());
+        newsletter.setCover(saveFile(request.getCoverFileName(), request.getCoverBase64()));
+        newsletter.setContent(saveFile(request.getContentFileName(), request.getContentBase64()));
         setCreatedBy(newsletter, header);
         setUpdatedBy(newsletter, header);
 
@@ -76,8 +77,10 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
     public NewsletterResponse update(Long id, NewsletterRequest request, HeaderRequest header) {
         MNewsletter newsletter = getNewsletterById(id);
         newsletter.setSlug(getSlugWhenUpdate(request.getTitle(), newsletter));
-
-        setNewsletter(newsletter, request);
+        newsletter.setTitle(request.getTitle());
+        newsletter.setDescription(request.getDescription());
+        saveAndDeleteCover(newsletter, request);
+        saveAndDeleteContent(newsletter, request);
         setUpdatedBy(newsletter, header);
 
         return toResponse(newsletterRepository.save(newsletter));
@@ -135,23 +138,6 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
             throw new BusinessException(GlobalMessage.SLUG_FROM_TITLE_ALREADY_EXIST);
         }
         return slug;
-    }
-
-    private void setNewsletter(MNewsletter newsletter, NewsletterRequest request) {
-        newsletter.setTitle(request.getTitle());
-        newsletter.setDescription(request.getDescription());
-
-        if (Objects.isNull(newsletter.getCover())) {
-            newsletter.setCover(saveFile(request.getCoverFileName(), request.getCoverBase64()));
-        } else {
-            saveAndDeleteCover(newsletter, request);
-        }
-
-        if (Objects.isNull(newsletter.getContent())) {
-            newsletter.setContent(saveFile(request.getContentFileName(), request.getContentBase64()));
-        } else {
-            saveAndDeleteContent(newsletter, request);
-        }
     }
 
     private String saveFile(String fileName, String base64String) {
