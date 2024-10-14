@@ -73,9 +73,11 @@ public final class Constant {
     public static final String NEWSLETTER_COVER_REQUIRED = "Newsletter Cover Is Required";
     public static final String NEWSLETTER_FILE_REQUIRED = "Newsletter File Is Required";
     public static final String SLUG_FROM_TITLE_ALREADY_EXIST = "Slug From Title Already Exist, Please Change The Title";
+    public static final String EVENT_ID_REQUIRED = "Event Id Is Required";
     public static final String EVENT_TITLE_REQUIRED = "Event Title Is Required";
     public static final String EVENT_DESCRIPTION_REQUIRED = "Event Description Is Required";
     public static final String EVENT_COVER_REQUIRED = "Event Cover Is Required";
     public static final String EVENT_START_DATE_REQUIRED = "Event Start Date Is Required";
     public static final String EVENT_END_DATE_REQUIRED = "Event End Date Is Required";
+    public static final String GALLERY_FILE_REQUIRED = "Gallery File Is Required";
 }

@@ -23,4 +23,5 @@ public final class Endpoint {
     public static final String FILE = BASE + "/files";
     public static final String NEWSLETTER = BASE + "/newsletters";
     public static final String EVENT = BASE + "/events";
+    public static final String GALLERY = BASE + "/galleries";
 }
