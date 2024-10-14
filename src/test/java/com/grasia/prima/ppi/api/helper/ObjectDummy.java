@@ -400,4 +400,37 @@ public final class ObjectDummy {
                 .division(getDivisionResponse())
                 .build();
     }
+
+    public static MNewsletter getNewsletter() {
+        return MNewsletter.builder()
+                .id(1L)
+                .slug("test")
+                .title("test")
+                .description("test desc")
+                .cover("cover.png")
+                .content("content.png")
+                .build();
+    }
+
+    public static NewsletterRequest getNewsletterRequest() {
+        return NewsletterRequest.builder()
+                .title("test")
+                .description("test desc")
+                .coverBase64("string")
+                .coverFileName("cover.png")
+                .contentBase64("string")
+                .contentFileName("content.png")
+                .build();
+    }
+
+    public static NewsletterResponse getNewsletterResponse() {
+        return NewsletterResponse.builder()
+                .id(1L)
+                .slug("test")
+                .title("test")
+                .description("test desc")
+                .cover("cover.png")
+                .content("content.png")
+                .build();
+    }
 }

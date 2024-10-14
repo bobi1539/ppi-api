@@ -51,4 +51,10 @@ class StringHelperTest {
         assertNotNull(random);
         assertEquals(20, random.length());
     }
+
+    @Test
+    void testCreateSlug() {
+        String slug = StringHelper.createSlug("hello & dunia");
+        assertEquals("hello-dunia", slug);
+    }
 }
