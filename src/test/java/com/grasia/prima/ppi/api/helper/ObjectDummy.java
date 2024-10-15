@@ -4,10 +4,7 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.JwtComponentDto;
 import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.*;
-import com.grasia.prima.ppi.api.dto.search.DivisionSearchDto;
-import com.grasia.prima.ppi.api.dto.search.SearchDto;
-import com.grasia.prima.ppi.api.dto.search.StaffSearchDto;
-import com.grasia.prima.ppi.api.dto.search.SystemParameterListSearchDto;
+import com.grasia.prima.ppi.api.dto.search.*;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import org.springframework.http.MediaType;
@@ -466,6 +463,40 @@ public final class ObjectDummy {
                 .cover("cover.png")
                 .startDate(LocalDate.of(2024, 10, 10))
                 .endDate(LocalDate.of(2024, 11, 10))
+                .build();
+    }
+
+    public static GallerySearchDto getGallerySearchDto() {
+        return GallerySearchDto.builder()
+                .eventId(1L)
+                .search("")
+                .isDeleted(false)
+                .page(1)
+                .size(10)
+                .build();
+    }
+
+    public static MGallery getGallery() {
+        return MGallery.builder()
+                .id(1L)
+                .fileName("gallery.png")
+                .event(getEvent())
+                .build();
+    }
+
+    public static GalleryRequest getGalleryRequest() {
+        return GalleryRequest.builder()
+                .fileBase64("aGVsbG8=")
+                .fileName("gallery.png")
+                .eventId(1L)
+                .build();
+    }
+
+    public static GalleryResponse getGalleryResponse() {
+        return GalleryResponse.builder()
+                .id(1L)
+                .fileName("gallery.png")
+                .event(getEventResponse())
                 .build();
     }
 }
