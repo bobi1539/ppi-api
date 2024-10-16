@@ -2,9 +2,11 @@ package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.Endpoint;
+import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleMenuRequest;
 import com.grasia.prima.ppi.api.dto.response.UserRoleMenuResponse;
 import com.grasia.prima.ppi.api.service.UserRoleMenuService;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserRoleMenuController {
 
     private final UserRoleMenuService userRoleMenuService;
+
+    @GetMapping
+    public UserRoleMenuResponse findByHeader(
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return userRoleMenuService.findByHeader(header);
+    }
 
     @GetMapping("/{userRoleId}")
     public UserRoleMenuResponse findByUserRoleId(@PathVariable Long userRoleId) {

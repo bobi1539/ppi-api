@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.service.impl;
 
+import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleMenuRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleSubMenuRequest;
 import com.grasia.prima.ppi.api.dto.response.MenuResponse;
@@ -10,10 +11,7 @@ import com.grasia.prima.ppi.api.helper.entity.MenuHelper;
 import com.grasia.prima.ppi.api.helper.entity.SubMenuHelper;
 import com.grasia.prima.ppi.api.repository.UserRoleMenuRepository;
 import com.grasia.prima.ppi.api.repository.UserRoleSubMenuRepository;
-import com.grasia.prima.ppi.api.service.MenuService;
-import com.grasia.prima.ppi.api.service.SubMenuService;
-import com.grasia.prima.ppi.api.service.UserRoleMenuService;
-import com.grasia.prima.ppi.api.service.UserRoleService;
+import com.grasia.prima.ppi.api.service.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +28,13 @@ public class UserRoleMenuServiceImpl implements UserRoleMenuService {
     private final UserRoleService roleService;
     private final MenuService menuService;
     private final SubMenuService subMenuService;
+    private final UserService userService;
+
+    @Override
+    public UserRoleMenuResponse findByHeader(HeaderRequest header) {
+        MUser user = userService.getUserById(header.getUserId());
+        return findByUserRoleId(user.getUserRole().getId());
+    }
 
     @Override
     public UserRoleMenuResponse findByUserRoleId(Long userRoleId) {
