@@ -4,7 +4,6 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
 import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
-import com.grasia.prima.ppi.api.dto.response.UserRoleMenuResponse;
 import com.grasia.prima.ppi.api.entity.LogAuth;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.exception.BusinessException;
@@ -12,7 +11,6 @@ import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.repository.LogAuthRepository;
 import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.service.JwtService;
-import com.grasia.prima.ppi.api.service.UserRoleMenuService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,16 +43,11 @@ class AuthServiceImplTest {
     @Mock
     private LogAuthRepository logAuthRepository;
 
-    @Mock
-    private UserRoleMenuService userRoleMenuService;
-
     private final LoginRequest loginRequest = ObjectDummy.getLoginRequest();
     private final MUser user = ObjectDummy.getUser();
     private final LogAuth logAuth = ObjectDummy.getLogAuth();
     private final RefreshTokenRequest refreshTokenRequest = ObjectDummy.getRefreshTokenRequest();
-    private final UserRoleMenuResponse userRoleMenuResponse = ObjectDummy.getUserRoleMenuResponse();
     private static final String USERNAME = "admin";
-
 
     @BeforeEach
     void setUp() {
@@ -67,7 +60,6 @@ class AuthServiceImplTest {
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
         when(jwtService.generateToken(any())).thenReturn(ObjectDummy.JWT);
         when(logAuthRepository.save(any())).thenReturn(logAuth);
-        when(userRoleMenuService.findByUserRoleId(any())).thenReturn(userRoleMenuResponse);
 
         LoginResponse response = authService.login(loginRequest);
         assertEquals(ObjectDummy.JWT, response.getJwt());
@@ -77,7 +69,6 @@ class AuthServiceImplTest {
         verify(passwordEncoder).matches(anyString(), anyString());
         verify(jwtService).generateToken(any());
         verify(logAuthRepository).save(any());
-        verify(userRoleMenuService).findByUserRoleId(any());
     }
 
     @Test
@@ -109,7 +100,6 @@ class AuthServiceImplTest {
         when(logAuthRepository.findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any()))
                 .thenReturn(Optional.of(logAuth));
         when(jwtService.generateToken(any())).thenReturn(ObjectDummy.JWT);
-        when(userRoleMenuService.findByUserRoleId(any())).thenReturn(userRoleMenuResponse);
 
         LoginResponse response = authService.loginWithRefreshToken(refreshTokenRequest);
         assertEquals(ObjectDummy.JWT, response.getJwt());
@@ -117,7 +107,6 @@ class AuthServiceImplTest {
 
         verify(logAuthRepository).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
         verify(jwtService).generateToken(any());
-        verify(userRoleMenuService).findByUserRoleId(any());
     }
 
     @Test

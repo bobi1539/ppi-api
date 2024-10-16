@@ -5,7 +5,6 @@ import com.grasia.prima.ppi.api.dto.JwtComponentDto;
 import com.grasia.prima.ppi.api.dto.request.LoginRequest;
 import com.grasia.prima.ppi.api.dto.request.RefreshTokenRequest;
 import com.grasia.prima.ppi.api.dto.response.LoginResponse;
-import com.grasia.prima.ppi.api.dto.response.UserRoleMenuResponse;
 import com.grasia.prima.ppi.api.entity.LogAuth;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.exception.BusinessException;
@@ -14,7 +13,7 @@ import com.grasia.prima.ppi.api.repository.LogAuthRepository;
 import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.service.AuthService;
 import com.grasia.prima.ppi.api.service.JwtService;
-import com.grasia.prima.ppi.api.service.UserRoleMenuService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,8 +28,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final LogAuthRepository logAuthRepository;
-    private final UserRoleMenuService userRoleMenuService;
 
+    @Transactional
     @Override
     public LoginResponse login(LoginRequest request) {
         MUser user = getByUsername(request.getUsername());
@@ -38,14 +37,15 @@ public class AuthServiceImpl implements AuthService {
 
         String jwt = generateToken(user);
         String refreshToken = saveLogAuth(user);
-        return buildLoginResponse(jwt, refreshToken, user.getUserRole().getId());
+        return buildLoginResponse(jwt, refreshToken);
     }
 
+    @Transactional
     @Override
     public LoginResponse loginWithRefreshToken(RefreshTokenRequest request) {
         LogAuth logAuth = findLogAuthByRefreshToken(request.getRefreshToken());
         String jwt = generateToken(logAuth.getUser());
-        return buildLoginResponse(jwt, logAuth.getRefreshToken(), logAuth.getUser().getUserRole().getId());
+        return buildLoginResponse(jwt, logAuth.getRefreshToken());
     }
 
     private MUser getByUsername(String username) {
@@ -79,16 +79,11 @@ public class AuthServiceImpl implements AuthService {
         return logAuth.getRefreshToken();
     }
 
-    private LoginResponse buildLoginResponse(String jwt, String refreshToken, Long userRoleId) {
+    private LoginResponse buildLoginResponse(String jwt, String refreshToken) {
         return LoginResponse.builder()
                 .jwt(jwt)
                 .refreshToken(refreshToken)
-                .userRoleMenu(getUserRoleMenu(userRoleId))
                 .build();
-    }
-
-    private UserRoleMenuResponse getUserRoleMenu(Long userRoleId) {
-        return userRoleMenuService.findByUserRoleId(userRoleId);
     }
 
     private LogAuth findLogAuthByRefreshToken(String refreshToken) {
