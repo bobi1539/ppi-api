@@ -35,7 +35,7 @@ public class UserRoleController extends BaseController {
     public Page<UserRoleResponse> findAllPagination(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isDeleted,
-            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
         return userRoleService.findAllPagination(buildSearchDto(search, isDeleted, page, size));

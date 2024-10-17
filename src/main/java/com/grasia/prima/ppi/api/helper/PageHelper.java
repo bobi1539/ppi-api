@@ -24,9 +24,9 @@ public final class PageHelper {
     }
 
     public static int getPageNumber(int pageNumber) {
-        if (pageNumber == 0) {
-            return pageNumber;
+        if (pageNumber < 0) {
+            throw new BusinessException(GlobalMessage.PAGE_NUMBER_NOT_VALID);
         }
-        return pageNumber - 1;
+        return pageNumber;
     }
 }

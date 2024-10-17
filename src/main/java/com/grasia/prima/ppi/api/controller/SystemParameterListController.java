@@ -40,7 +40,7 @@ public class SystemParameterListController {
     public Page<SystemParameterListResponse> findAllPagination(
             @RequestParam Long systemParameterId,
             @RequestParam(required = false) String search,
-            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
         SystemParameterListSearchDto searchDto = SystemParameterListSearchDto.builder()

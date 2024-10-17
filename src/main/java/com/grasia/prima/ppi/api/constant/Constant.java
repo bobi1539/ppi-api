@@ -80,4 +80,5 @@ public final class Constant {
     public static final String EVENT_START_DATE_REQUIRED = "Event Start Date Is Required";
     public static final String EVENT_END_DATE_REQUIRED = "Event End Date Is Required";
     public static final String GALLERY_FILE_REQUIRED = "Gallery File Is Required";
+    public static final String PAGE_NUMBER_NOT_VALID = "Page Number Cannot Less Than Zero";
 }

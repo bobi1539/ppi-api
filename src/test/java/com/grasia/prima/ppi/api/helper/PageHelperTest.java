@@ -32,4 +32,11 @@ class PageHelperTest {
         int pageNumber = PageHelper.getPageNumber(0);
         assertEquals(0, pageNumber);
     }
+
+    @Test
+    void testGetPageNumber_NotValid() {
+        BusinessException e = assertThrows(BusinessException.class, () -> PageHelper.getPageNumber(-100));
+        assertEquals(GlobalMessage.PAGE_NUMBER_NOT_VALID.status, e.getStatus());
+        assertEquals(GlobalMessage.PAGE_NUMBER_NOT_VALID.message, e.getMessage());
+    }
 }

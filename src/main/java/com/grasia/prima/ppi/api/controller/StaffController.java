@@ -43,7 +43,7 @@ public class StaffController {
             @RequestParam(required = false) Long divisionId,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isDeleted,
-            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
         StaffSearchDto searchDto = StaffSearchDto.builder()
