@@ -282,6 +282,7 @@ public final class ObjectDummy {
                 .name("Sub Menu 1")
                 .route("sub-menu-1")
                 .sequence(1)
+                .menuId(1L)
                 .build();
     }
 

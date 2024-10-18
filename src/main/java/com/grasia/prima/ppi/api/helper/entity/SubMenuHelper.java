@@ -17,6 +17,7 @@ public final class SubMenuHelper {
                 .name(subMenu.getName())
                 .route(subMenu.getRoute())
                 .sequence(subMenu.getSequence())
+                .menuId(subMenu.getMenu().getId())
                 .build();
         BaseEntityHelper.setBaseEntityResponse(response, subMenu);
         return response;

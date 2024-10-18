@@ -16,4 +16,5 @@ public class SubMenuResponse extends BaseEntityResponse {
     private String name;
     private String route;
     private Integer sequence;
+    private Long menuId;
 }
