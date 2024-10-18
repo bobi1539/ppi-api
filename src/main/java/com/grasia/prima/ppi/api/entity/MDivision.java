@@ -28,6 +28,8 @@ public class MDivision extends BaseEntity {
     @JoinColumn(name = "period_id")
     private MPeriod period;
 
+    public static final String FIELD_ID = "id";
     public static final String FIELD_NAME = "name";
     public static final String FIELD_PERIOD = "period";
+    public static final String FIELD_PERIOD_ID = "period.id";
 }

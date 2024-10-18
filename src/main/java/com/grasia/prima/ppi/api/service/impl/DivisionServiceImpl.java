@@ -6,6 +6,7 @@ import com.grasia.prima.ppi.api.dto.response.DivisionResponse;
 import com.grasia.prima.ppi.api.dto.search.DivisionSearchDto;
 import com.grasia.prima.ppi.api.entity.MDivision;
 import com.grasia.prima.ppi.api.entity.MPeriod;
+import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.DivisionHelper;
 import com.grasia.prima.ppi.api.repository.DivisionRepository;
@@ -15,6 +16,8 @@ import com.grasia.prima.ppi.api.service.PeriodService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +32,14 @@ public class DivisionServiceImpl extends AbstractCrudService implements Division
 
     @Override
     public List<DivisionResponse> findAll(DivisionSearchDto searchDto) {
-        List<MDivision> divisions = divisionRepository.findAll(getSpecificationFindAll(searchDto), sortByIdAsc());
+        List<MDivision> divisions = divisionRepository.findAll(getSpecificationFindAll(searchDto), sortByIdAndPeriodIdAsc());
         return divisions.stream().map(this::toResponse).toList();
     }
 
     @Override
     public Page<DivisionResponse> findAllPagination(DivisionSearchDto searchDto) {
         Page<MDivision> divisions = divisionRepository
-                .findAll(getSpecificationFindAll(searchDto), pageableSortByIdAsc(searchDto));
+                .findAll(getSpecificationFindAll(searchDto), pageableSortByIdAndPeriodIdAsc(searchDto));
         return divisions.map(this::toResponse);
     }
 
@@ -104,6 +107,15 @@ public class DivisionServiceImpl extends AbstractCrudService implements Division
         return spec
                 .and(SpecificationHelper.entityIdEquals(MDivision.FIELD_PERIOD, searchDto.getPeriodId()))
                 .and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
+    }
+
+    private Sort sortByIdAndPeriodIdAsc() {
+        return Sort.by(MDivision.FIELD_PERIOD_ID).and(Sort.by(MDivision.FIELD_ID));
+    }
+
+    private Pageable pageableSortByIdAndPeriodIdAsc(DivisionSearchDto searchDto) {
+        Sort sort = sortByIdAndPeriodIdAsc();
+        return PageHelper.buildPageRequest(searchDto.getPage(), searchDto.getSize(), sort);
     }
 
     private void setDivision(MDivision division, DivisionRequest request) {
