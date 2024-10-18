@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.controller;
 
+import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleMenuRequest;
 import com.grasia.prima.ppi.api.dto.response.UserRoleMenuResponse;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
@@ -29,6 +30,18 @@ class UserRoleMenuControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testFindByHeader() {
+        HeaderRequest header = ObjectDummy.getHeaderRequest();
+        when(service.findByHeader(header)).thenReturn(userRoleMenuResponse);
+
+        UserRoleMenuResponse response = controller.findByHeader(header);
+        assertEquals(userRoleMenuResponse.getUserRoleId(), response.getUserRoleId());
+        assertEquals(userRoleMenuResponse.getName(), response.getName());
+
+        verify(service).findByHeader(header);
     }
 
     @Test

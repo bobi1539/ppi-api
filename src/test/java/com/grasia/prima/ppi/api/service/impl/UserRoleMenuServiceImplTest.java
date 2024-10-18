@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.service.impl;
 
+import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleMenuRequest;
 import com.grasia.prima.ppi.api.dto.response.UserRoleMenuResponse;
 import com.grasia.prima.ppi.api.entity.*;
@@ -9,6 +10,7 @@ import com.grasia.prima.ppi.api.repository.UserRoleSubMenuRepository;
 import com.grasia.prima.ppi.api.service.MenuService;
 import com.grasia.prima.ppi.api.service.SubMenuService;
 import com.grasia.prima.ppi.api.service.UserRoleService;
+import com.grasia.prima.ppi.api.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -40,15 +42,37 @@ class UserRoleMenuServiceImplTest {
     @Mock
     private SubMenuService subMenuService;
 
+    @Mock
+    private UserService userService;
+
     private final UserRoleMenuRequest userRoleMenuRequest = ObjectDummy.getUserRoleMenuRequest();
     private final TUserRoleMenu userRoleMenu = ObjectDummy.getUserRoleMenu();
     private final TUserRoleSubMenu userRoleSubMenu = ObjectDummy.getUserRoleSubMenu();
     private final MUserRole userRole = ObjectDummy.getUserRole();
     private final Long userRoleId = 1L;
+    private final HeaderRequest header = ObjectDummy.getHeaderRequest();
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testFindByHeader_Success() {
+        when(userService.getUserById(1L)).thenReturn(ObjectDummy.getUser());
+        when(userRoleService.getUserRoleById(userRoleId)).thenReturn(userRole);
+        when(roleMenuRepository.findByUserRoleOrderByMenuSequenceAsc(userRole)).thenReturn(List.of(userRoleMenu));
+        when(roleSubMenuRepository.findByUserRoleOrderBySubMenuSequenceAsc(userRole)).thenReturn(List.of(userRoleSubMenu));
+
+        UserRoleMenuResponse response = userRoleMenuService.findByHeader(header);
+        assertEquals(userRole.getId(), response.getUserRoleId());
+        assertEquals(userRole.getName(), response.getName());
+        assertEquals(1, response.getMenus().size());
+
+        verify(userService).getUserById(1L);
+        verify(userRoleService).getUserRoleById(userRoleId);
+        verify(roleMenuRepository).findByUserRoleOrderByMenuSequenceAsc(userRole);
+        verify(roleSubMenuRepository).findByUserRoleOrderBySubMenuSequenceAsc(userRole);
     }
 
     @Test
