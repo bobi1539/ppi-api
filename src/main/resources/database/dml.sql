@@ -17,8 +17,8 @@ VALUES('2024-10-15 21:32:24.400', 1, 'Super Admin', false, '2024-10-15 21:32:24.
 
 
 INSERT INTO public.m_user
-(created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, birth_date, education, email, full_name, graduation, "password", username, gender_id, user_role_id)
-VALUES('2024-10-15 21:32:24.400', 1, 'Super Admin', false, '2024-10-15 21:32:24.400', 1, 'Super Admin', '1991-01-01', NULL, 'superadmin@gmail.com', 'Super Admin', NULL, '$2a$12$pti4QW.pJf1HjDODD55RGuKjShUYtcs08qroBbtFrPGN1ZT1gjrVq', 'superadmin', 1, 1);
+(created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, description, email, email_verified_at, is_active, name, "password", photo, username, user_role_id)
+VALUES('2024-10-15 21:32:24.400', 1, 'Super Admin', false, '2024-10-15 21:32:24.400', 1, 'Super Admin', 'User Super admin', 'superadmin@gmail.com', '2024-10-15 21:32:24.400', true, 'Super Admin', '$2a$12$pti4QW.pJf1HjDODD55RGuKjShUYtcs08qroBbtFrPGN1ZT1gjrVq', NULL, 'superadmin', 1);
 
 
 INSERT INTO public.m_menu
