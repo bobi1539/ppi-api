@@ -12,6 +12,8 @@ public interface UserService {
 
     Page<UserResponse> findAllPagination(SearchDto searchDto);
 
+    UserResponse findByHeader(HeaderRequest header);
+
     UserResponse findById(Long id);
 
     UserResponse create(UserCreateRequest request, HeaderRequest header);

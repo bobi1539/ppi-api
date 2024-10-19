@@ -60,13 +60,13 @@ public final class ObjectDummy {
                 .id(1L)
                 .username("admin")
                 .password("$2a$12$aXJHIHcSPjINQaVjgxmKgOtsN9Ifb7D3TatHZYBjIk4ZEVu6E7lb2")
-                .fullName("admin")
+                .name("admin")
                 .email("admin@gmail.com")
-                .birthDate(LocalDate.of(1990, 1, 1))
-                .education("education")
-                .graduation("graduation")
+                .emailVerifiedAt(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
+                .isActive(true)
+                .photo("photo.png")
+                .description("description")
                 .userRole(getUserRole())
-                .gender(getSystemParameterList())
                 .build();
     }
 
@@ -75,26 +75,26 @@ public final class ObjectDummy {
                 .username("admin")
                 .password("admin")
                 .passwordConfirm("admin")
-                .fullName("admin")
+                .name("admin")
                 .email("admin@gmail.com")
-                .birthDate(LocalDate.of(1990, 1, 1))
-                .education("education")
-                .graduation("graduation")
+                .isActive(true)
+                .photoBase64("string")
+                .photoFileName("photo.png")
+                .description("description")
                 .userRoleId(1L)
-                .genderId(1L)
                 .build();
     }
 
     public static UserUpdateRequest getUserUpdateRequest() {
         return UserUpdateRequest.builder()
                 .username("admin")
-                .fullName("admin")
+                .name("admin")
                 .email("admin@gmail.com")
-                .birthDate(LocalDate.of(1990, 1, 1))
-                .education("education")
-                .graduation("graduation")
+                .isActive(true)
+                .photoBase64("string")
+                .photoFileName("photo.png")
+                .description("description")
                 .userRoleId(1L)
-                .genderId(1L)
                 .build();
     }
 
@@ -102,13 +102,13 @@ public final class ObjectDummy {
         return UserResponse.builder()
                 .id(1L)
                 .username("admin")
-                .fullName("admin")
+                .name("admin")
                 .email("admin@gmail.com")
-                .birthDate(LocalDate.of(1990, 1, 1))
-                .education("education")
-                .graduation("graduation")
+                .emailVerifiedAt(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
+                .isActive(true)
+                .photo("photo.png")
+                .description("description")
                 .userRole(getUserRoleResponse())
-                .gender(getSystemParameterListResponse())
                 .build();
     }
 
@@ -264,6 +264,7 @@ public final class ObjectDummy {
                 .name("Sub Menu 1")
                 .route("sub-menu-1")
                 .sequence(1)
+                .menu(getMenu())
                 .build();
     }
 

@@ -50,12 +50,23 @@ class UserControllerTest extends ControllerTest {
     }
 
     @Test
+    void testFindByHeader() {
+        when(service.findByHeader(header)).thenReturn(userResponse);
+
+        UserResponse response = controller.findByHeader(header);
+        assertEquals(userResponse.getId(), response.getId());
+        assertEquals(userResponse.getName(), response.getName());
+
+        verify(service, times(1)).findByHeader(header);
+    }
+
+    @Test
     void testFindById() {
         when(service.findById(id)).thenReturn(userResponse);
 
         UserResponse response = controller.findById(id);
         assertEquals(userResponse.getId(), response.getId());
-        assertEquals(userResponse.getFullName(), response.getFullName());
+        assertEquals(userResponse.getName(), response.getName());
 
         verify(service, times(1)).findById(id);
     }
@@ -66,7 +77,7 @@ class UserControllerTest extends ControllerTest {
 
         UserResponse response = controller.create(createRequest, header);
         assertEquals(userResponse.getId(), response.getId());
-        assertEquals(userResponse.getFullName(), response.getFullName());
+        assertEquals(userResponse.getName(), response.getName());
 
         verify(service, times(1)).create(any(), any());
     }
@@ -77,7 +88,7 @@ class UserControllerTest extends ControllerTest {
 
         UserResponse response = controller.update(id, updateRequest, header);
         assertEquals(userResponse.getId(), response.getId());
-        assertEquals(userResponse.getFullName(), response.getFullName());
+        assertEquals(userResponse.getName(), response.getName());
 
         verify(service, times(1)).update(any(), any(), any());
     }
@@ -88,7 +99,7 @@ class UserControllerTest extends ControllerTest {
 
         UserResponse response = controller.delete(id, header);
         assertEquals(userResponse.getId(), response.getId());
-        assertEquals(userResponse.getFullName(), response.getFullName());
+        assertEquals(userResponse.getName(), response.getName());
 
         verify(service, times(1)).delete(any(), any());
     }
@@ -99,7 +110,7 @@ class UserControllerTest extends ControllerTest {
 
         UserResponse response = controller.restore(id, header);
         assertEquals(userResponse.getId(), response.getId());
-        assertEquals(userResponse.getFullName(), response.getFullName());
+        assertEquals(userResponse.getName(), response.getName());
 
         verify(service, times(1)).restore(any(), any());
     }

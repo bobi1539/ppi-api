@@ -14,6 +14,9 @@ public final class UserRoleHelper {
     }
 
     public static UserRoleResponse toUserRoleResponse(MUserRole userRole) {
+        if (Objects.isNull(userRole)) {
+            return null;
+        }
         UserRoleResponse response = UserRoleResponse.builder()
                 .id(userRole.getId())
                 .name(userRole.getName())

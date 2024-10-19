@@ -25,11 +25,18 @@ class UserRoleHelperTest {
     }
 
     @Test
+    void testToUserRoleResponse_UserRoleIsNull() {
+        UserRoleResponse response = UserRoleHelper.toUserRoleResponse(null);
+        assertNull(response);
+    }
+
+    @Test
     void testToUserRoleResponse_UsersNotNull() {
         MUserRole userRole = ObjectDummy.getUserRole();
         userRole.setUsers(List.of(ObjectDummy.getUser()));
 
         UserRoleResponse response = UserRoleHelper.toUserRoleResponse(userRole);
+        assert response != null;
         assertEquals(1, response.getUserCount());
     }
 }

@@ -32,6 +32,13 @@ public class UserController extends BaseController {
         return userService.findAllPagination(buildSearchDto(search, isDeleted, page, size));
     }
 
+    @GetMapping("/header")
+    public UserResponse findByHeader(
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return userService.findByHeader(header);
+    }
+
     @GetMapping("/{id}")
     public UserResponse findById(@PathVariable Long id) {
         return userService.findById(id);

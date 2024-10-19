@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
         JwtComponentDto dto = JwtComponentDto.builder()
                 .userId(user.getId().toString())
                 .username(user.getUsername())
-                .userFullName(user.getFullName())
+                .userFullName(user.getName())
                 .build();
         return jwtService.generateToken(dto);
     }

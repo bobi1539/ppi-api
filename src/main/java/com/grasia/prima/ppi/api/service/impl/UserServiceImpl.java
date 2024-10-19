@@ -1,12 +1,9 @@
 package com.grasia.prima.ppi.api.service.impl;
 
-import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
-import com.grasia.prima.ppi.api.dto.request.UserCreateRequest;
-import com.grasia.prima.ppi.api.dto.request.UserRequest;
-import com.grasia.prima.ppi.api.dto.request.UserUpdateRequest;
+import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
+import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.UserResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
-import com.grasia.prima.ppi.api.entity.MSystemParameterList;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
@@ -24,15 +21,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @AllArgsConstructor
 @Service
 public class UserServiceImpl extends AbstractCrudService implements UserDetailsService, UserService {
 
     private final UserRepository userRepository;
     private final UserRoleService roleService;
-    private final SystemParameterListService parameterListService;
     private final UserValidationService userValidationService;
+    private final FileService fileService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static final String DIRECTORY_NAME = "user";
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,6 +43,11 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     public Page<UserResponse> findAllPagination(SearchDto searchDto) {
         Page<MUser> users = userRepository.findAll(getSpecificationFindAll(searchDto), pageableSortByIdAsc(searchDto));
         return users.map(this::toResponse);
+    }
+
+    @Override
+    public UserResponse findByHeader(HeaderRequest header) {
+        return toResponse(getUserById(header.getUserId()));
     }
 
     @Override
@@ -61,6 +66,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         MUser user = MUser.builder().build();
         setUser(user, request);
         setUserPassword(user, request.getPassword());
+        savePhotoWhenCreate(user, request);
         setCreatedBy(user, header);
         setUpdatedBy(user, header);
 
@@ -76,6 +82,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         userValidationService.validateUpdateEmail(user, request.getEmail());
 
         setUser(user, request);
+        savePhotoWhenUpdate(user, request);
         setUpdatedBy(user, header);
 
         user = userRepository.save(user);
@@ -119,7 +126,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     private Specification<MUser> getSpecificationStringLike(String value) {
         Specification<MUser> spec = SpecificationHelper.stringLike(MUser.FIELD_USERNAME, value);
         return spec
-                .or(SpecificationHelper.stringLike(MUser.FIELD_FULL_NAME, value))
+                .or(SpecificationHelper.stringLike(MUser.FIELD_NAME, value))
                 .or(SpecificationHelper.stringLike(MUser.FIELD_EMAIL, value));
     }
 
@@ -129,13 +136,45 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
 
     private void setUser(MUser user, UserRequest request) {
         user.setUsername(request.getUsername());
-        user.setFullName(request.getFullName());
+        user.setName(request.getName());
         user.setEmail(request.getEmail());
-        user.setBirthDate(request.getBirthDate());
-        user.setEducation(request.getEducation());
-        user.setGraduation(request.getGraduation());
+        user.setIsActive(request.getIsActive());
+        user.setDescription(request.getDescription());
         user.setUserRole(getUserRoleById(request.getUserRoleId()));
-        user.setGender(getParameterListById(request.getGenderId()));
+    }
+
+    private boolean isPhotoRequestNotNull(UserRequest request) {
+        return Objects.nonNull(request.getPhotoBase64()) && Objects.nonNull(request.getPhotoFileName());
+    }
+
+    private void savePhotoWhenCreate(MUser user, UserRequest request) {
+        if (isPhotoRequestNotNull(request)) {
+            user.setPhoto(saveFile(request.getPhotoFileName(), request.getPhotoBase64()));
+        }
+    }
+
+    private void savePhotoWhenUpdate(MUser user, UserRequest request) {
+        if (isPhotoRequestNotNull(request) && !user.getPhoto().equals(request.getPhotoFileName())) {
+            deleteFile(user.getPhoto());
+            user.setPhoto(saveFile(request.getPhotoFileName(), request.getPhotoBase64()));
+        }
+    }
+
+    private String saveFile(String fileName, String base64String) {
+        Base64ToFileDto dto = Base64ToFileDto.builder()
+                .directoryName(DIRECTORY_NAME)
+                .fileName(fileName)
+                .base64String(base64String)
+                .build();
+        return fileService.saveFileFromBase64(dto);
+    }
+
+    private void deleteFile(String fileName) {
+        FileRequest fileRequest = FileRequest.builder()
+                .directoryName(DIRECTORY_NAME)
+                .fileName(fileName)
+                .build();
+        fileService.deleteFile(fileRequest);
     }
 
     private void setUserPassword(MUser user, String password) {
@@ -148,9 +187,5 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
 
     private MUser getUserDeleted(Long id) {
         return userRepository.findByIdAndIsDeleted(id, true).orElseThrow(getNotFoundException());
-    }
-
-    private MSystemParameterList getParameterListById(Long id) {
-        return parameterListService.getSystemParameterListById(id);
     }
 }

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,11 +16,11 @@ import java.time.LocalDate;
 public class UserResponse extends BaseEntityResponse {
     private Long id;
     private String username;
-    private String fullName;
+    private String name;
     private String email;
-    private LocalDate birthDate;
-    private String education;
-    private String graduation;
+    private LocalDateTime emailVerifiedAt;
+    private Boolean isActive;
+    private String photo;
+    private String description;
     private UserRoleResponse userRole;
-    private SystemParameterListResponse gender;
 }

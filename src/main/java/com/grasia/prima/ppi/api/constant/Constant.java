@@ -22,13 +22,9 @@ public final class Constant {
     public static final String USERNAME_REQUIRED = "Username Is Required";
     public static final String PASSWORD_REQUIRED = "Password Is Required";
     public static final String PASSWORD_CONFIRM_REQUIRED = "Password Confirm Is Required";
-    public static final String FULL_NAME_REQUIRED = "Full Name Is Required";
+    public static final String NAME_REQUIRED = "Name Is Required";
     public static final String EMAIL_REQUIRED = "Email Is Required";
-    public static final String BIRTH_DATE_REQUIRED = "Birth Date Is Required";
-    public static final String EDUCATION_REQUIRED = "Education Is Required";
-    public static final String GRADUATION_REQUIRED = "Graduation Is Required";
     public static final String USER_ROLE_ID_REQUIRED = "User Role Id Is Required";
-    public static final String GENDER_ID_REQUIRED = "Gender Id Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
     public static final String DIVISION_ID_REQUIRED = "Division Id Is Required";
     public static final String DIVISION_NAME_REQUIRED = "Division Name Is Required";
@@ -37,6 +33,7 @@ public final class Constant {
     public static final String START_DATE_REQUIRED = "Start Date Is Required";
     public static final String END_DATE_REQUIRED = "End Date Is Required";
     public static final String STATUS_REQUIRED = "Status Is Required";
+    public static final String IS_ACTIVE_REQUIRED = "Is Active Required";
     public static final String SYSTEM_PARAMETER_NAME_REQUIRED = "Parameter Name Is Required";
     public static final String SYSTEM_PARAMETER_ID_REQUIRED = "Parameter Id Is Required";
     public static final String SYSTEM_PARAMETER_LIST_NAME_REQUIRED = "Parameter List Name Is Required";

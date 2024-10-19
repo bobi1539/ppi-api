@@ -3,10 +3,11 @@ package com.grasia.prima.ppi.api.dto.request;
 import com.grasia.prima.ppi.api.constant.Constant;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,28 +20,23 @@ public abstract class UserRequest {
     @NotEmpty(message = Constant.USERNAME_REQUIRED)
     protected String username;
 
-    @NotNull(message = Constant.FULL_NAME_REQUIRED)
-    @NotEmpty(message = Constant.FULL_NAME_REQUIRED)
-    protected String fullName;
+    @NotNull(message = Constant.NAME_REQUIRED)
+    @NotEmpty(message = Constant.NAME_REQUIRED)
+    protected String name;
 
     @NotNull(message = Constant.EMAIL_REQUIRED)
     @NotEmpty(message = Constant.EMAIL_REQUIRED)
     protected String email;
 
-    @NotNull(message = Constant.BIRTH_DATE_REQUIRED)
-    protected LocalDate birthDate;
+    @NotNull(message = Constant.IS_ACTIVE_REQUIRED)
+    protected Boolean isActive;
 
-    @NotNull(message = Constant.EDUCATION_REQUIRED)
-    @NotEmpty(message = Constant.EDUCATION_REQUIRED)
-    protected String education;
+    protected String photoBase64;
 
-    @NotNull(message = Constant.GRADUATION_REQUIRED)
-    @NotEmpty(message = Constant.GRADUATION_REQUIRED)
-    protected String graduation;
+    protected String photoFileName;
+
+    protected String description;
 
     @NotNull(message = Constant.USER_ROLE_ID_REQUIRED)
     protected Long userRoleId;
-
-    @NotNull(message = Constant.GENDER_ID_REQUIRED)
-    protected Long genderId;
 }

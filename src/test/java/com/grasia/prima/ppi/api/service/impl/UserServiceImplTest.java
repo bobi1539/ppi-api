@@ -4,13 +4,12 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.UserCreateRequest;
 import com.grasia.prima.ppi.api.dto.request.UserUpdateRequest;
 import com.grasia.prima.ppi.api.dto.response.UserResponse;
-import com.grasia.prima.ppi.api.entity.MSystemParameterList;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.repository.UserRepository;
-import com.grasia.prima.ppi.api.service.SystemParameterListService;
+import com.grasia.prima.ppi.api.service.FileService;
 import com.grasia.prima.ppi.api.service.UserRoleService;
 import com.grasia.prima.ppi.api.service.UserValidationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,16 +41,15 @@ class UserServiceImplTest extends ServiceTest {
     private UserRoleService roleService;
 
     @Mock
-    private SystemParameterListService parameterListService;
+    private UserValidationService userValidationService;
 
     @Mock
-    private UserValidationService userValidationService;
+    private FileService fileService;
 
     private final MUser user = ObjectDummy.getUser();
     private final UserCreateRequest createRequest = ObjectDummy.getUserCreateRequest();
     private final UserUpdateRequest updateRequest = ObjectDummy.getUserUpdateRequest();
     private final MUserRole userRole = ObjectDummy.getUserRole();
-    private final MSystemParameterList parameterList = ObjectDummy.getSystemParameterList();
     private static final String USERNAME = "admin";
 
     @BeforeEach
@@ -96,12 +94,23 @@ class UserServiceImplTest extends ServiceTest {
     }
 
     @Test
+    void testFindByHeader() {
+        when(userRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(user));
+
+        UserResponse response = userService.findByHeader(header);
+        assertEquals(user.getId(), response.getId());
+        assertEquals(user.getName(), response.getName());
+
+        verify(userRepository).findByIdAndIsDeleted(id, false);
+    }
+
+    @Test
     void testFindById_Success() {
         when(userRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(user));
 
         UserResponse response = userService.findById(id);
         assertEquals(user.getId(), response.getId());
-        assertEquals(user.getFullName(), response.getFullName());
+        assertEquals(user.getName(), response.getName());
 
         verify(userRepository).findByIdAndIsDeleted(id, false);
     }
@@ -118,17 +127,17 @@ class UserServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testCreate_Success() {
+    void testCreate_PhotoBase64AndPhotoFileNameIsNotNull() {
         when(roleService.getUserRoleById(id)).thenReturn(userRole);
-        when(parameterListService.getSystemParameterListById(id)).thenReturn(parameterList);
+        when(fileService.saveFileFromBase64(any())).thenReturn(user.getPhoto());
         when(userRepository.save(any())).thenReturn(user);
 
         UserResponse response = userService.create(createRequest, header);
         assertEquals(user.getId(), response.getId());
-        assertEquals(user.getFullName(), response.getFullName());
+        assertEquals(user.getName(), response.getName());
 
         verify(roleService).getUserRoleById(id);
-        verify(parameterListService).getSystemParameterListById(id);
+        verify(fileService).saveFileFromBase64(any());
         verify(userRepository).save(any());
         verify(userValidationService).validateCreateUsername(anyString());
         verify(userValidationService).validateCreateEmail(anyString());
@@ -136,19 +145,75 @@ class UserServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testUpdate_Success() {
+    void testCreate_PhotoBase64AndPhotoFileNameIsNull() {
+        createRequest.setPhotoBase64(null);
+        createRequest.setPhotoFileName(null);
+        testCreate_PhotoRequestIsNull();
+    }
+
+    @Test
+    void testCreate_PhotoBase64IsNotNullAndPhotoFileNameIsNull() {
+        createRequest.setPhotoFileName(null);
+        testCreate_PhotoRequestIsNull();
+    }
+
+
+    void testCreate_PhotoRequestIsNull() {
         when(roleService.getUserRoleById(id)).thenReturn(userRole);
-        when(parameterListService.getSystemParameterListById(id)).thenReturn(parameterList);
+        when(userRepository.save(any())).thenReturn(user);
+
+        UserResponse response = userService.create(createRequest, header);
+        assertEquals(user.getId(), response.getId());
+        assertEquals(user.getName(), response.getName());
+
+        verify(roleService).getUserRoleById(id);
+        verify(userRepository).save(any());
+        verify(userValidationService).validateCreateUsername(anyString());
+        verify(userValidationService).validateCreateEmail(anyString());
+        verify(userValidationService).validatePassword(anyString(), anyString());
+    }
+
+    @Test
+    void testUpdate_PhotoRequestIsNull() {
+        updateRequest.setPhotoBase64(null);
+        updateRequest.setPhotoFileName(null);
+        testUpdate_PhotoNotUpdated();
+    }
+
+    @Test
+    void testUpdate_PhotoNotUpdated() {
+        when(roleService.getUserRoleById(id)).thenReturn(userRole);
         when(userRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(user));
         when(userRepository.save(any())).thenReturn(user);
 
         UserResponse response = userService.update(id, updateRequest, header);
         assertEquals(user.getId(), response.getId());
-        assertEquals(user.getFullName(), response.getFullName());
+        assertEquals(user.getName(), response.getName());
 
         verify(roleService).getUserRoleById(id);
-        verify(parameterListService).getSystemParameterListById(id);
         verify(userRepository).findByIdAndIsDeleted(id, false);
+        verify(userRepository).save(any());
+        verify(userValidationService).validateUpdateUsername(any(), anyString());
+        verify(userValidationService).validateUpdateEmail(any(), anyString());
+    }
+
+    @Test
+    void testUpdate_PhotoUpdated() {
+        user.setPhoto("different-photo.png");
+
+        when(roleService.getUserRoleById(id)).thenReturn(userRole);
+        when(userRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(user));
+        when(fileService.saveFileFromBase64(any())).thenReturn(user.getPhoto());
+        when(userRepository.save(any())).thenReturn(user);
+
+        UserResponse response = userService.update(id, updateRequest, header);
+        assertEquals(user.getId(), response.getId());
+        assertEquals(user.getName(), response.getName());
+
+        verify(roleService).getUserRoleById(id);
+        verify(userRepository).findByIdAndIsDeleted(id, false);
+        verify(fileService).deleteFile(any());
+        verify(fileService).saveFileFromBase64(any());
         verify(userRepository).save(any());
         verify(userValidationService).validateUpdateUsername(any(), anyString());
         verify(userValidationService).validateUpdateEmail(any(), anyString());
@@ -161,7 +226,7 @@ class UserServiceImplTest extends ServiceTest {
 
         UserResponse response = userService.delete(id, header);
         assertEquals(user.getId(), response.getId());
-        assertEquals(user.getFullName(), response.getFullName());
+        assertEquals(user.getName(), response.getName());
         assertTrue(response.isDeleted());
 
         verify(userRepository).findById(id);
@@ -175,7 +240,7 @@ class UserServiceImplTest extends ServiceTest {
 
         UserResponse response = userService.delete(id, header);
         assertEquals(user.getId(), response.getId());
-        assertEquals(user.getFullName(), response.getFullName());
+        assertEquals(user.getName(), response.getName());
         assertTrue(response.isDeleted());
 
         verify(userRepository).findById(id);
@@ -189,7 +254,7 @@ class UserServiceImplTest extends ServiceTest {
 
         UserResponse response = userService.restore(id, header);
         assertEquals(user.getId(), response.getId());
-        assertEquals(user.getFullName(), response.getFullName());
+        assertEquals(user.getName(), response.getName());
         assertFalse(response.isDeleted());
 
         verify(userRepository).findByIdAndIsDeleted(id, true);
