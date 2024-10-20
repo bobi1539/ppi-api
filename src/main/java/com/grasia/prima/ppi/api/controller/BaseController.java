@@ -30,7 +30,7 @@ public abstract class BaseController {
 
     protected ResponseEntity<InputStreamResource> buildResourceResponse(FileResponse response) {
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, Constant.HEADER_INPUT_STREAM + response.getFileName())
+                .header(HttpHeaders.CONTENT_DISPOSITION, Constant.HEADER_INPUT_STREAM_INLINE + response.getFileName())
                 .contentType(response.getMediaType())
                 .body(new InputStreamResource(new ByteArrayInputStream(response.getFileBytes())));
     }
