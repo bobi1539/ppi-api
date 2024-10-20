@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public final class ObjectDummy {
@@ -442,6 +443,8 @@ public final class ObjectDummy {
                 .cover("cover.png")
                 .startDate(LocalDate.of(2024, 10, 10))
                 .endDate(LocalDate.of(2024, 11, 10))
+                .startTime(LocalTime.of(14, 30, 0))
+                .endTime(LocalTime.of(15, 30, 0))
                 .build();
     }
 
@@ -453,6 +456,8 @@ public final class ObjectDummy {
                 .coverFileName("cover.png")
                 .startDate(LocalDate.of(2024, 10, 10))
                 .endDate(LocalDate.of(2024, 11, 10))
+                .startTime(LocalTime.of(14, 30, 0))
+                .endTime(LocalTime.of(15, 30, 0))
                 .build();
     }
 
@@ -465,6 +470,9 @@ public final class ObjectDummy {
                 .cover("cover.png")
                 .startDate(LocalDate.of(2024, 10, 10))
                 .endDate(LocalDate.of(2024, 11, 10))
+                .startTime(LocalTime.of(14, 30, 0))
+                .endTime(LocalTime.of(15, 30, 0))
+                .duration("1 months ago")
                 .build();
     }
 

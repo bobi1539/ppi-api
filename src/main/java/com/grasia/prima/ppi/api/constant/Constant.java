@@ -56,6 +56,7 @@ public final class Constant {
     public static final String MENU_ID_REQUIRED = "Menu Id Is Required";
     public static final String SUB_MENU_SEQUENCE_HAS_BEEN_REGISTERED = "Sub Menu Sequence Has Been Registered";
     public static final String START_END_DATE_NOT_VALID = "Start Date Must Less Than End Date";
+    public static final String START_END_TIME_NOT_VALID = "Start Time Must Less Than End Time";
     public static final String FILE_NOT_ALLOWED = "File Not Allowed";
     public static final String MAX_FILE_SIZE_IS_10_MB = "Maximum File Size Is 10 MB";
     public static final String FILE_DOES_NOT_EXIST = "File Doesn't Exist";
@@ -76,6 +77,8 @@ public final class Constant {
     public static final String EVENT_COVER_REQUIRED = "Event Cover Is Required";
     public static final String EVENT_START_DATE_REQUIRED = "Event Start Date Is Required";
     public static final String EVENT_END_DATE_REQUIRED = "Event End Date Is Required";
+    public static final String EVENT_START_TIME_REQUIRED = "Event Start Time Is Required";
+    public static final String EVENT_END_TIME_REQUIRED = "Event End Time Is Required";
     public static final String GALLERY_FILE_REQUIRED = "Gallery File Is Required";
     public static final String PAGE_NUMBER_NOT_VALID = "Page Number Cannot Less Than Zero";
 }

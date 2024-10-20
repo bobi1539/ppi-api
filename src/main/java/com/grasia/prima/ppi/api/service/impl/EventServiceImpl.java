@@ -123,11 +123,16 @@ public class EventServiceImpl extends AbstractCrudService implements EventServic
         event.setDescription(request.getDescription());
         event.setStartDate(request.getStartDate());
         event.setEndDate(request.getEndDate());
+        event.setStartTime(request.getStartTime());
+        event.setEndTime(request.getEndTime());
     }
 
     private void validateEventRequest(EventRequest request) {
         if (request.getEndDate().isBefore(request.getStartDate())) {
             throw new BusinessException(GlobalMessage.START_END_DATE_NOT_VALID);
+        }
+        if (request.getEndTime().isBefore(request.getStartTime())) {
+            throw new BusinessException(GlobalMessage.START_END_TIME_NOT_VALID);
         }
     }
 

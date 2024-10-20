@@ -1,11 +1,13 @@
 package com.grasia.prima.ppi.api.dto.request;
 
 import com.grasia.prima.ppi.api.constant.Constant;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,4 +37,12 @@ public class EventRequest {
 
     @NotNull(message = Constant.EVENT_END_DATE_REQUIRED)
     private LocalDate endDate;
+
+    @Schema(type = "string", format = "time", example = "14:30:00")
+    @NotNull(message = Constant.EVENT_START_TIME_REQUIRED)
+    private LocalTime startTime;
+
+    @Schema(type = "string", format = "time", example = "14:30:00")
+    @NotNull(message = Constant.EVENT_END_TIME_REQUIRED)
+    private LocalTime endTime;
 }

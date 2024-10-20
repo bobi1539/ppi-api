@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +22,7 @@ public class EventResponse extends BaseEntityResponse {
     private String cover;
     private LocalDate startDate;
     private LocalDate endDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private String duration;
 }

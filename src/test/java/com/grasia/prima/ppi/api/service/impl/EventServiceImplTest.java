@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -131,6 +132,16 @@ class EventServiceImplTest extends ServiceTest {
         BusinessException e = assertThrows(BusinessException.class, () -> eventService.create(eventRequest, header));
         assertEquals(GlobalMessage.START_END_DATE_NOT_VALID.status, e.getStatus());
         assertEquals(GlobalMessage.START_END_DATE_NOT_VALID.message, e.getMessage());
+    }
+
+    @Test
+    void testCreate_StartEndTimeNotValid() {
+        eventRequest.setStartTime(LocalTime.of(15, 0, 0));
+        eventRequest.setEndTime(LocalTime.of(12, 0, 0));
+
+        BusinessException e = assertThrows(BusinessException.class, () -> eventService.create(eventRequest, header));
+        assertEquals(GlobalMessage.START_END_TIME_NOT_VALID.status, e.getStatus());
+        assertEquals(GlobalMessage.START_END_TIME_NOT_VALID.message, e.getMessage());
     }
 
     @Test
