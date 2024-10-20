@@ -95,6 +95,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         MUser user = userRepository.findById(id).orElseThrow(getNotFoundException());
         if (user.isDeleted()) {
             userRepository.delete(user);
+            deleteFile(user.getPhoto());
         } else {
             user.setDeleted(true);
             setUpdatedBy(user, header);
@@ -170,11 +171,13 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     }
 
     private void deleteFile(String fileName) {
-        FileRequest fileRequest = FileRequest.builder()
-                .directoryName(DIRECTORY_NAME)
-                .fileName(fileName)
-                .build();
-        fileService.deleteFile(fileRequest);
+        if (Objects.nonNull(fileName)) {
+            FileRequest fileRequest = FileRequest.builder()
+                    .directoryName(DIRECTORY_NAME)
+                    .fileName(fileName)
+                    .build();
+            fileService.deleteFile(fileRequest);
+        }
     }
 
     private void setUserPassword(MUser user, String password) {

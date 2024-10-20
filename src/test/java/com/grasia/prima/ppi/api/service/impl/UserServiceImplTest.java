@@ -234,6 +234,19 @@ class UserServiceImplTest extends ServiceTest {
     }
 
     @Test
+    void testDelete_IsDeletedTrueAndPhotoIsNotNull() {
+        user.setDeleted(true);
+        testDelete_IsDeletedTrue();
+        verify(fileService).deleteFile(any());
+    }
+
+    @Test
+    void testDelete_IsDeletedTrueAndPhotoIsNull() {
+        user.setDeleted(true);
+        user.setPhoto(null);
+        testDelete_IsDeletedTrue();
+    }
+
     void testDelete_IsDeletedTrue() {
         user.setDeleted(true);
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
