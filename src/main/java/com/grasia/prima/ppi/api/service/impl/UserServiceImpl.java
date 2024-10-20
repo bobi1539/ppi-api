@@ -155,7 +155,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     }
 
     private void savePhotoWhenUpdate(MUser user, UserRequest request) {
-        if (isPhotoRequestNotNull(request) && !user.getPhoto().equals(request.getPhotoFileName())) {
+        if (isPhotoRequestNotNull(request) && !Objects.equals(user.getPhoto(), request.getPhotoFileName())) {
             deleteFile(user.getPhoto());
             user.setPhoto(saveFile(request.getPhotoFileName(), request.getPhotoBase64()));
         }
