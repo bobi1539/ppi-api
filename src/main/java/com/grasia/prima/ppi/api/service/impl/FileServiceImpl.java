@@ -32,7 +32,7 @@ public class FileServiceImpl implements FileService {
     private byte[] fileBytes;
     private MediaType mediaType;
     private static final Map<String, MediaType> ALLOW_EXTENSIONS;
-    private static final long MAX_FILE_SIZE = 10L * 1_024L * 1_024L;
+    private static final long MAX_FILE_SIZE = 20L * 1_024L * 1_024L;
 
     static {
         ALLOW_EXTENSIONS = Map.of(

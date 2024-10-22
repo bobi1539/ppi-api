@@ -84,7 +84,7 @@ class FileServiceImplTest {
     void testSaveFileFromBase64_FileSizeTooLarge() {
         try (MockedStatic<Base64> mockBase64 = mockStatic(Base64.class)) {
             Base64.Decoder decoder = mock(Base64.Decoder.class);
-            when(decoder.decode(anyString())).thenReturn(new byte[20_000_000]);
+            when(decoder.decode(anyString())).thenReturn(new byte[30_000_000]);
             mockBase64.when(Base64::getDecoder).thenReturn(decoder);
 
             Base64ToFileDto base64ToFileDto = getBase64ToFileDto("test.png");
