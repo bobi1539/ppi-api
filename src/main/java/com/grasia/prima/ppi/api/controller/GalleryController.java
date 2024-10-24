@@ -62,20 +62,11 @@ public class GalleryController {
     }
 
     @PostMapping
-    public GalleryResponse create(
+    public List<GalleryResponse> create(
             @RequestBody @Valid GalleryRequest request,
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
         return galleryService.create(request, header);
-    }
-
-    @PutMapping("/{id}")
-    public GalleryResponse update(
-            @PathVariable Long id,
-            @RequestBody @Valid GalleryRequest request,
-            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
-    ) {
-        return galleryService.update(id, request, header);
     }
 
     @DeleteMapping("/{id}")

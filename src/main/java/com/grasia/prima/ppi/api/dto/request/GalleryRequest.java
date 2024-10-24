@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -12,14 +14,10 @@ import lombok.*;
 @Builder
 public class GalleryRequest {
 
-    @NotNull(message = Constant.GALLERY_FILE_REQUIRED)
-    @NotEmpty(message = Constant.GALLERY_FILE_REQUIRED)
-    private String fileBase64;
-
-    @NotNull(message = Constant.GALLERY_FILE_REQUIRED)
-    @NotEmpty(message = Constant.GALLERY_FILE_REQUIRED)
-    private String fileName;
-
     @NotNull(message = Constant.EVENT_ID_REQUIRED)
     private Long eventId;
+
+    @NotNull(message = Constant.GALLERY_FILE_REQUIRED)
+    @NotEmpty(message = Constant.GALLERY_FILE_REQUIRED)
+    private List<FileUploadRequest> fileUploads;
 }

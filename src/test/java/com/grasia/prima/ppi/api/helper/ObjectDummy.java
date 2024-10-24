@@ -489,15 +489,14 @@ public final class ObjectDummy {
     public static MGallery getGallery() {
         return MGallery.builder()
                 .id(1L)
-                .fileName("gallery.png")
+                .fileName("file.png")
                 .event(getEvent())
                 .build();
     }
 
     public static GalleryRequest getGalleryRequest() {
         return GalleryRequest.builder()
-                .fileBase64("aGVsbG8=")
-                .fileName("gallery.png")
+                .fileUploads(List.of(getFileUploadRequest()))
                 .eventId(1L)
                 .build();
     }
@@ -505,8 +504,15 @@ public final class ObjectDummy {
     public static GalleryResponse getGalleryResponse() {
         return GalleryResponse.builder()
                 .id(1L)
-                .fileName("gallery.png")
+                .fileName("file.png")
                 .event(getEventResponse())
+                .build();
+    }
+
+    public static FileUploadRequest getFileUploadRequest() {
+        return FileUploadRequest.builder()
+                .fileBase64("aGVsbG8=")
+                .fileName("file.png")
                 .build();
     }
 }

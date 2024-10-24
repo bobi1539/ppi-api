@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
 import com.grasia.prima.ppi.api.dto.request.FileRequest;
+import com.grasia.prima.ppi.api.dto.request.FileUploadRequest;
 import com.grasia.prima.ppi.api.dto.request.GalleryRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.response.GalleryResponse;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -51,25 +53,19 @@ public class GalleryServiceImpl extends AbstractCrudService implements GallerySe
 
     @Transactional
     @Override
-    public GalleryResponse create(GalleryRequest request, HeaderRequest header) {
-        MGallery gallery = MGallery.builder().build();
-        gallery.setEvent(getEventById(request.getEventId()));
-        gallery.setFileName(saveFile(request.getFileName(), request.getFileBase64()));
-        setCreatedBy(gallery, header);
-        setUpdatedBy(gallery, header);
+    public List<GalleryResponse> create(GalleryRequest request, HeaderRequest header) {
+        List<MGallery> galleries = new ArrayList<>();
+        for (FileUploadRequest fileUpload : request.getFileUploads()) {
+            MGallery gallery = MGallery.builder().build();
+            gallery.setEvent(getEventById(request.getEventId()));
+            gallery.setFileName(saveFile(fileUpload.getFileName(), fileUpload.getFileBase64()));
+            setCreatedBy(gallery, header);
+            setUpdatedBy(gallery, header);
+            galleries.add(gallery);
+        }
+        galleries = galleryRepository.saveAll(galleries);
 
-        return toResponse(galleryRepository.save(gallery));
-    }
-
-    @Transactional
-    @Override
-    public GalleryResponse update(Long id, GalleryRequest request, HeaderRequest header) {
-        MGallery gallery = getGalleryById(id);
-        gallery.setEvent(getEventById(request.getEventId()));
-        saveAndDeleteFile(gallery, request);
-        setUpdatedBy(gallery, header);
-
-        return toResponse(galleryRepository.save(gallery));
+        return galleries.stream().map(this::toResponse).toList();
     }
 
     @Transactional
@@ -77,8 +73,8 @@ public class GalleryServiceImpl extends AbstractCrudService implements GallerySe
     public GalleryResponse delete(Long id, HeaderRequest header) {
         MGallery gallery = galleryRepository.findById(id).orElseThrow(getNotFoundException());
         if (gallery.isDeleted()) {
-            deleteFile(gallery.getFileName());
             galleryRepository.delete(gallery);
+            deleteFile(gallery.getFileName());
         } else {
             gallery.setDeleted(true);
             setUpdatedBy(gallery, header);
@@ -109,13 +105,6 @@ public class GalleryServiceImpl extends AbstractCrudService implements GallerySe
 
     private MEvent getEventById(Long id) {
         return eventService.getEventById(id);
-    }
-
-    private void saveAndDeleteFile(MGallery gallery, GalleryRequest request) {
-        if (!gallery.getFileName().equals(request.getFileName())) {
-            deleteFile(gallery.getFileName());
-            gallery.setFileName(saveFile(request.getFileName(), request.getFileBase64()));
-        }
     }
 
     private String saveFile(String fileName, String base64String) {

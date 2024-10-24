@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -76,24 +77,13 @@ class GalleryControllerTest extends ControllerTest {
 
     @Test
     void testCreate() {
-        when(service.create(any(), any())).thenReturn(galleryResponse);
+        when(service.create(any(), any())).thenReturn(List.of(galleryResponse));
 
-        GalleryResponse response = controller.create(galleryRequest, header);
-        assertEquals(galleryResponse.getId(), response.getId());
-        assertEquals(galleryResponse.getFileName(), response.getFileName());
+        List<GalleryResponse> responses = controller.create(galleryRequest, header);
+        assertNotNull(responses);
+        assertEquals(1, responses.size());
 
         verify(service).create(any(), any());
-    }
-
-    @Test
-    void testUpdate() {
-        when(service.update(any(), any(), any())).thenReturn(galleryResponse);
-
-        GalleryResponse response = controller.update(id, galleryRequest, header);
-        assertEquals(galleryResponse.getId(), response.getId());
-        assertEquals(galleryResponse.getFileName(), response.getFileName());
-
-        verify(service).update(any(), any(), any());
     }
 
     @Test

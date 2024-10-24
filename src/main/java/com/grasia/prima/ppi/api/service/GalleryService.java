@@ -17,9 +17,7 @@ public interface GalleryService {
 
     GalleryResponse findById(Long id);
 
-    GalleryResponse create(GalleryRequest request, HeaderRequest header);
-
-    GalleryResponse update(Long id, GalleryRequest request, HeaderRequest header);
+    List<GalleryResponse> create(GalleryRequest request, HeaderRequest header);
 
     GalleryResponse delete(Long id, HeaderRequest header);
 

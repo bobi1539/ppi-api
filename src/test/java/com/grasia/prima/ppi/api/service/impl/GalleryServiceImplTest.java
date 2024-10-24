@@ -96,47 +96,16 @@ class GalleryServiceImplTest extends ServiceTest {
     @Test
     void testCreate_Success() {
         when(eventService.getEventById(id)).thenReturn(event);
-        when(galleryRepository.save(any())).thenReturn(gallery);
+        when(galleryRepository.saveAll(any())).thenReturn(List.of(gallery));
+        when(fileService.saveFileFromBase64(any())).thenReturn(gallery.getFileName());
 
-        GalleryResponse response = galleryService.create(galleryRequest, header);
-        assertEquals(gallery.getId(), response.getId());
-        assertEquals(gallery.getFileName(), response.getFileName());
+        List<GalleryResponse> responses = galleryService.create(galleryRequest, header);
+        assertNotNull(responses);
+        assertEquals(1, responses.size());
 
-        verify(eventService).getEventById(id);
-        verify(galleryRepository).save(any());
-    }
-
-    @Test
-    void testUpdate_FileNotUpdated() {
-        when(galleryRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(gallery));
-        when(eventService.getEventById(id)).thenReturn(event);
-        when(galleryRepository.save(any())).thenReturn(gallery);
-
-        GalleryResponse response = galleryService.update(id, galleryRequest, header);
-        assertEquals(gallery.getId(), response.getId());
-        assertEquals(gallery.getFileName(), response.getFileName());
-
-        verify(galleryRepository).findByIdAndIsDeleted(id, false);
-        verify(eventService).getEventById(id);
-        verify(galleryRepository).save(any());
-    }
-
-    @Test
-    void testUpdate_FileUpdated() {
-        gallery.setFileName("different-file.png");
-        when(galleryRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(gallery));
-        when(eventService.getEventById(id)).thenReturn(event);
-        when(fileService.saveFileFromBase64(any())).thenReturn("save-file.png");
-        when(galleryRepository.save(any())).thenReturn(gallery);
-
-        GalleryResponse response = galleryService.update(id, galleryRequest, header);
-        assertEquals(gallery.getId(), response.getId());
-        assertEquals(gallery.getFileName(), response.getFileName());
-
-        verify(galleryRepository).findByIdAndIsDeleted(id, false);
         verify(eventService).getEventById(id);
         verify(fileService).saveFileFromBase64(any());
-        verify(galleryRepository).save(any());
+        verify(galleryRepository).saveAll(any());
     }
 
     @Test
