@@ -102,8 +102,8 @@ public class FileServiceImpl implements FileService {
             Path path = Paths.get(fullPath);
             Files.delete(path);
         } catch (IOException e) {
+            log.error("Delete File Error");
             log.error(Constant.ERROR, e.getMessage());
-            throw new BusinessException(GlobalMessage.INTERNAL_SERVER_ERROR);
         }
     }
 
