@@ -64,7 +64,7 @@ public class EventServiceImpl extends AbstractCrudService implements EventServic
         setCreatedBy(event, header);
         setUpdatedBy(event, header);
         event.setSlug(getSlugWhenCreate(request.getTitle()));
-        event.setCover(saveFile(request.getCoverFileName(), request.getCoverBase64()));
+        event.setCover(saveFile(request.getCover().getFileName(), request.getCover().getFileBase64()));
 
         return toResponse(eventRepository.save(event));
     }
@@ -164,9 +164,9 @@ public class EventServiceImpl extends AbstractCrudService implements EventServic
     }
 
     private void saveAndDeleteCover(MEvent event, EventRequest request) {
-        if (!event.getCover().equals(request.getCoverFileName())) {
+        if (!event.getCover().equals(request.getCover().getFileName())) {
             deleteFile(event.getCover());
-            event.setCover(saveFile(request.getCoverFileName(), request.getCoverBase64()));
+            event.setCover(saveFile(request.getCover().getFileName(), request.getCover().getFileBase64()));
         }
     }
 

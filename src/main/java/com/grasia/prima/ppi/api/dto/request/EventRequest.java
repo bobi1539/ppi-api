@@ -25,12 +25,7 @@ public class EventRequest {
     private String description;
 
     @NotNull(message = Constant.EVENT_COVER_REQUIRED)
-    @NotEmpty(message = Constant.EVENT_COVER_REQUIRED)
-    private String coverBase64;
-
-    @NotNull(message = Constant.EVENT_COVER_REQUIRED)
-    @NotEmpty(message = Constant.EVENT_COVER_REQUIRED)
-    private String coverFileName;
+    private FileUploadRequest cover;
 
     @NotNull(message = Constant.EVENT_START_DATE_REQUIRED)
     private LocalDate startDate;
