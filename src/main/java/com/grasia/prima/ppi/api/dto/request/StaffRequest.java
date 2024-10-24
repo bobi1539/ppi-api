@@ -23,11 +23,8 @@ public class StaffRequest {
     @NotNull(message = Constant.STAFF_IS_HEAD_REQUIRED)
     private Boolean isHead;
 
-    private String photoBase64;
-
-    @NotNull(message = Constant.PHOTO_FILE_NAME_REQUIRED)
-    @NotEmpty(message = Constant.PHOTO_FILE_NAME_REQUIRED)
-    private String photoFileName;
+    @NotNull(message = Constant.PHOTO_REQUIRED)
+    private FileUploadRequest photo;
 
     private String quote;
 

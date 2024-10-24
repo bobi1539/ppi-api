@@ -63,7 +63,7 @@ public final class Constant {
     public static final String STAFF_NAME_REQUIRED = "Staff Name Is Required";
     public static final String STAFF_POSITION_REQUIRED = "Staff Position Is Required";
     public static final String STAFF_IS_HEAD_REQUIRED = "Staff Is Head Is Required";
-    public static final String PHOTO_FILE_NAME_REQUIRED = "Photo File Name Is Required";
+    public static final String PHOTO_REQUIRED = "Photo Is Required";
     public static final String REGEX_DOT = "\\.";
     public static final String HEADER_INPUT_STREAM_INLINE = "inline; filename=";
     public static final String NEWSLETTER_TITLE_REQUIRED = "Newsletter Title Is Required";

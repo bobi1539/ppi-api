@@ -22,7 +22,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -57,6 +56,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         setStaff(staff, request);
         setCreatedBy(staff, header);
         setUpdatedBy(staff, header);
+        staff.setPhoto(saveFile(request.getPhoto().getFileName(), request.getPhoto().getFileBase64()));
 
         return toResponse(staffRepository.save(staff));
     }
@@ -67,6 +67,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         MStaff staff = getStaffById(id);
         setStaff(staff, request);
         setUpdatedBy(staff, header);
+        saveAndDeletePhoto(staff, request);
 
         return toResponse(staffRepository.save(staff));
     }
@@ -77,7 +78,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         MStaff staff = staffRepository.findById(id).orElseThrow(getNotFoundException());
         if (staff.isDeleted()) {
             staffRepository.delete(staff);
-            deletePhoto(staff.getPhoto());
+            deleteFile(staff.getPhoto());
         } else {
             staff.setDeleted(true);
             setUpdatedBy(staff, header);
@@ -117,12 +118,6 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         staff.setDescription(request.getDescription());
         staff.setJobDescription(request.getJobDescription());
         staff.setDivision(getDivisionById(request.getDivisionId()));
-
-        if (Objects.isNull(staff.getPhoto())) {
-            staff.setPhoto(savePhoto(request));
-        } else {
-            saveAndDeletePhoto(staff, request);
-        }
     }
 
     private MDivision getDivisionById(Long id) {
@@ -130,22 +125,22 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
     }
 
     private void saveAndDeletePhoto(MStaff staff, StaffRequest request) {
-        if (!staff.getPhoto().equals(request.getPhotoFileName())) {
-            deletePhoto(staff.getPhoto());
-            staff.setPhoto(savePhoto(request));
+        if (!staff.getPhoto().equals(request.getPhoto().getFileName())) {
+            deleteFile(staff.getPhoto());
+            staff.setPhoto(saveFile(request.getPhoto().getFileName(), request.getPhoto().getFileBase64()));
         }
     }
 
-    private String savePhoto(StaffRequest request) {
+    private String saveFile(String fileName, String base64String) {
         Base64ToFileDto dto = Base64ToFileDto.builder()
                 .directoryName(DIRECTORY_NAME)
-                .fileName(request.getPhotoFileName())
-                .base64String(request.getPhotoBase64())
+                .fileName(fileName)
+                .base64String(base64String)
                 .build();
         return fileService.saveFileFromBase64(dto);
     }
 
-    private void deletePhoto(String fileName) {
+    private void deleteFile(String fileName) {
         FileRequest fileRequest = FileRequest.builder()
                 .directoryName(DIRECTORY_NAME)
                 .fileName(fileName)

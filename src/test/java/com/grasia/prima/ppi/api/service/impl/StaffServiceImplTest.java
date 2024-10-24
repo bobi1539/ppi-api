@@ -134,7 +134,7 @@ class StaffServiceImplTest extends ServiceTest {
 
     @Test
     void testUpdate_SuccessWithDifferentFileName() {
-        staffRequest.setPhotoFileName("different-name.png");
+        staffRequest.getPhoto().setFileName("different-name.png");
         mockUpdate();
 
         StaffResponse response = staffService.update(id, staffRequest, header);
