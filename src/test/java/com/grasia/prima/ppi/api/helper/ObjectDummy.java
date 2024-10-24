@@ -407,8 +407,8 @@ public final class ObjectDummy {
                 .slug("test")
                 .title("test")
                 .description("test desc")
-                .cover("cover.png")
-                .content("content.png")
+                .cover("file.png")
+                .content("file.png")
                 .build();
     }
 
@@ -416,10 +416,8 @@ public final class ObjectDummy {
         return NewsletterRequest.builder()
                 .title("test")
                 .description("test desc")
-                .coverBase64("string")
-                .coverFileName("cover.png")
-                .contentBase64("string")
-                .contentFileName("content.png")
+                .cover(getFileUploadRequest())
+                .content(getFileUploadRequest())
                 .build();
     }
 
@@ -429,8 +427,8 @@ public final class ObjectDummy {
                 .slug("test")
                 .title("test")
                 .description("test desc")
-                .cover("cover.png")
-                .content("content.png")
+                .cover("file.png")
+                .content("file.png")
                 .build();
     }
 

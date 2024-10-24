@@ -21,18 +21,8 @@ public class NewsletterRequest {
     private String description;
 
     @NotNull(message = Constant.NEWSLETTER_COVER_REQUIRED)
-    @NotEmpty(message = Constant.NEWSLETTER_COVER_REQUIRED)
-    private String coverBase64;
-
-    @NotNull(message = Constant.NEWSLETTER_COVER_REQUIRED)
-    @NotEmpty(message = Constant.NEWSLETTER_COVER_REQUIRED)
-    private String coverFileName;
+    private FileUploadRequest cover;
 
     @NotNull(message = Constant.NEWSLETTER_FILE_REQUIRED)
-    @NotEmpty(message = Constant.NEWSLETTER_FILE_REQUIRED)
-    private String contentBase64;
-
-    @NotNull(message = Constant.NEWSLETTER_FILE_REQUIRED)
-    @NotEmpty(message = Constant.NEWSLETTER_FILE_REQUIRED)
-    private String contentFileName;
+    private FileUploadRequest content;
 }

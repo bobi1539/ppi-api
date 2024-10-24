@@ -64,8 +64,8 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
         newsletter.setSlug(getSlugWhenCreate(request.getTitle()));
         newsletter.setTitle(request.getTitle());
         newsletter.setDescription(request.getDescription());
-        newsletter.setCover(saveFile(request.getCoverFileName(), request.getCoverBase64()));
-        newsletter.setContent(saveFile(request.getContentFileName(), request.getContentBase64()));
+        newsletter.setCover(saveFile(request.getCover().getFileName(), request.getCover().getFileBase64()));
+        newsletter.setContent(saveFile(request.getContent().getFileName(), request.getContent().getFileBase64()));
         setCreatedBy(newsletter, header);
         setUpdatedBy(newsletter, header);
 
@@ -150,16 +150,16 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
     }
 
     private void saveAndDeleteCover(MNewsletter newsletter, NewsletterRequest request) {
-        if (!newsletter.getCover().equals(request.getCoverFileName())) {
+        if (!newsletter.getCover().equals(request.getCover().getFileName())) {
             deleteFile(newsletter.getCover());
-            newsletter.setCover(saveFile(request.getCoverFileName(), request.getCoverBase64()));
+            newsletter.setCover(saveFile(request.getCover().getFileName(), request.getCover().getFileBase64()));
         }
     }
 
     private void saveAndDeleteContent(MNewsletter newsletter, NewsletterRequest request) {
-        if (!newsletter.getContent().equals(request.getContentFileName())) {
+        if (!newsletter.getContent().equals(request.getContent().getFileName())) {
             deleteFile(newsletter.getContent());
-            newsletter.setContent(saveFile(request.getContentFileName(), request.getContentBase64()));
+            newsletter.setContent(saveFile(request.getContent().getFileName(), request.getContent().getFileBase64()));
         }
     }
 
