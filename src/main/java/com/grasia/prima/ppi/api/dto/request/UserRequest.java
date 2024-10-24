@@ -31,9 +31,7 @@ public abstract class UserRequest {
     @NotNull(message = Constant.IS_ACTIVE_REQUIRED)
     protected Boolean isActive;
 
-    protected String photoBase64;
-
-    protected String photoFileName;
+    protected FileUploadRequest photo;
 
     protected String description;
 

@@ -65,7 +65,7 @@ public final class ObjectDummy {
                 .email("admin@gmail.com")
                 .emailVerifiedAt(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
                 .isActive(true)
-                .photo("photo.png")
+                .photo("file.png")
                 .description("description")
                 .userRole(getUserRole())
                 .build();
@@ -79,8 +79,7 @@ public final class ObjectDummy {
                 .name("admin")
                 .email("admin@gmail.com")
                 .isActive(true)
-                .photoBase64("string")
-                .photoFileName("photo.png")
+                .photo(getFileUploadRequest())
                 .description("description")
                 .userRoleId(1L)
                 .build();
@@ -92,8 +91,7 @@ public final class ObjectDummy {
                 .name("admin")
                 .email("admin@gmail.com")
                 .isActive(true)
-                .photoBase64("string")
-                .photoFileName("photo.png")
+                .photo(getFileUploadRequest())
                 .description("description")
                 .userRoleId(1L)
                 .build();
@@ -107,7 +105,7 @@ public final class ObjectDummy {
                 .email("admin@gmail.com")
                 .emailVerifiedAt(LocalDateTime.of(2024, 1, 1, 1, 1, 1))
                 .isActive(true)
-                .photo("photo.png")
+                .photo("file.png")
                 .description("description")
                 .userRole(getUserRoleResponse())
                 .build();

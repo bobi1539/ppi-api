@@ -146,14 +146,14 @@ class UserServiceImplTest extends ServiceTest {
 
     @Test
     void testCreate_PhotoBase64AndPhotoFileNameIsNull() {
-        createRequest.setPhotoBase64(null);
-        createRequest.setPhotoFileName(null);
+        createRequest.getPhoto().setFileBase64(null);
+        createRequest.getPhoto().setFileName(null);
         testCreate_PhotoRequestIsNull();
     }
 
     @Test
     void testCreate_PhotoBase64IsNotNullAndPhotoFileNameIsNull() {
-        createRequest.setPhotoFileName(null);
+        createRequest.getPhoto().setFileName(null);
         testCreate_PhotoRequestIsNull();
     }
 
@@ -175,8 +175,8 @@ class UserServiceImplTest extends ServiceTest {
 
     @Test
     void testUpdate_PhotoRequestIsNull() {
-        updateRequest.setPhotoBase64(null);
-        updateRequest.setPhotoFileName(null);
+        updateRequest.getPhoto().setFileBase64(null);
+        updateRequest.getPhoto().setFileName(null);
         testUpdate_PhotoNotUpdated();
     }
 

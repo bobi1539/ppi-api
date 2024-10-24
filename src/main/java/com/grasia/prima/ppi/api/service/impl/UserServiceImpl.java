@@ -145,19 +145,19 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     }
 
     private boolean isPhotoRequestNotNull(UserRequest request) {
-        return Objects.nonNull(request.getPhotoBase64()) && Objects.nonNull(request.getPhotoFileName());
+        return Objects.nonNull(request.getPhoto().getFileBase64()) && Objects.nonNull(request.getPhoto().getFileName());
     }
 
     private void savePhotoWhenCreate(MUser user, UserRequest request) {
         if (isPhotoRequestNotNull(request)) {
-            user.setPhoto(saveFile(request.getPhotoFileName(), request.getPhotoBase64()));
+            user.setPhoto(saveFile(request.getPhoto().getFileName(), request.getPhoto().getFileBase64()));
         }
     }
 
     private void savePhotoWhenUpdate(MUser user, UserRequest request) {
-        if (isPhotoRequestNotNull(request) && !Objects.equals(user.getPhoto(), request.getPhotoFileName())) {
+        if (isPhotoRequestNotNull(request) && !Objects.equals(user.getPhoto(), request.getPhoto().getFileName())) {
             deleteFile(user.getPhoto());
-            user.setPhoto(saveFile(request.getPhotoFileName(), request.getPhotoBase64()));
+            user.setPhoto(saveFile(request.getPhoto().getFileName(), request.getPhoto().getFileBase64()));
         }
     }
 
