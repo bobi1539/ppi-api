@@ -72,25 +72,9 @@ public class GalleryServiceImpl extends AbstractCrudService implements GallerySe
     @Override
     public GalleryResponse delete(Long id, HeaderRequest header) {
         MGallery gallery = galleryRepository.findById(id).orElseThrow(getNotFoundException());
-        if (gallery.isDeleted()) {
-            galleryRepository.delete(gallery);
-            deleteFile(gallery.getFileName());
-        } else {
-            gallery.setDeleted(true);
-            setUpdatedBy(gallery, header);
-            gallery = galleryRepository.save(gallery);
-        }
+        galleryRepository.delete(gallery);
+        deleteFile(gallery.getFileName());
         return toResponse(gallery);
-    }
-
-    @Transactional
-    @Override
-    public GalleryResponse restore(Long id, HeaderRequest header) {
-        MGallery gallery = getGalleryDeleted(id);
-        gallery.setDeleted(false);
-        setUpdatedBy(gallery, header);
-
-        return toResponse(galleryRepository.save(gallery));
     }
 
     @Override
@@ -122,10 +106,6 @@ public class GalleryServiceImpl extends AbstractCrudService implements GallerySe
                 .fileName(fileName)
                 .build();
         fileService.deleteFile(fileRequest);
-    }
-
-    private MGallery getGalleryDeleted(Long id) {
-        return galleryRepository.findByIdAndIsDeleted(id, true).orElseThrow(getNotFoundException());
     }
 
     private GalleryResponse toResponse(MGallery gallery) {

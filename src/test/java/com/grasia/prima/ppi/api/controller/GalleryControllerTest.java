@@ -96,15 +96,4 @@ class GalleryControllerTest extends ControllerTest {
 
         verify(service).delete(any(), any());
     }
-
-    @Test
-    void testRestore() {
-        when(service.restore(any(), any())).thenReturn(galleryResponse);
-
-        GalleryResponse response = controller.restore(id, header);
-        assertEquals(galleryResponse.getId(), response.getId());
-        assertEquals(galleryResponse.getFileName(), response.getFileName());
-
-        verify(service).restore(any(), any());
-    }
 }

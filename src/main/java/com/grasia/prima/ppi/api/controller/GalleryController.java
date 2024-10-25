@@ -76,12 +76,4 @@ public class GalleryController {
     ) {
         return galleryService.delete(id, header);
     }
-
-    @PutMapping("/restore/{id}")
-    public GalleryResponse restore(
-            @PathVariable Long id,
-            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
-    ) {
-        return galleryService.restore(id, header);
-    }
 }

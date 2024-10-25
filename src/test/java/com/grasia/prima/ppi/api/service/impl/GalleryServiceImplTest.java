@@ -109,45 +109,15 @@ class GalleryServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testDelete_IsDeletedFalse() {
-        when(galleryRepository.findById(id)).thenReturn(Optional.of(gallery));
-        when(galleryRepository.save(any())).thenReturn(gallery);
-
-        GalleryResponse response = galleryService.delete(id, header);
-        assertEquals(gallery.getId(), response.getId());
-        assertEquals(gallery.getFileName(), response.getFileName());
-        assertTrue(response.isDeleted());
-
-        verify(galleryRepository).findById(id);
-        verify(galleryRepository).save(any());
-    }
-
-    @Test
-    void testDelete_IsDeletedTrue() {
-        gallery.setDeleted(true);
+    void testDelete_Success() {
         when(galleryRepository.findById(id)).thenReturn(Optional.of(gallery));
 
         GalleryResponse response = galleryService.delete(id, header);
         assertEquals(gallery.getId(), response.getId());
         assertEquals(gallery.getFileName(), response.getFileName());
-        assertTrue(response.isDeleted());
 
         verify(galleryRepository).findById(id);
         verify(galleryRepository).delete(any());
         verify(fileService).deleteFile(any());
-    }
-
-    @Test
-    void testRestore_Success() {
-        when(galleryRepository.findByIdAndIsDeleted(id, true)).thenReturn(Optional.of(gallery));
-        when(galleryRepository.save(any())).thenReturn(gallery);
-
-        GalleryResponse response = galleryService.restore(id, header);
-        assertEquals(gallery.getId(), response.getId());
-        assertEquals(gallery.getFileName(), response.getFileName());
-        assertFalse(response.isDeleted());
-
-        verify(galleryRepository).findByIdAndIsDeleted(id, true);
-        verify(galleryRepository).save(any());
     }
 }
