@@ -145,7 +145,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     }
 
     private boolean isPhotoRequestNotNull(UserRequest request) {
-        return Objects.nonNull(request.getPhoto().getFileBase64()) && Objects.nonNull(request.getPhoto().getFileName());
+        return Objects.nonNull(request.getPhoto());
     }
 
     private void savePhotoWhenCreate(MUser user, UserRequest request) {

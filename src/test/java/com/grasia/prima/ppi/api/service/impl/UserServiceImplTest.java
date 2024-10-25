@@ -127,7 +127,7 @@ class UserServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testCreate_PhotoBase64AndPhotoFileNameIsNotNull() {
+    void testCreate_PhotoIsNotNull() {
         when(roleService.getUserRoleById(id)).thenReturn(userRole);
         when(fileService.saveFileFromBase64(any())).thenReturn(user.getPhoto());
         when(userRepository.save(any())).thenReturn(user);
@@ -145,20 +145,8 @@ class UserServiceImplTest extends ServiceTest {
     }
 
     @Test
-    void testCreate_PhotoBase64AndPhotoFileNameIsNull() {
-        createRequest.getPhoto().setFileBase64(null);
-        createRequest.getPhoto().setFileName(null);
-        testCreate_PhotoRequestIsNull();
-    }
-
-    @Test
-    void testCreate_PhotoBase64IsNotNullAndPhotoFileNameIsNull() {
-        createRequest.getPhoto().setFileName(null);
-        testCreate_PhotoRequestIsNull();
-    }
-
-
-    void testCreate_PhotoRequestIsNull() {
+    void testCreate_PhotoIsNull() {
+        createRequest.setPhoto(null);
         when(roleService.getUserRoleById(id)).thenReturn(userRole);
         when(userRepository.save(any())).thenReturn(user);
 
@@ -175,8 +163,7 @@ class UserServiceImplTest extends ServiceTest {
 
     @Test
     void testUpdate_PhotoRequestIsNull() {
-        updateRequest.getPhoto().setFileBase64(null);
-        updateRequest.getPhoto().setFileName(null);
+        updateRequest.setPhoto(null);
         testUpdate_PhotoNotUpdated();
     }
 
