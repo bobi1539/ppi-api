@@ -106,6 +106,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         Specification<MStaff> spec = SpecificationHelper.stringLike(MStaff.FIELD_NAME, searchDto.getSearch());
         return spec
                 .and(SpecificationHelper.entityIdEquals(MStaff.FIELD_DIVISION, searchDto.getDivisionId()))
+                .and(SpecificationHelper.objectEquals(MStaff.FIELD_IS_HEAD, searchDto.getIsHead()))
                 .and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
     }
 

@@ -27,11 +27,13 @@ public class StaffController {
     @GetMapping("/all")
     public List<StaffResponse> findAll(
             @RequestParam(required = false) Long divisionId,
+            @RequestParam(required = false) Boolean isHead,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isDeleted
     ) {
         StaffSearchDto searchDto = StaffSearchDto.builder()
                 .divisionId(divisionId)
+                .isHead(isHead)
                 .search(search)
                 .isDeleted(isDeleted)
                 .build();
@@ -41,6 +43,7 @@ public class StaffController {
     @GetMapping
     public Page<StaffResponse> findAllPagination(
             @RequestParam(required = false) Long divisionId,
+            @RequestParam(required = false) Boolean isHead,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isDeleted,
             @RequestParam(required = false, defaultValue = "0") int page,
@@ -48,6 +51,7 @@ public class StaffController {
     ) {
         StaffSearchDto searchDto = StaffSearchDto.builder()
                 .divisionId(divisionId)
+                .isHead(isHead)
                 .search(search)
                 .isDeleted(isDeleted)
                 .page(page)

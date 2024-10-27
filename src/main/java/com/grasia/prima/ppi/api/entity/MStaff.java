@@ -51,4 +51,5 @@ public class MStaff extends BaseEntity {
 
     public static final String FIELD_NAME = "name";
     public static final String FIELD_DIVISION = "division";
+    public static final String FIELD_IS_HEAD = "isHead";
 }
