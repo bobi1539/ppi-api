@@ -14,8 +14,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class SpecificationHelperTest {
 
@@ -50,9 +49,9 @@ class SpecificationHelperTest {
         String attribute = "name";
         String value = "John";
 
-        Mockito.when(root.get(attribute)).thenReturn(path);
-        Mockito.when(cb.lower(path)).thenReturn(path);
-        Mockito.when(cb.like(path, "%" + value.toLowerCase() + "%")).thenReturn(Mockito.mock(Predicate.class));
+        when(root.get(attribute)).thenReturn(path);
+        when(cb.lower(path)).thenReturn(path);
+        when(cb.like(path, "%" + value.toLowerCase() + "%")).thenReturn(Mockito.mock(Predicate.class));
 
         Specification<Object> spec = SpecificationHelper.stringLike(attribute, value);
         Predicate predicate = spec.toPredicate(root, query, cb);
@@ -80,8 +79,8 @@ class SpecificationHelperTest {
         String attribute = "name";
         Object value = "John";
 
-        Mockito.when(root.get(attribute)).thenReturn(path);
-        Mockito.when(cb.equal(path, value)).thenReturn(Mockito.mock(Predicate.class));
+        when(root.get(attribute)).thenReturn(path);
+        when(cb.equal(path, value)).thenReturn(Mockito.mock(Predicate.class));
 
         Specification<Object> spec = SpecificationHelper.objectEquals(attribute, value);
         Predicate predicate = spec.toPredicate(root, query, cb);
@@ -106,9 +105,9 @@ class SpecificationHelperTest {
         String attribute = "systemParameter";
         Long value = 1L;
 
-        Mockito.when(root.get(attribute)).thenReturn(path);
-        Mockito.when(root.get(attribute).get("id")).thenReturn(path);
-        Mockito.when(cb.equal(path, value)).thenReturn(Mockito.mock(Predicate.class));
+        when(root.get(attribute)).thenReturn(path);
+        when(root.get(attribute).get("id")).thenReturn(path);
+        when(cb.equal(path, value)).thenReturn(Mockito.mock(Predicate.class));
 
         Specification<Object> spec = SpecificationHelper.entityIdEquals(attribute, value);
         Predicate predicate = spec.toPredicate(root, query, cb);
@@ -123,6 +122,36 @@ class SpecificationHelperTest {
         String attribute = "systemParameter";
 
         Specification<Object> spec = SpecificationHelper.entityIdEquals(attribute, null);
+        Predicate predicate = spec.toPredicate(null, null, null);
+
+        assertNull(predicate);
+    }
+
+    @Test
+    void testEntityIdEqualsTwoAttribute_NonNullValue() {
+        String attribute1 = "division";
+        String attribute2 = "period";
+        Long value = 1L;
+
+        when(root.get(attribute1)).thenReturn(path);
+        when(root.get(attribute1).get(attribute2)).thenReturn(path);
+        when(root.get(attribute1).get(attribute2).get("id")).thenReturn(path);
+        when(cb.equal(path, value)).thenReturn(mock(Predicate.class));
+
+        Specification<Object> spec = SpecificationHelper.entityIdEquals(attribute1, attribute2, value);
+        Predicate predicate = spec.toPredicate(root, query, cb);
+
+        assertNotNull(predicate);
+        verify(root, times(3)).get(anyString());
+        verify(cb).equal(path, value);
+    }
+
+    @Test
+    void testEntityIdEqualsTwoAttribute_NullValue() {
+        String attribute1 = "division";
+        String attribute2 = "period";
+
+        Specification<Object> spec = SpecificationHelper.entityIdEquals(attribute1, attribute2, null);
         Predicate predicate = spec.toPredicate(null, null, null);
 
         assertNull(predicate);

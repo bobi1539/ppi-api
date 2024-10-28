@@ -26,12 +26,14 @@ public class StaffController {
 
     @GetMapping("/all")
     public List<StaffResponse> findAll(
+            @RequestParam(required = false) Long periodId,
             @RequestParam(required = false) Long divisionId,
             @RequestParam(required = false) Boolean isHead,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean isDeleted
     ) {
         StaffSearchDto searchDto = StaffSearchDto.builder()
+                .periodId(periodId)
                 .divisionId(divisionId)
                 .isHead(isHead)
                 .search(search)
@@ -42,6 +44,7 @@ public class StaffController {
 
     @GetMapping
     public Page<StaffResponse> findAllPagination(
+            @RequestParam(required = false) Long periodId,
             @RequestParam(required = false) Long divisionId,
             @RequestParam(required = false) Boolean isHead,
             @RequestParam(required = false) String search,
@@ -50,6 +53,7 @@ public class StaffController {
             @RequestParam(required = false, defaultValue = "10") int size
     ) {
         StaffSearchDto searchDto = StaffSearchDto.builder()
+                .periodId(periodId)
                 .divisionId(divisionId)
                 .isHead(isHead)
                 .search(search)

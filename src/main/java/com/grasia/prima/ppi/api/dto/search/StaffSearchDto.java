@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class StaffSearchDto extends SearchDto {
+    private Long periodId;
     private Long divisionId;
     private Boolean isHead;
 }

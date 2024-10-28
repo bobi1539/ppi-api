@@ -39,7 +39,7 @@ class StaffControllerTest extends ControllerTest {
     void testFindAll() {
         when(service.findAll(any())).thenReturn(getStaffResponses());
 
-        List<StaffResponse> responses = controller.findAll(1L, null, "", null);
+        List<StaffResponse> responses = controller.findAll(1L, null, null, "", null);
         assertEquals(2, responses.size());
 
         verify(service).findAll(any());
@@ -53,7 +53,7 @@ class StaffControllerTest extends ControllerTest {
     void testFindAllPagination() {
         when(service.findAllPagination(any())).thenReturn(getStaffResponsePage());
 
-        Page<StaffResponse> responses = controller.findAllPagination(1L, null, "", null, 1, 10);
+        Page<StaffResponse> responses = controller.findAllPagination(1L, null, null, "", null, 1, 10);
         assertEquals(2, responses.getTotalElements());
 
         verify(service).findAllPagination(any());
