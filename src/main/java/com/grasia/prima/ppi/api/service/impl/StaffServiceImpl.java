@@ -8,6 +8,7 @@ import com.grasia.prima.ppi.api.dto.response.StaffResponse;
 import com.grasia.prima.ppi.api.dto.search.StaffSearchDto;
 import com.grasia.prima.ppi.api.entity.MDivision;
 import com.grasia.prima.ppi.api.entity.MStaff;
+import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.entity.StaffHelper;
 import com.grasia.prima.ppi.api.repository.StaffRepository;
@@ -18,6 +19,8 @@ import com.grasia.prima.ppi.api.service.StaffService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +37,13 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
 
     @Override
     public List<StaffResponse> findAll(StaffSearchDto searchDto) {
-        List<MStaff> staffs = staffRepository.findAll(getSpecificationFindAll(searchDto), sortByIdAsc());
+        List<MStaff> staffs = staffRepository.findAll(getSpecificationFindAll(searchDto), sortFindAll());
         return staffs.stream().map(this::toResponse).toList();
     }
 
     @Override
     public Page<StaffResponse> findAllPagination(StaffSearchDto searchDto) {
-        Page<MStaff> staffs = staffRepository.findAll(getSpecificationFindAll(searchDto), pageableSortByIdAsc(searchDto));
+        Page<MStaff> staffs = staffRepository.findAll(getSpecificationFindAll(searchDto), pageableFindAll(searchDto));
         return staffs.map(this::toResponse);
     }
 
@@ -108,6 +111,16 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
                 .and(SpecificationHelper.entityIdEquals(MStaff.FIELD_DIVISION, searchDto.getDivisionId()))
                 .and(SpecificationHelper.objectEquals(MStaff.FIELD_IS_HEAD, searchDto.getIsHead()))
                 .and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
+    }
+
+    private Sort sortFindAll() {
+        return Sort.by(MStaff.FIELD_DIVISION_ID)
+                .and(Sort.by(MStaff.FIELD_IS_HEAD).descending())
+                .and(Sort.by(FIELD_ID));
+    }
+
+    private Pageable pageableFindAll(StaffSearchDto searchDto) {
+        return PageHelper.buildPageRequest(searchDto.getPage(), searchDto.getSize(), sortFindAll());
     }
 
     private void setStaff(MStaff staff, StaffRequest request) {

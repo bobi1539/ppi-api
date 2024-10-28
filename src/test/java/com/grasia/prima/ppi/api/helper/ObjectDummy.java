@@ -347,6 +347,7 @@ public final class ObjectDummy {
     public static StaffSearchDto getStaffSearchDto() {
         return StaffSearchDto.builder()
                 .divisionId(1L)
+                .isHead(null)
                 .search("")
                 .isDeleted(false)
                 .page(1)
