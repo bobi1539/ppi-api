@@ -104,7 +104,6 @@ class UserRoleMenuServiceImplTest {
             AssertionError e = assertThrows(AssertionError.class, () -> userRoleMenuService.findByUserRoleId(userRoleId));
             assertNull(e.getMessage());
 
-
             verify(userRoleService).getUserRoleById(userRoleId);
             verify(roleMenuRepository).findByUserRoleOrderByMenuSequenceAsc(userRole);
             verify(roleSubMenuRepository).findByUserRoleOrderBySubMenuSequenceAsc(userRole);
