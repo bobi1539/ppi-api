@@ -6,7 +6,6 @@ import com.grasia.prima.ppi.api.dto.response.SystemParameterResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MSystemParameter;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.SystemParameterHelper;
 import com.grasia.prima.ppi.api.repository.SystemParameterRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.SystemParameterService;
@@ -80,6 +79,6 @@ public class SystemParameterServiceImpl extends AbstractCrudService implements S
     }
 
     private SystemParameterResponse toResponse(MSystemParameter systemParameter) {
-        return SystemParameterHelper.toSystemParameterResponse(systemParameter);
+        return SystemParameterResponse.toResponse(systemParameter);
     }
 }

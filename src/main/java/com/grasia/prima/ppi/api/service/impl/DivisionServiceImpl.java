@@ -8,7 +8,6 @@ import com.grasia.prima.ppi.api.entity.MDivision;
 import com.grasia.prima.ppi.api.entity.MPeriod;
 import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.DivisionHelper;
 import com.grasia.prima.ppi.api.repository.DivisionRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.DivisionService;
@@ -132,6 +131,6 @@ public class DivisionServiceImpl extends AbstractCrudService implements Division
     }
 
     private DivisionResponse toResponse(MDivision division) {
-        return DivisionHelper.toDivisionResponse(division);
+        return DivisionResponse.toResponse(division);
     }
 }

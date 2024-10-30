@@ -7,7 +7,6 @@ import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MMenu;
 import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.MenuHelper;
 import com.grasia.prima.ppi.api.repository.MenuRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.MenuService;
@@ -98,6 +97,6 @@ public class MenuServiceImpl extends AbstractCrudService implements MenuService 
     }
 
     private MenuResponse toResponse(MMenu menu) {
-        return MenuHelper.toMenuResponse(menu);
+        return MenuResponse.toResponse(menu);
     }
 }

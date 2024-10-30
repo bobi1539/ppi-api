@@ -7,7 +7,6 @@ import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.UserHelper;
 import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.service.*;
 import jakarta.transaction.Transactional;
@@ -132,7 +131,7 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
     }
 
     private UserResponse toResponse(MUser user) {
-        return UserHelper.toUserResponse(user);
+        return UserResponse.toResponse(user);
     }
 
     private void setUser(MUser user, UserRequest request) {

@@ -6,7 +6,6 @@ import com.grasia.prima.ppi.api.dto.response.UserRoleResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.UserRoleHelper;
 import com.grasia.prima.ppi.api.repository.UserRoleRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.UserRoleService;
@@ -111,6 +110,6 @@ public class UserRoleServiceImpl extends AbstractCrudService implements UserRole
     }
 
     private UserRoleResponse toResponse(MUserRole userRole) {
-        return UserRoleHelper.toUserRoleResponse(userRole);
+        return UserRoleResponse.toResponse(userRole);
     }
 }

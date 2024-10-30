@@ -7,8 +7,6 @@ import com.grasia.prima.ppi.api.dto.response.MenuResponse;
 import com.grasia.prima.ppi.api.dto.response.SubMenuResponse;
 import com.grasia.prima.ppi.api.dto.response.UserRoleMenuResponse;
 import com.grasia.prima.ppi.api.entity.*;
-import com.grasia.prima.ppi.api.helper.entity.MenuHelper;
-import com.grasia.prima.ppi.api.helper.entity.SubMenuHelper;
 import com.grasia.prima.ppi.api.repository.UserRoleMenuRepository;
 import com.grasia.prima.ppi.api.repository.UserRoleSubMenuRepository;
 import com.grasia.prima.ppi.api.service.*;
@@ -83,7 +81,8 @@ public class UserRoleMenuServiceImpl implements UserRoleMenuService {
 
         List<SubMenuResponse> subMenuResponses = getSubMenuResponsesForMenu(menu, userRoleSubMenus);
 
-        MenuResponse menuResponse = MenuHelper.toMenuResponse(menu);
+        MenuResponse menuResponse = MenuResponse.toResponse(menu);
+        assert menuResponse != null;
         menuResponse.setSubMenus(subMenuResponses);
         return menuResponse;
     }
@@ -91,7 +90,7 @@ public class UserRoleMenuServiceImpl implements UserRoleMenuService {
     private List<SubMenuResponse> getSubMenuResponsesForMenu(MMenu menu, List<TUserRoleSubMenu> userRoleSubMenus) {
         return userRoleSubMenus.stream()
                 .filter(roleSubMenu -> roleSubMenu.getSubMenu().getMenu().getId().equals(menu.getId()))
-                .map(roleSubMenu -> SubMenuHelper.toSubMenuResponse(roleSubMenu.getSubMenu()))
+                .map(roleSubMenu -> SubMenuResponse.toResponse(roleSubMenu.getSubMenu()))
                 .toList();
     }
 

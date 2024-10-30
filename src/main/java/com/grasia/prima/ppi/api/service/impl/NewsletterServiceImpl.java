@@ -11,7 +11,6 @@ import com.grasia.prima.ppi.api.entity.MNewsletter;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.StringHelper;
-import com.grasia.prima.ppi.api.helper.entity.NewsletterHelper;
 import com.grasia.prima.ppi.api.repository.NewsletterRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.FileService;
@@ -176,6 +175,6 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
     }
 
     private NewsletterResponse toResponse(MNewsletter newsletter) {
-        return NewsletterHelper.toNewsletterResponse(newsletter);
+        return NewsletterResponse.toResponse(newsletter);
     }
 }

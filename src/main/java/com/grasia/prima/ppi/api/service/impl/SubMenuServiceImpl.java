@@ -5,7 +5,6 @@ import com.grasia.prima.ppi.api.dto.request.SubMenuRequest;
 import com.grasia.prima.ppi.api.dto.response.SubMenuResponse;
 import com.grasia.prima.ppi.api.entity.MMenu;
 import com.grasia.prima.ppi.api.entity.MSubMenu;
-import com.grasia.prima.ppi.api.helper.entity.SubMenuHelper;
 import com.grasia.prima.ppi.api.repository.SubMenuRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.MenuService;
@@ -79,6 +78,6 @@ public class SubMenuServiceImpl extends AbstractCrudService implements SubMenuSe
     }
 
     private SubMenuResponse toResponse(MSubMenu subMenu) {
-        return SubMenuHelper.toSubMenuResponse(subMenu);
+        return SubMenuResponse.toResponse(subMenu);
     }
 }

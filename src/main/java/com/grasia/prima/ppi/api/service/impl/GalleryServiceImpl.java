@@ -10,7 +10,6 @@ import com.grasia.prima.ppi.api.dto.search.GallerySearchDto;
 import com.grasia.prima.ppi.api.entity.MEvent;
 import com.grasia.prima.ppi.api.entity.MGallery;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.GalleryHelper;
 import com.grasia.prima.ppi.api.repository.GalleryRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.EventService;
@@ -109,6 +108,6 @@ public class GalleryServiceImpl extends AbstractCrudService implements GallerySe
     }
 
     private GalleryResponse toResponse(MGallery gallery) {
-        return GalleryHelper.toGalleryResponse(gallery);
+        return GalleryResponse.toResponse(gallery);
     }
 }

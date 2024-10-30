@@ -11,7 +11,6 @@ import com.grasia.prima.ppi.api.entity.MEvent;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.StringHelper;
-import com.grasia.prima.ppi.api.helper.entity.EventHelper;
 import com.grasia.prima.ppi.api.repository.EventRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.EventService;
@@ -183,6 +182,6 @@ public class EventServiceImpl extends AbstractCrudService implements EventServic
     }
 
     private EventResponse toResponse(MEvent event) {
-        return EventHelper.toEventResponse(event);
+        return EventResponse.toResponse(event);
     }
 }

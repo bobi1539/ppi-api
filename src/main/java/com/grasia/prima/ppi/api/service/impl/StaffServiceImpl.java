@@ -10,7 +10,6 @@ import com.grasia.prima.ppi.api.entity.MDivision;
 import com.grasia.prima.ppi.api.entity.MStaff;
 import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.StaffHelper;
 import com.grasia.prima.ppi.api.repository.StaffRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.DivisionService;
@@ -168,6 +167,6 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
     }
 
     private StaffResponse toResponse(MStaff staff) {
-        return StaffHelper.toStaffResponse(staff);
+        return StaffResponse.toResponse(staff);
     }
 }

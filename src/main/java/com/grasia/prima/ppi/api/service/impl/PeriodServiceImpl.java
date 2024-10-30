@@ -1,14 +1,13 @@
 package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
-import com.grasia.prima.ppi.api.dto.request.PeriodRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
+import com.grasia.prima.ppi.api.dto.request.PeriodRequest;
 import com.grasia.prima.ppi.api.dto.response.PeriodResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MPeriod;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
-import com.grasia.prima.ppi.api.helper.entity.PeriodHelper;
 import com.grasia.prima.ppi.api.repository.PeriodRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.PeriodService;
@@ -114,6 +113,6 @@ public class PeriodServiceImpl extends AbstractCrudService implements PeriodServ
     }
 
     private PeriodResponse toResponse(MPeriod period) {
-        return PeriodHelper.toPeriodResponse(period);
+        return PeriodResponse.toResponse(period);
     }
 }
