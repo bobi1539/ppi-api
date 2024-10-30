@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserRoleMenuRequest;
+import com.grasia.prima.ppi.api.dto.response.MenuResponse;
 import com.grasia.prima.ppi.api.dto.response.UserRoleMenuResponse;
 import com.grasia.prima.ppi.api.entity.*;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
@@ -15,11 +16,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserRoleMenuServiceImplTest {
@@ -89,6 +91,25 @@ class UserRoleMenuServiceImplTest {
         verify(userRoleService).getUserRoleById(userRoleId);
         verify(roleMenuRepository).findByUserRoleOrderByMenuSequenceAsc(userRole);
         verify(roleSubMenuRepository).findByUserRoleOrderBySubMenuSequenceAsc(userRole);
+    }
+
+    @Test
+    void testFindByUserRoleId_MenuResponseIsNull() {
+        try (MockedStatic<MenuResponse> mockedStatic = mockStatic(MenuResponse.class)) {
+            when(userRoleService.getUserRoleById(userRoleId)).thenReturn(userRole);
+            when(roleMenuRepository.findByUserRoleOrderByMenuSequenceAsc(userRole)).thenReturn(List.of(userRoleMenu));
+            when(roleSubMenuRepository.findByUserRoleOrderBySubMenuSequenceAsc(userRole)).thenReturn(List.of(userRoleSubMenu));
+            mockedStatic.when(() -> MenuResponse.toResponse(any())).thenReturn(null);
+
+            AssertionError e = assertThrows(AssertionError.class, () -> userRoleMenuService.findByUserRoleId(userRoleId));
+            assertNull(e.getMessage());
+
+
+            verify(userRoleService).getUserRoleById(userRoleId);
+            verify(roleMenuRepository).findByUserRoleOrderByMenuSequenceAsc(userRole);
+            verify(roleSubMenuRepository).findByUserRoleOrderBySubMenuSequenceAsc(userRole);
+        }
+
     }
 
     @Test
