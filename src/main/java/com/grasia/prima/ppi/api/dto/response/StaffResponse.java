@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -44,5 +46,12 @@ public class StaffResponse extends BaseEntityResponse {
                 .build();
         BaseEntityResponse.setBaseEntity(response, staff);
         return response;
+    }
+
+    public static List<StaffResponse> toResponses(List<MStaff> staffs) {
+        if (Objects.isNull(staffs)) {
+            return Collections.emptyList();
+        }
+        return staffs.stream().map(StaffResponse::toResponse).toList();
     }
 }

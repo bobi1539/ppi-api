@@ -4,17 +4,16 @@ import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
 import com.grasia.prima.ppi.api.dto.request.FileRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.StaffRequest;
+import com.grasia.prima.ppi.api.dto.response.StaffDivisionResponse;
 import com.grasia.prima.ppi.api.dto.response.StaffResponse;
 import com.grasia.prima.ppi.api.dto.search.StaffSearchDto;
 import com.grasia.prima.ppi.api.entity.MDivision;
+import com.grasia.prima.ppi.api.entity.MPeriod;
 import com.grasia.prima.ppi.api.entity.MStaff;
 import com.grasia.prima.ppi.api.helper.PageHelper;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.repository.StaffRepository;
-import com.grasia.prima.ppi.api.service.AbstractCrudService;
-import com.grasia.prima.ppi.api.service.DivisionService;
-import com.grasia.prima.ppi.api.service.FileService;
-import com.grasia.prima.ppi.api.service.StaffService;
+import com.grasia.prima.ppi.api.service.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +22,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -32,6 +34,7 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
     private final StaffRepository staffRepository;
     private final DivisionService divisionService;
     private final FileService fileService;
+    private final PeriodService periodService;
     private static final String DIRECTORY_NAME = "staff";
 
     @Override
@@ -102,6 +105,27 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
     @Override
     public MStaff getStaffById(Long id) {
         return staffRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
+    }
+
+    @Override
+    public List<StaffDivisionResponse> findByPeriodId(Long periodId) {
+        MPeriod period = periodService.getPeriodById(periodId);
+        List<MStaff> heads = staffRepository.findByDivisionPeriodAndIsHeadOrderByDivisionIdAsc(period, true);
+        List<MStaff> teams = staffRepository.findByDivisionPeriodAndIsHeadOrderByDivisionIdAsc(period, false);
+
+        List<StaffDivisionResponse> responses = new ArrayList<>();
+        heads.stream()
+                .collect(Collectors.groupingBy(MStaff::getDivision, LinkedHashMap::new, Collectors.toList()))
+                .forEach((division, headsByDivision) -> {
+                    List<MStaff> teamsByDivision = teams.stream()
+                            .filter(staff -> staff.getDivision().equals(division))
+                            .toList();
+                    StaffDivisionResponse response = StaffDivisionResponse.toResponse(
+                            division, headsByDivision, teamsByDivision
+                    );
+                    responses.add(response);
+                });
+        return responses;
     }
 
     private Specification<MStaff> getSpecificationFindAll(StaffSearchDto searchDto) {

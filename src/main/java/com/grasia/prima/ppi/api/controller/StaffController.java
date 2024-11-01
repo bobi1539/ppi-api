@@ -4,6 +4,7 @@ import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.Endpoint;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.StaffRequest;
+import com.grasia.prima.ppi.api.dto.response.StaffDivisionResponse;
 import com.grasia.prima.ppi.api.dto.response.StaffResponse;
 import com.grasia.prima.ppi.api.dto.search.StaffSearchDto;
 import com.grasia.prima.ppi.api.service.StaffService;
@@ -100,5 +101,10 @@ public class StaffController {
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
         return staffService.restore(id, header);
+    }
+
+    @GetMapping("/period/{periodId}")
+    public List<StaffDivisionResponse> findByPeriodId(@PathVariable Long periodId) {
+        return staffService.findByPeriodId(periodId);
     }
 }
