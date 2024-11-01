@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.StaffRequest;
+import com.grasia.prima.ppi.api.dto.response.StaffDivisionResponse;
 import com.grasia.prima.ppi.api.dto.response.StaffResponse;
 import com.grasia.prima.ppi.api.dto.search.StaffSearchDto;
 import com.grasia.prima.ppi.api.entity.MDivision;
@@ -11,6 +12,7 @@ import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.repository.StaffRepository;
 import com.grasia.prima.ppi.api.service.DivisionService;
 import com.grasia.prima.ppi.api.service.FileService;
+import com.grasia.prima.ppi.api.service.PeriodService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,8 +29,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class StaffServiceImplTest extends ServiceTest {
 
@@ -43,6 +44,9 @@ class StaffServiceImplTest extends ServiceTest {
 
     @Mock
     private FileService fileService;
+
+    @Mock
+    private PeriodService periodService;
 
     private final MStaff staff = ObjectDummy.getStaff();
     private final MDivision division = ObjectDummy.getDivision();
@@ -198,5 +202,19 @@ class StaffServiceImplTest extends ServiceTest {
 
         verify(staffRepository).findByIdAndIsDeleted(id, true);
         verify(staffRepository).save(any());
+    }
+
+    @Test
+    void testFindByPeriodId() {
+        when(periodService.getPeriodById(id)).thenReturn(ObjectDummy.getPeriod());
+        when(staffRepository.findByDivisionPeriodAndIsHeadOrderByDivisionIdAsc(any(), any()))
+                .thenReturn(List.of(ObjectDummy.getStaff()));
+
+        List<StaffDivisionResponse> responses = staffService.findByPeriodId(id);
+        assertEquals(1, responses.size());
+
+        verify(periodService).getPeriodById(id);
+        verify(staffRepository, times(2))
+                .findByDivisionPeriodAndIsHeadOrderByDivisionIdAsc(any(), any());
     }
 }

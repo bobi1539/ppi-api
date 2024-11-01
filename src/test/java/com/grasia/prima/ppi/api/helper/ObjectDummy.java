@@ -510,4 +510,11 @@ public final class ObjectDummy {
                 .fileName("file.png")
                 .build();
     }
+
+    public static StaffDivisionResponse getStaffDivisionResponse() {
+        return StaffDivisionResponse.builder()
+                .id(1L)
+                .name("division-name")
+                .build();
+    }
 }

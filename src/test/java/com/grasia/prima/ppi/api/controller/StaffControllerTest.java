@@ -1,6 +1,7 @@
 package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.dto.request.StaffRequest;
+import com.grasia.prima.ppi.api.dto.response.StaffDivisionResponse;
 import com.grasia.prima.ppi.api.dto.response.StaffResponse;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.service.StaffService;
@@ -116,5 +117,16 @@ class StaffControllerTest extends ControllerTest {
         assertEquals(staffResponse.getName(), response.getName());
 
         verify(service).restore(any(), any());
+    }
+
+    @Test
+    void testFindByPeriodId() {
+        StaffDivisionResponse staffDivisionResponse = ObjectDummy.getStaffDivisionResponse();
+        when(service.findByPeriodId(id)).thenReturn(List.of(staffDivisionResponse));
+
+        List<StaffDivisionResponse> responses = controller.findByPeriodId(id);
+        assertEquals(1, responses.size());
+
+        verify(service).findByPeriodId(id);
     }
 }
