@@ -33,6 +33,7 @@ public class SecurityConfig {
     private static final String[] ALLOW_ENDPOINTS = {
             Endpoint.AUTH + "/**",
             Endpoint.FILE + "/**",
+            Endpoint.WEB + "/**",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",

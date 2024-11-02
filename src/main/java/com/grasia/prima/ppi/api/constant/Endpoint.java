@@ -24,4 +24,6 @@ public final class Endpoint {
     public static final String NEWSLETTER = BASE + "/newsletters";
     public static final String EVENT = BASE + "/events";
     public static final String GALLERY = BASE + "/galleries";
+    public static final String WEB = BASE + "/web";
+    public static final String WEB_EVENT = WEB + "/events";
 }
