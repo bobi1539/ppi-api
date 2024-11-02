@@ -28,4 +28,5 @@ public final class Endpoint {
     public static final String WEB_EVENT = WEB + "/events";
     public static final String WEB_NEWSLETTER = WEB + "/newsletters";
     public static final String WEB_GALLERY = WEB + "/galleries";
+    public static final String WEB_STAFF = WEB + "/staffs";
 }
