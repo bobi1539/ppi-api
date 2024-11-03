@@ -40,6 +40,13 @@ public class AuthServiceImpl implements AuthService {
         return buildLoginResponse(jwt, refreshToken);
     }
 
+    @Override
+    public LoginResponse logout(RefreshTokenRequest request) {
+        LogAuth logAuth = findLogAuthByRefreshToken(request.getRefreshToken());
+        logAuthRepository.delete(logAuth);
+        return buildLoginResponse(null, logAuth.getRefreshToken());
+    }
+
     @Transactional
     @Override
     public LoginResponse loginWithRefreshToken(RefreshTokenRequest request) {

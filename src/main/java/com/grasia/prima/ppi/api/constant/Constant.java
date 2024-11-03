@@ -81,4 +81,16 @@ public final class Constant {
     public static final String EVENT_END_TIME_REQUIRED = "Event End Time Is Required";
     public static final String GALLERY_FILE_REQUIRED = "Gallery File Is Required";
     public static final String PAGE_NUMBER_NOT_VALID = "Page Number Cannot Less Than Zero";
+    public static final String LOGO_REQUIRED = "Logo Is Required";
+    public static final String BANNER_REQUIRED = "Banner Is Required";
+    public static final String QR_CODE_REQUIRED = "Qr Code Is Required";
+    public static final String INSTAGRAM_REQUIRED = "Instagram Is Required";
+    public static final String TIKTOK_REQUIRED = "Tiktok Is Required";
+    public static final String LINKEDIN_CODE_REQUIRED = "Linkedin Is Required";
+    public static final String YOUTUBE_CODE_REQUIRED = "Youtube Is Required";
+    public static final String ACCOUNT_NAME_REQUIRED = "Support Account Name Is Required";
+    public static final String ACCOUNT_NUMBER_REQUIRED = "Support Account Number Is Required";
+    public static final String SHORT_CODE_REQUIRED = "Support Short Code Is Required";
+    public static final String CONTACT_EMAIL_REQUIRED = "Support Short Code Is Required";
+    public static final String CONTACT_PHONE_NUMBER_REQUIRED = "Support Short Code Is Required";
 }
