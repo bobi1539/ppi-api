@@ -128,6 +128,11 @@ public class StaffServiceImpl extends AbstractCrudService implements StaffServic
         return responses;
     }
 
+    @Override
+    public long countByPeriod(Long periodId) {
+        return staffRepository.countByDivisionPeriodId(periodId);
+    }
+
     private Specification<MStaff> getSpecificationFindAll(StaffSearchDto searchDto) {
         Specification<MStaff> spec = SpecificationHelper.stringLike(MStaff.FIELD_NAME, searchDto.getSearch());
         return spec

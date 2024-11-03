@@ -28,4 +28,6 @@ public interface EventService {
     EventResponse restore(Long id, HeaderRequest header);
 
     MEvent getEventById(Long id);
+
+    long countAll();
 }

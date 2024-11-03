@@ -28,4 +28,6 @@ public interface NewsletterService {
     NewsletterResponse restore(Long id, HeaderRequest header);
 
     MNewsletter getNewsletterById(Long id);
+
+    long countAll();
 }

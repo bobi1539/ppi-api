@@ -8,4 +8,6 @@ import java.util.List;
 public interface StaffRepository extends BaseRepository<MStaff, Long> {
 
     List<MStaff> findByDivisionPeriodAndIsHeadOrderByDivisionIdAsc(MPeriod period, Boolean isHead);
+
+    long countByDivisionPeriodId(Long periodId);
 }

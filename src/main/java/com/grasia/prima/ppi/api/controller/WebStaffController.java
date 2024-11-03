@@ -34,4 +34,9 @@ public class WebStaffController extends BaseController {
                 .build();
         return staffService.findAll(searchDto);
     }
+
+    @GetMapping("/count")
+    public long countByPeriod(@RequestParam(required = false) Long periodId) {
+        return staffService.countByPeriod(periodId);
+    }
 }

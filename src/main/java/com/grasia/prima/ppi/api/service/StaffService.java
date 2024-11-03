@@ -29,4 +29,6 @@ public interface StaffService {
     MStaff getStaffById(Long id);
 
     List<StaffDivisionResponse> findByPeriodId(Long periodId);
+
+    long countByPeriod(Long periodId);
 }

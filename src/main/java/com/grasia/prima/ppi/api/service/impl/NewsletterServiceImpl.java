@@ -116,6 +116,11 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
         return newsletterRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
+    @Override
+    public long countAll() {
+        return newsletterRepository.count();
+    }
+
     private Specification<MNewsletter> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MNewsletter> spec = SpecificationHelper.stringLike(MNewsletter.FIELD_TITLE, searchDto.getSearch());
         return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));

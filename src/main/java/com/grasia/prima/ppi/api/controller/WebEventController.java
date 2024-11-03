@@ -27,4 +27,9 @@ public class WebEventController extends BaseController {
     public EventResponse findBySlug(@PathVariable String slug) {
         return eventService.findBySlug(slug);
     }
+
+    @GetMapping("/count")
+    public long countAll() {
+        return eventService.countAll();
+    }
 }

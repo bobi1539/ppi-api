@@ -27,4 +27,9 @@ public class WebNewsletterController extends BaseController {
     public NewsletterResponse findBySlug(@PathVariable String slug) {
         return newsletterService.findBySlug(slug);
     }
+
+    @GetMapping("/count")
+    public long countAll() {
+        return newsletterService.countAll();
+    }
 }

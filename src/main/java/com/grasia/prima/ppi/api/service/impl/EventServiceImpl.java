@@ -110,6 +110,11 @@ public class EventServiceImpl extends AbstractCrudService implements EventServic
         return eventRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
+    @Override
+    public long countAll() {
+        return eventRepository.count();
+    }
+
     private Specification<MEvent> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MEvent> spec = SpecificationHelper.stringLike(MEvent.FIELD_TITLE, searchDto.getSearch());
         return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
