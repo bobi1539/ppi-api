@@ -40,4 +40,11 @@ class WebStaffControllerTest {
 
         verify(service).findAll(any());
     }
+
+    @Test
+    void testCountByPeriod() {
+        when(service.countByPeriod(1L)).thenReturn(10L);
+        assertEquals(10, controller.countByPeriod(1L));
+        verify(service).countByPeriod(1L);
+    }
 }

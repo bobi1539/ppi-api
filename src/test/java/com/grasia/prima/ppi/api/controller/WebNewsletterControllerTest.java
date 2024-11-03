@@ -54,4 +54,11 @@ class WebNewsletterControllerTest {
 
         verify(service).findBySlug(slug);
     }
+
+    @Test
+    void testCountAll() {
+        when(service.countAll()).thenReturn(10L);
+        assertEquals(10L, controller.countAll());
+        verify(service).countAll();
+    }
 }

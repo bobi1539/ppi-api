@@ -227,4 +227,11 @@ class NewsletterServiceImplTest extends ServiceTest {
         verify(newsletterRepository).findByIdAndIsDeleted(id, true);
         verify(newsletterRepository).save(any());
     }
+
+    @Test
+    void testCountAll() {
+        when(newsletterRepository.count()).thenReturn(10L);
+        assertEquals(10L, newsletterService.countAll());
+        verify(newsletterRepository).count();
+    }
 }

@@ -26,7 +26,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class EventServiceImplTest extends ServiceTest {
 
@@ -248,5 +249,12 @@ class EventServiceImplTest extends ServiceTest {
 
         verify(eventRepository).findByIdAndIsDeleted(id, true);
         verify(eventRepository).save(any());
+    }
+
+    @Test
+    void testCountAll() {
+        when(eventRepository.count()).thenReturn(10L);
+        assertEquals(10L, eventService.countAll());
+        verify(eventRepository).count();
     }
 }

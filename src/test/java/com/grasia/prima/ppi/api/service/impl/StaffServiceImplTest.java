@@ -217,4 +217,11 @@ class StaffServiceImplTest extends ServiceTest {
         verify(staffRepository, times(2))
                 .findByDivisionPeriodAndIsHeadOrderByDivisionIdAsc(any(), any());
     }
+
+    @Test
+    void testCountByPeriod() {
+        when(staffRepository.countByDivisionPeriodId(1L)).thenReturn(10L);
+        assertEquals(10L, staffService.countByPeriod(1L));
+        verify(staffRepository).countByDivisionPeriodId(1L);
+    }
 }
