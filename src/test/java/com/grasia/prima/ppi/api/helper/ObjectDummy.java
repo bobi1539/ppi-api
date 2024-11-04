@@ -576,4 +576,45 @@ public final class ObjectDummy {
                 .eventGalleryId(1L)
                 .build();
     }
+
+    public static MStudent getStudent() {
+        return MStudent.builder()
+                .id(1L)
+                .name("student")
+                .education("student@gmail.com")
+                .photo("file.png")
+                .major("major")
+                .education("education")
+                .graduation("graduation")
+                .birthDate(LocalDate.of(1991, 10, 10))
+                .gender(getSystemParameterList())
+                .build();
+    }
+
+    public static StudentRequest getStudentRequest() {
+        return StudentRequest.builder()
+                .name("student")
+                .education("student@gmail.com")
+                .photo(getFileUploadRequest())
+                .major("major")
+                .education("education")
+                .graduation("graduation")
+                .birthDate(LocalDate.of(1991, 10, 10))
+                .genderId(1L)
+                .build();
+    }
+
+    public static StudentResponse getStudentResponse() {
+        return StudentResponse.builder()
+                .id(1L)
+                .name("student")
+                .education("student@gmail.com")
+                .photo("file.png")
+                .major("major")
+                .education("education")
+                .graduation("graduation")
+                .birthDate(LocalDate.of(1991, 10, 10))
+                .gender(getSystemParameterListResponse())
+                .build();
+    }
 }

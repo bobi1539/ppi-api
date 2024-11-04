@@ -13,6 +13,7 @@ import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.FileService;
 import com.grasia.prima.ppi.api.service.StudentService;
 import com.grasia.prima.ppi.api.service.SystemParameterListService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -48,6 +49,7 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
         return toResponse(getById(id));
     }
 
+    @Transactional
     @Override
     public StudentResponse create(StudentRequest request, HeaderRequest header) {
         MStudent student = MStudent.builder().build();
@@ -58,6 +60,7 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
         return toResponse(studentRepository.save(student));
     }
 
+    @Transactional
     @Override
     public StudentResponse update(Long id, StudentRequest request, HeaderRequest header) {
         MStudent student = getById(id);
@@ -67,11 +70,13 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
         return toResponse(studentRepository.save(student));
     }
 
+    @Transactional
     @Override
     public StudentResponse delete(Long id, HeaderRequest header) {
         MStudent student = studentRepository.findById(id).orElseThrow(getNotFoundException());
         if (student.isDeleted()) {
             studentRepository.delete(student);
+            deleteFile(student.getPhoto());
         } else {
             student.setDeleted(true);
             setUpdatedBy(student, header);
@@ -80,6 +85,7 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
         return toResponse(student);
     }
 
+    @Transactional
     @Override
     public StudentResponse restore(Long id, HeaderRequest header) {
         MStudent student = getStudentDeleted(id);
@@ -92,6 +98,11 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
     @Override
     public MStudent getById(Long id) {
         return studentRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
+    }
+
+    @Override
+    public long countAll() {
+        return studentRepository.count();
     }
 
     private Specification<MStudent> getSpecificationFindAll(SearchDto searchDto) {

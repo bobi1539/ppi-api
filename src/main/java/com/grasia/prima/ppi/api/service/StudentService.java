@@ -26,4 +26,6 @@ public interface StudentService {
     StudentResponse restore(Long id, HeaderRequest header);
 
     MStudent getById(Long id);
+
+    long countAll();
 }
