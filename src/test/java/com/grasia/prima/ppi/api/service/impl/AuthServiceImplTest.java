@@ -96,6 +96,19 @@ class AuthServiceImplTest {
     }
 
     @Test
+    void testLogout() {
+        when(logAuthRepository.findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any()))
+                .thenReturn(Optional.of(logAuth));
+
+        LoginResponse response = authService.logout(refreshTokenRequest);
+        assertNull(response.getJwt());
+        assertEquals(logAuth.getRefreshToken(), response.getRefreshToken());
+
+        verify(logAuthRepository).findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any());
+        verify(logAuthRepository).delete(any());
+    }
+
+    @Test
     void tesLoginWithRefreshToken_Success() {
         when(logAuthRepository.findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any()))
                 .thenReturn(Optional.of(logAuth));

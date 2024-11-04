@@ -12,7 +12,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class AuthControllerTest {
 
@@ -39,7 +40,18 @@ class AuthControllerTest {
         assertEquals(loginResponse.getJwt(), response.getJwt());
         assertEquals(loginResponse.getRefreshToken(), response.getRefreshToken());
 
-        verify(service, times(1)).login(loginRequest);
+        verify(service).login(loginRequest);
+    }
+
+    @Test
+    void testLogout() {
+        when(service.logout(refreshTokenRequest)).thenReturn(loginResponse);
+
+        LoginResponse response = controller.logout(refreshTokenRequest);
+        assertEquals(loginResponse.getJwt(), response.getJwt());
+        assertEquals(loginResponse.getRefreshToken(), response.getRefreshToken());
+
+        verify(service).logout(refreshTokenRequest);
     }
 
     @Test
@@ -50,6 +62,6 @@ class AuthControllerTest {
         assertEquals(loginResponse.getJwt(), response.getJwt());
         assertEquals(loginResponse.getRefreshToken(), response.getRefreshToken());
 
-        verify(service, times(1)).loginWithRefreshToken(refreshTokenRequest);
+        verify(service).loginWithRefreshToken(refreshTokenRequest);
     }
 }
