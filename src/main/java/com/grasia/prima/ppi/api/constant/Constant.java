@@ -93,4 +93,9 @@ public final class Constant {
     public static final String SHORT_CODE_REQUIRED = "Support Short Code Is Required";
     public static final String CONTACT_EMAIL_REQUIRED = "Support Short Code Is Required";
     public static final String CONTACT_PHONE_NUMBER_REQUIRED = "Support Short Code Is Required";
+    public static final String STUDENT_NAME_REQUIRED = "Student Name Is Required";
+    public static final String STUDENT_EMAIL_REQUIRED = "Student Email Is Required";
+    public static final String STUDENT_MAJOR_REQUIRED = "Student Major Is Required";
+    public static final String STUDENT_EDUCATION_REQUIRED = "Student Education Is Required";
+    public static final String GENDER_REQUIRED = "Gender Is Required";
 }

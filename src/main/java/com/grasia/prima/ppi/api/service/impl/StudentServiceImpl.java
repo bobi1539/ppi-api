@@ -1,0 +1,155 @@
+package com.grasia.prima.ppi.api.service.impl;
+
+import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
+import com.grasia.prima.ppi.api.dto.request.FileRequest;
+import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
+import com.grasia.prima.ppi.api.dto.request.StudentRequest;
+import com.grasia.prima.ppi.api.dto.response.StudentResponse;
+import com.grasia.prima.ppi.api.dto.search.SearchDto;
+import com.grasia.prima.ppi.api.entity.MStudent;
+import com.grasia.prima.ppi.api.helper.SpecificationHelper;
+import com.grasia.prima.ppi.api.repository.StudentRepository;
+import com.grasia.prima.ppi.api.service.AbstractCrudService;
+import com.grasia.prima.ppi.api.service.FileService;
+import com.grasia.prima.ppi.api.service.StudentService;
+import com.grasia.prima.ppi.api.service.SystemParameterListService;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+
+@AllArgsConstructor
+@Service
+public class StudentServiceImpl extends AbstractCrudService implements StudentService {
+
+    private final StudentRepository studentRepository;
+    private final FileService fileService;
+    private final SystemParameterListService parameterListService;
+    private static final String DIRECTORY_NAME = "student";
+
+    @Override
+    public List<StudentResponse> findAll(SearchDto searchDto) {
+        List<MStudent> students = studentRepository.findAll(getSpecificationFindAll(searchDto), sortByIdDesc());
+        return students.stream().map(this::toResponse).toList();
+    }
+
+    @Override
+    public Page<StudentResponse> findAllPagination(SearchDto searchDto) {
+        Page<MStudent> students = studentRepository
+                .findAll(getSpecificationFindAll(searchDto), pageableSortByIdDesc(searchDto));
+        return students.map(this::toResponse);
+    }
+
+    @Override
+    public StudentResponse findById(Long id) {
+        return toResponse(getById(id));
+    }
+
+    @Override
+    public StudentResponse create(StudentRequest request, HeaderRequest header) {
+        MStudent student = MStudent.builder().build();
+        setCreatedBy(student, header);
+        setUpdatedBy(student, header);
+        setStudent(student, request);
+        savePhotoWhenCreate(student, request);
+        return toResponse(studentRepository.save(student));
+    }
+
+    @Override
+    public StudentResponse update(Long id, StudentRequest request, HeaderRequest header) {
+        MStudent student = getById(id);
+        setUpdatedBy(student, header);
+        setStudent(student, request);
+        savePhotoWhenUpdate(student, request);
+        return toResponse(studentRepository.save(student));
+    }
+
+    @Override
+    public StudentResponse delete(Long id, HeaderRequest header) {
+        MStudent student = studentRepository.findById(id).orElseThrow(getNotFoundException());
+        if (student.isDeleted()) {
+            studentRepository.delete(student);
+        } else {
+            student.setDeleted(true);
+            setUpdatedBy(student, header);
+            student = studentRepository.save(student);
+        }
+        return toResponse(student);
+    }
+
+    @Override
+    public StudentResponse restore(Long id, HeaderRequest header) {
+        MStudent student = getStudentDeleted(id);
+        student.setDeleted(false);
+        setUpdatedBy(student, header);
+
+        return toResponse(studentRepository.save(student));
+    }
+
+    @Override
+    public MStudent getById(Long id) {
+        return studentRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
+    }
+
+    private Specification<MStudent> getSpecificationFindAll(SearchDto searchDto) {
+        Specification<MStudent> spec = SpecificationHelper.stringLike(MStudent.FIELD_NAME, searchDto.getSearch());
+        return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
+    }
+
+    private void setStudent(MStudent student, StudentRequest request) {
+        student.setName(request.getName());
+        student.setEmail(request.getEmail());
+        student.setMajor(request.getMajor());
+        student.setEducation(request.getEducation());
+        student.setGraduation(request.getGraduation());
+        student.setBirthDate(request.getBirthDate());
+        student.setGender(parameterListService.getSystemParameterListById(request.getGenderId()));
+    }
+
+    private boolean isPhotoRequestNotNull(StudentRequest request) {
+        return Objects.nonNull(request.getPhoto());
+    }
+
+    private void savePhotoWhenCreate(MStudent student, StudentRequest request) {
+        if (isPhotoRequestNotNull(request)) {
+            student.setPhoto(saveFile(request.getPhoto().getFileName(), request.getPhoto().getFileBase64()));
+        }
+    }
+
+    private void savePhotoWhenUpdate(MStudent student, StudentRequest request) {
+        if (isPhotoRequestNotNull(request) && !Objects.equals(student.getPhoto(), request.getPhoto().getFileName())) {
+            deleteFile(student.getPhoto());
+            student.setPhoto(saveFile(request.getPhoto().getFileName(), request.getPhoto().getFileBase64()));
+        }
+    }
+
+    private String saveFile(String fileName, String base64String) {
+        Base64ToFileDto dto = Base64ToFileDto.builder()
+                .directoryName(DIRECTORY_NAME)
+                .fileName(fileName)
+                .base64String(base64String)
+                .build();
+        return fileService.saveFileFromBase64(dto);
+    }
+
+    private void deleteFile(String fileName) {
+        if (Objects.nonNull(fileName)) {
+            FileRequest fileRequest = FileRequest.builder()
+                    .directoryName(DIRECTORY_NAME)
+                    .fileName(fileName)
+                    .build();
+            fileService.deleteFile(fileRequest);
+        }
+    }
+
+    private MStudent getStudentDeleted(Long id) {
+        return studentRepository.findByIdAndIsDeleted(id, true).orElseThrow(getNotFoundException());
+    }
+
+    private StudentResponse toResponse(MStudent student) {
+        return StudentResponse.toResponse(student);
+    }
+}
