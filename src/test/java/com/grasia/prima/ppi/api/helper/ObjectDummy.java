@@ -517,4 +517,63 @@ public final class ObjectDummy {
                 .name("division-name")
                 .build();
     }
+
+    public static MSetting getSetting() {
+        return MSetting.builder()
+                .id(1L)
+                .logo("file.png")
+                .banner("file.png")
+                .qrCode("file.png")
+                .instagram("instagram")
+                .tiktok("tiktok")
+                .linkedin("linkedin")
+                .youtube("youtube")
+                .supportAccountName("support")
+                .supportAccountNumber("number")
+                .supportShortCode("short")
+                .contactEmail("ppi@gmail.com")
+                .contactPhoneNumber("phone number")
+                .periodActive(getPeriod())
+                .eventGallery(getEvent())
+                .build();
+    }
+
+    public static SettingRequest getSettingRequest() {
+        return SettingRequest.builder()
+                .logo(getFileUploadRequest())
+                .banner(getFileUploadRequest())
+                .qrCode(getFileUploadRequest())
+                .instagram("instagram")
+                .tiktok("tiktok")
+                .linkedin("linkedin")
+                .youtube("youtube")
+                .supportAccountName("support")
+                .supportAccountNumber("number")
+                .supportShortCode("short")
+                .contactEmail("ppi@gmail.com")
+                .contactPhoneNumber("phone number")
+                .periodActiveId(1L)
+                .eventGalleryId(1L)
+                .build();
+    }
+
+    public static SettingResponse getSettingResponse() {
+        return SettingResponse.builder()
+                .id(1L)
+                .logo("file.png")
+                .banner("file.png")
+                .qrCode("file.png")
+                .instagram("instagram")
+                .tiktok("tiktok")
+                .linkedin("linkedin")
+                .youtube("youtube")
+                .supportAccountName("support")
+                .supportAccountNumber("number")
+                .supportShortCode("short")
+                .contactEmail("ppi@gmail.com")
+                .contactPhoneNumber("phone number")
+                .periodActiveId(1L)
+                .eventGalleryId(1L)
+                .build();
+    }
 }
