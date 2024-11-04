@@ -42,6 +42,9 @@ VALUES('2024-10-15 21:44:26.023', 1, 'Super Admin', false, '2024-10-15 21:44:26.
 INSERT INTO public.m_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
 VALUES('2024-10-15 21:47:08.878', 1, 'Super Admin', false, '2024-10-15 21:47:08.878', 1, 'Super Admin', 'fa-solid fa-list', 'Menu', '/office/menu', 7);
+INSERT INTO public.m_menu
+(created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
+VALUES('2024-10-15 21:47:08.878', 1, 'Super Admin', false, '2024-10-15 21:47:08.878', 1, 'Super Admin', 'fa-solid fa-gear', 'Setting', '/office/setting', 8);
 
 
 INSERT INTO public.m_sub_menu
@@ -50,6 +53,9 @@ VALUES('2024-10-15 21:48:31.386', 1, 'Super Admin', false, '2024-10-15 21:48:31.
 INSERT INTO public.m_sub_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, "name", route, "sequence", menu_id)
 VALUES('2024-10-15 21:48:43.492', 1, 'Super Admin', false, '2024-10-15 21:48:43.492', 1, 'Super Admin', 'Role', '/office/user/role', 2, 2);
+INSERT INTO public.m_sub_menu
+(created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, "name", route, "sequence", menu_id)
+VALUES('2024-10-15 21:48:43.492', 1, 'Super Admin', false, '2024-10-15 21:48:43.492', 1, 'Super Admin', 'Student', '/office/user/student', 3, 2);
 INSERT INTO public.m_sub_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, "name", route, "sequence", menu_id)
 VALUES('2024-10-15 21:49:29.207', 1, 'Super Admin', false, '2024-10-15 21:50:05.560', 1, 'Super Admin', 'Data', '/office/committee/data', 1, 3);
@@ -79,6 +85,9 @@ VALUES('2024-10-15 21:58:06.104', 6, 1);
 INSERT INTO public.t_user_role_menu
 (created_at, menu_id, user_role_id)
 VALUES('2024-10-15 21:58:06.121', 7, 1);
+INSERT INTO public.t_user_role_menu
+(created_at, menu_id, user_role_id)
+VALUES('2024-10-15 21:58:06.121', 8, 1);
 
 
 INSERT INTO public.t_user_role_sub_menu
@@ -93,4 +102,7 @@ VALUES('2024-10-15 21:58:06.061', 3, 1);
 INSERT INTO public.t_user_role_sub_menu
 (created_at, sub_menu_id, user_role_id)
 VALUES('2024-10-15 21:58:06.063', 4, 1);
+INSERT INTO public.t_user_role_sub_menu
+(created_at, sub_menu_id, user_role_id)
+VALUES('2024-10-15 21:58:06.063', 5, 1);
 
