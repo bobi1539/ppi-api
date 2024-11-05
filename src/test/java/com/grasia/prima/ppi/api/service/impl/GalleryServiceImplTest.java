@@ -23,7 +23,8 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -119,5 +120,12 @@ class GalleryServiceImplTest extends ServiceTest {
         verify(galleryRepository).findById(id);
         verify(galleryRepository).delete(any());
         verify(fileService).deleteFile(any());
+    }
+
+    @Test
+    void testCountAll() {
+        when(galleryRepository.count()).thenReturn(10L);
+        assertEquals(10L, galleryService.countAll());
+        verify(galleryRepository).count();
     }
 }
