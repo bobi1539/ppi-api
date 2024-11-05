@@ -23,7 +23,7 @@ VALUES('2024-10-15 21:32:24.400', 1, 'Super Admin', false, '2024-10-15 21:32:24.
 
 INSERT INTO public.m_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
-VALUES('2024-10-15 21:38:45.262', 1, 'Super Admin', false, '2024-10-15 21:38:45.262', 1, 'Super Admin', 'fa-solid fa-gauge-simple', 'Dashboard', '/office/dashboard', 1);
+VALUES('2024-10-15 21:38:45.262', 1, 'Super Admin', false, '2024-10-15 21:38:45.262', 1, 'Super Admin', 'fa-solid fa-gauge-high', 'Dashboard', '/office/dashboard', 1);
 INSERT INTO public.m_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
 VALUES('2024-10-15 21:39:57.034', 1, 'Super Admin', false, '2024-10-15 21:39:57.034', 1, 'Super Admin', 'fa-solid fa-user-gear', 'User', '/office/user', 2);

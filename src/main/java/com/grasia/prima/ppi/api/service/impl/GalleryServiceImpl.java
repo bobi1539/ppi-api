@@ -81,6 +81,11 @@ public class GalleryServiceImpl extends AbstractCrudService implements GallerySe
         return galleryRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
+    @Override
+    public long countAll() {
+        return galleryRepository.count();
+    }
+
     private Specification<MGallery> getSpecificationFindAll(GallerySearchDto searchDto) {
         Specification<MGallery> spec = SpecificationHelper.entityIdEquals(MGallery.FIELD_EVENT, searchDto.getEventId());
         return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));

@@ -617,4 +617,13 @@ public final class ObjectDummy {
                 .gender(getSystemParameterListResponse())
                 .build();
     }
+
+    public static DashboardResponse getDashboardResponse() {
+        return DashboardResponse.builder()
+                .totalStudent(10L)
+                .totalEvent(10L)
+                .totalNewsletter(10L)
+                .totalGallery(10L)
+                .build();
+    }
 }

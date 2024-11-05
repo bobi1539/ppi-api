@@ -26,6 +26,7 @@ public final class Endpoint {
     public static final String GALLERY = BASE + "/galleries";
     public static final String SETTING = BASE + "/settings";
     public static final String STUDENT = BASE + "/students";
+    public static final String DASHBOARD = BASE + "/dashboards";
     public static final String WEB = BASE + "/web";
     public static final String WEB_EVENT = WEB + "/events";
     public static final String WEB_NEWSLETTER = WEB + "/newsletters";

@@ -22,4 +22,6 @@ public interface GalleryService {
     GalleryResponse delete(Long id, HeaderRequest header);
 
     MGallery getGalleryById(Long id);
+
+    long countAll();
 }
