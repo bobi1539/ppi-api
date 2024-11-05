@@ -572,8 +572,8 @@ public final class ObjectDummy {
                 .supportShortCode("short")
                 .contactEmail("ppi@gmail.com")
                 .contactPhoneNumber("phone number")
-                .periodActiveId(1L)
-                .eventGalleryId(1L)
+                .periodActive(getPeriodResponse())
+                .eventGallery(getEventResponse())
                 .build();
     }
 

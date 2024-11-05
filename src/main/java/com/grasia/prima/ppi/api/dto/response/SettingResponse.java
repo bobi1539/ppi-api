@@ -28,8 +28,8 @@ public class SettingResponse extends BaseEntityResponse {
     private String supportShortCode;
     private String contactEmail;
     private String contactPhoneNumber;
-    private Long periodActiveId;
-    private Long eventGalleryId;
+    private PeriodResponse periodActive;
+    private EventResponse eventGallery;
 
     public static SettingResponse toResponse(MSetting setting) {
         if (Objects.isNull(setting)) {
@@ -49,8 +49,8 @@ public class SettingResponse extends BaseEntityResponse {
                 .supportShortCode(setting.getSupportShortCode())
                 .contactEmail(setting.getContactEmail())
                 .contactPhoneNumber(setting.getContactPhoneNumber())
-                .periodActiveId(setting.getPeriodActive().getId())
-                .eventGalleryId(setting.getEventGallery().getId())
+                .periodActive(PeriodResponse.toResponse(setting.getPeriodActive()))
+                .eventGallery(EventResponse.toResponse(setting.getEventGallery()))
                 .build();
         BaseEntityResponse.setBaseEntity(response, setting);
         return response;
