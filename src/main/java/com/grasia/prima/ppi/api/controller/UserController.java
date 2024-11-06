@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.Endpoint;
+import com.grasia.prima.ppi.api.dto.request.ChangePasswordRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserCreateRequest;
 import com.grasia.prima.ppi.api.dto.request.UserUpdateRequest;
@@ -75,5 +76,22 @@ public class UserController extends BaseController {
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
         return userService.restore(id, header);
+    }
+
+    @PutMapping("/change-password/{id}")
+    public UserResponse changePasswordById(
+            @PathVariable Long id,
+            @RequestBody @Valid ChangePasswordRequest request,
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return userService.changePassword(id, request, header);
+    }
+
+    @PutMapping("/change-password/header")
+    public UserResponse changePasswordByHeader(
+            @RequestBody @Valid ChangePasswordRequest request,
+            @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
+    ) {
+        return userService.changePassword(header.getUserId(), request, header);
     }
 }

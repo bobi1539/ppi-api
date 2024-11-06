@@ -119,6 +119,15 @@ public class UserServiceImpl extends AbstractCrudService implements UserDetailsS
         return userRepository.findByIdAndIsDeleted(id, false).orElseThrow(getNotFoundException());
     }
 
+    @Override
+    public UserResponse changePassword(Long id, ChangePasswordRequest request, HeaderRequest header) {
+        userValidationService.validatePassword(request.getPassword(), request.getPasswordConfirm());
+        MUser user = getUserById(id);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        setUpdatedBy(user, header);
+        return toResponse(userRepository.save(user));
+    }
+
     private Specification<MUser> getSpecificationFindAll(SearchDto searchDto) {
         return getSpecificationStringLike(searchDto.getSearch()).and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
     }

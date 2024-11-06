@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.service;
 
+import com.grasia.prima.ppi.api.dto.request.ChangePasswordRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.UserCreateRequest;
 import com.grasia.prima.ppi.api.dto.request.UserUpdateRequest;
@@ -25,4 +26,6 @@ public interface UserService {
     UserResponse restore(Long id, HeaderRequest header);
 
     MUser getUserById(Long id);
+
+    UserResponse changePassword(Long id, ChangePasswordRequest request, HeaderRequest header);
 }
