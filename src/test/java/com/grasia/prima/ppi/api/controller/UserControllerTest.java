@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.controller;
 
+import com.grasia.prima.ppi.api.dto.request.ChangePasswordRequest;
 import com.grasia.prima.ppi.api.dto.request.UserCreateRequest;
 import com.grasia.prima.ppi.api.dto.request.UserUpdateRequest;
 import com.grasia.prima.ppi.api.dto.response.UserResponse;
@@ -28,6 +29,7 @@ class UserControllerTest extends ControllerTest {
     private UserService service;
     private final UserCreateRequest createRequest = ObjectDummy.getUserCreateRequest();
     private final UserUpdateRequest updateRequest = ObjectDummy.getUserUpdateRequest();
+    private final ChangePasswordRequest changePasswordRequest = ObjectDummy.getChangePasswordRequest();
     private final UserResponse userResponse = ObjectDummy.getUserResponse();
 
     @BeforeEach
@@ -113,5 +115,27 @@ class UserControllerTest extends ControllerTest {
         assertEquals(userResponse.getName(), response.getName());
 
         verify(service, times(1)).restore(any(), any());
+    }
+
+    @Test
+    void testChangePasswordById() {
+        when(service.changePassword(any(), any(), any())).thenReturn(userResponse);
+
+        UserResponse response = controller.changePasswordById(id, changePasswordRequest, header);
+        assertEquals(userResponse.getId(), response.getId());
+        assertEquals(userResponse.getName(), response.getName());
+
+        verify(service).changePassword(any(), any(), any());
+    }
+
+    @Test
+    void testChangePasswordByHeader() {
+        when(service.changePassword(any(), any(), any())).thenReturn(userResponse);
+
+        UserResponse response = controller.changePasswordByHeader(changePasswordRequest, header);
+        assertEquals(userResponse.getId(), response.getId());
+        assertEquals(userResponse.getName(), response.getName());
+
+        verify(service).changePassword(any(), any(), any());
     }
 }

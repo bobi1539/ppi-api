@@ -626,4 +626,11 @@ public final class ObjectDummy {
                 .totalGallery(10L)
                 .build();
     }
+
+    public static ChangePasswordRequest getChangePasswordRequest() {
+        return ChangePasswordRequest.builder()
+                .password("YourPassword88990")
+                .passwordConfirm("YourPassword88990")
+                .build();
+    }
 }

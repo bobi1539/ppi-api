@@ -96,6 +96,20 @@ class AuthServiceImplTest {
     }
 
     @Test
+    void testLogin_AccountNotActive() {
+        user.setIsActive(false);
+        when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
+
+        BusinessException e = assertThrows(BusinessException.class, () -> authService.login(loginRequest));
+        assertEquals(GlobalMessage.ACCOUNT_NOT_ACTIVE.status, e.getStatus());
+        assertEquals(GlobalMessage.ACCOUNT_NOT_ACTIVE.message, e.getMessage());
+
+        verify(userRepository).findByUsername(USERNAME);
+        verify(passwordEncoder).matches(anyString(), anyString());
+    }
+
+    @Test
     void testLogout() {
         when(logAuthRepository.findByRefreshTokenAndRefreshTokenExpiryAfter(anyString(), any()))
                 .thenReturn(Optional.of(logAuth));

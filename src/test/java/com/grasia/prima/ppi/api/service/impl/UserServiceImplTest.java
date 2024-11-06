@@ -1,6 +1,7 @@
 package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
+import com.grasia.prima.ppi.api.dto.request.ChangePasswordRequest;
 import com.grasia.prima.ppi.api.dto.request.UserCreateRequest;
 import com.grasia.prima.ppi.api.dto.request.UserUpdateRequest;
 import com.grasia.prima.ppi.api.dto.response.UserResponse;
@@ -49,6 +50,7 @@ class UserServiceImplTest extends ServiceTest {
     private final MUser user = ObjectDummy.getUser();
     private final UserCreateRequest createRequest = ObjectDummy.getUserCreateRequest();
     private final UserUpdateRequest updateRequest = ObjectDummy.getUserUpdateRequest();
+    private final ChangePasswordRequest changePasswordRequest = ObjectDummy.getChangePasswordRequest();
     private final MUserRole userRole = ObjectDummy.getUserRole();
     private static final String USERNAME = "admin";
 
@@ -258,6 +260,19 @@ class UserServiceImplTest extends ServiceTest {
         assertFalse(response.isDeleted());
 
         verify(userRepository).findByIdAndIsDeleted(id, true);
+        verify(userRepository).save(any());
+    }
+
+    @Test
+    void testChangePassword_Success() {
+        when(userRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(user));
+        when(userRepository.save(any())).thenReturn(user);
+
+        UserResponse response = userService.changePassword(id, changePasswordRequest, header);
+        assertEquals(user.getId(), response.getId());
+        assertEquals(user.getName(), response.getName());
+
+        verify(userRepository).findByIdAndIsDeleted(id, false);
         verify(userRepository).save(any());
     }
 }
