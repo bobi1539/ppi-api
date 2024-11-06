@@ -29,6 +29,7 @@ public enum GlobalMessage {
     LOGO_REQUIRED(HttpStatus.BAD_REQUEST, Constant.LOGO_REQUIRED),
     BANNER_REQUIRED(HttpStatus.BAD_REQUEST, Constant.BANNER_REQUIRED),
     QR_CODE_REQUIRED(HttpStatus.BAD_REQUEST, Constant.QR_CODE_REQUIRED),
+    ACCOUNT_NOT_ACTIVE(HttpStatus.BAD_REQUEST, Constant.ACCOUNT_NOT_ACTIVE),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, Constant.INTERNAL_SERVER_ERROR);
 
     public final HttpStatus status;

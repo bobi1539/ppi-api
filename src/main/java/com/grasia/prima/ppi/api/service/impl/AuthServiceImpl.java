@@ -34,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
     public LoginResponse login(LoginRequest request) {
         MUser user = getByUsername(request.getUsername());
         verifyPassword(request.getPassword(), user.getPassword());
+        verifyIsActive(user);
 
         String jwt = generateToken(user);
         String refreshToken = saveLogAuth(user);
@@ -64,6 +65,12 @@ public class AuthServiceImpl implements AuthService {
         boolean matches = passwordEncoder.matches(rawPassword, hashPassword);
         if (!matches) {
             throw new BusinessException(GlobalMessage.WRONG_USERNAME_OR_PASSWORD);
+        }
+    }
+
+    private void verifyIsActive(MUser user) {
+        if (Boolean.FALSE.equals(user.getIsActive())) {
+            throw new BusinessException(GlobalMessage.ACCOUNT_NOT_ACTIVE);
         }
     }
 

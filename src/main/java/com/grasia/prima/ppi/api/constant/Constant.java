@@ -19,7 +19,6 @@ public final class Constant {
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
     public static final String ERROR = "Error : {}";
     public static final String AUTHORIZATION = "Authorization";
-    public static final String USER_ID_REQUIRED = "User Id Is Required";
     public static final String USERNAME_REQUIRED = "Username Is Required";
     public static final String PASSWORD_REQUIRED = "Password Is Required";
     public static final String PASSWORD_CONFIRM_REQUIRED = "Password Confirm Is Required";
@@ -99,4 +98,5 @@ public final class Constant {
     public static final String STUDENT_MAJOR_REQUIRED = "Student Major Is Required";
     public static final String STUDENT_EDUCATION_REQUIRED = "Student Education Is Required";
     public static final String GENDER_REQUIRED = "Gender Is Required";
+    public static final String ACCOUNT_NOT_ACTIVE = "Your Account Is Not Active";
 }
