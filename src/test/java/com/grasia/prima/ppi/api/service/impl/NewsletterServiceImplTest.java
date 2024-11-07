@@ -2,11 +2,15 @@ package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.NewsletterRequest;
+import com.grasia.prima.ppi.api.dto.request.NewsletterSubscriptionRequest;
 import com.grasia.prima.ppi.api.dto.response.NewsletterResponse;
+import com.grasia.prima.ppi.api.dto.response.NewsletterSubscriptionResponse;
 import com.grasia.prima.ppi.api.entity.MNewsletter;
+import com.grasia.prima.ppi.api.entity.TNewsletterSubscription;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.repository.NewsletterRepository;
+import com.grasia.prima.ppi.api.repository.NewsletterSubscriptionRepository;
 import com.grasia.prima.ppi.api.service.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +41,14 @@ class NewsletterServiceImplTest extends ServiceTest {
     @Mock
     private FileService fileService;
 
+    @Mock
+    private NewsletterSubscriptionRepository subscriptionRepository;
+
     private final MNewsletter newsletter = ObjectDummy.getNewsletter();
     private final NewsletterRequest newsletterRequest = ObjectDummy.getNewsletterRequest();
+    private final NewsletterSubscriptionRequest subscriptionRequest = ObjectDummy.getNewsletterSubscriptionRequest();
+    private final TNewsletterSubscription subscription = ObjectDummy.getNewsletterSubscription();
+    private final String email = subscription.getEmail();
     private final String slug = "test";
 
     @BeforeEach
@@ -233,5 +243,30 @@ class NewsletterServiceImplTest extends ServiceTest {
         when(newsletterRepository.count()).thenReturn(10L);
         assertEquals(10L, newsletterService.countAll());
         verify(newsletterRepository).count();
+    }
+
+    @Test
+    void testSubscribe_Success() {
+        when(subscriptionRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(subscriptionRepository.save(any())).thenReturn(subscription);
+
+        NewsletterSubscriptionResponse response = newsletterService.subscribe(subscriptionRequest);
+        assertEquals(subscription.getId(), response.getId());
+        assertEquals(subscription.getEmail(), response.getEmail());
+
+        verify(subscriptionRepository).findByEmail(email);
+        verify(subscriptionRepository).save(any());
+    }
+
+    @Test
+    void testSubscribe_Failed() {
+        when(subscriptionRepository.findByEmail(email)).thenReturn(Optional.of(subscription));
+
+        BusinessException e = assertThrows(BusinessException.class, () -> newsletterService.subscribe(subscriptionRequest));
+
+        assertEquals(GlobalMessage.EMAIL_HAS_BEEN_SUBSCRIBE.status, e.getStatus());
+        assertEquals(GlobalMessage.EMAIL_HAS_BEEN_SUBSCRIBE.message, e.getMessage());
+
+        verify(subscriptionRepository).findByEmail(email);
     }
 }

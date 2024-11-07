@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class NewsletterEmailRequest {
+public class NewsletterSubscriptionRequest {
 
     @Email(message = Constant.EMAIL_NOT_VALID)
     @NotNull(message = Constant.EMAIL_REQUIRED)

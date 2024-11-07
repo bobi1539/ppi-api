@@ -1,8 +1,11 @@
 package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.constant.Endpoint;
+import com.grasia.prima.ppi.api.dto.request.NewsletterSubscriptionRequest;
 import com.grasia.prima.ppi.api.dto.response.NewsletterResponse;
+import com.grasia.prima.ppi.api.dto.response.NewsletterSubscriptionResponse;
 import com.grasia.prima.ppi.api.service.NewsletterService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +34,10 @@ public class WebNewsletterController extends BaseController {
     @GetMapping("/count")
     public long countAll() {
         return newsletterService.countAll();
+    }
+
+    @PostMapping("/subscribe")
+    public NewsletterSubscriptionResponse subscribe(@RequestBody @Valid NewsletterSubscriptionRequest request) {
+        return newsletterService.subscribe(request);
     }
 }

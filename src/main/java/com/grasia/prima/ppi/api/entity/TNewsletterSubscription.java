@@ -16,8 +16,8 @@ import java.sql.Timestamp;
 @Setter
 @SuperBuilder
 @Entity
-@Table(name = "t_newsletter_email")
-public class TNewsletterEmail {
+@Table(name = "t_newsletter_subscription")
+public class TNewsletterSubscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

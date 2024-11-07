@@ -4,13 +4,17 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
 import com.grasia.prima.ppi.api.dto.request.FileRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
+import com.grasia.prima.ppi.api.dto.request.NewsletterSubscriptionRequest;
 import com.grasia.prima.ppi.api.dto.request.NewsletterRequest;
+import com.grasia.prima.ppi.api.dto.response.NewsletterSubscriptionResponse;
 import com.grasia.prima.ppi.api.dto.response.NewsletterResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MNewsletter;
+import com.grasia.prima.ppi.api.entity.TNewsletterSubscription;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.StringHelper;
+import com.grasia.prima.ppi.api.repository.NewsletterSubscriptionRepository;
 import com.grasia.prima.ppi.api.repository.NewsletterRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
 import com.grasia.prima.ppi.api.service.FileService;
@@ -30,6 +34,7 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
 
     private final NewsletterRepository newsletterRepository;
     private final FileService fileService;
+    private final NewsletterSubscriptionRepository newsletterSubscriptionRepository;
     private static final String DIRECTORY_NAME = "newsletter";
 
     @Override
@@ -121,6 +126,16 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
         return newsletterRepository.count();
     }
 
+    @Override
+    public NewsletterSubscriptionResponse subscribe(NewsletterSubscriptionRequest request) {
+        validateNewsletterSubscriptionRequest(request);
+
+        TNewsletterSubscription subscription = TNewsletterSubscription.builder()
+                .email(request.getEmail())
+                .build();
+        return toResponse(newsletterSubscriptionRepository.save(subscription));
+    }
+
     private Specification<MNewsletter> getSpecificationFindAll(SearchDto searchDto) {
         Specification<MNewsletter> spec = SpecificationHelper.stringLike(MNewsletter.FIELD_TITLE, searchDto.getSearch());
         return spec.and(getSpecificationIsDeleted(searchDto.getIsDeleted()));
@@ -181,5 +196,16 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
 
     private NewsletterResponse toResponse(MNewsletter newsletter) {
         return NewsletterResponse.toResponse(newsletter);
+    }
+
+    private void validateNewsletterSubscriptionRequest(NewsletterSubscriptionRequest request) {
+        Optional<TNewsletterSubscription> email = newsletterSubscriptionRepository.findByEmail(request.getEmail());
+        if (email.isPresent()) {
+            throw new BusinessException(GlobalMessage.EMAIL_HAS_BEEN_SUBSCRIBE);
+        }
+    }
+
+    private NewsletterSubscriptionResponse toResponse(TNewsletterSubscription newsletterEmail) {
+        return NewsletterSubscriptionResponse.toResponse(newsletterEmail);
     }
 }

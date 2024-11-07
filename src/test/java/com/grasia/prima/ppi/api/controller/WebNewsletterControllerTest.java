@@ -1,6 +1,8 @@
 package com.grasia.prima.ppi.api.controller;
 
+import com.grasia.prima.ppi.api.dto.request.NewsletterSubscriptionRequest;
 import com.grasia.prima.ppi.api.dto.response.NewsletterResponse;
+import com.grasia.prima.ppi.api.dto.response.NewsletterSubscriptionResponse;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.service.NewsletterService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +29,8 @@ class WebNewsletterControllerTest {
     private NewsletterService service;
 
     private final NewsletterResponse newsletterResponse = ObjectDummy.getNewsletterResponse();
+    private final NewsletterSubscriptionRequest subscriptionRequest = ObjectDummy.getNewsletterSubscriptionRequest();
+    private final NewsletterSubscriptionResponse subscriptionResponse = ObjectDummy.getNewsletterSubscriptionResponse();
 
     @BeforeEach
     void setUp() {
@@ -60,5 +64,16 @@ class WebNewsletterControllerTest {
         when(service.countAll()).thenReturn(10L);
         assertEquals(10L, controller.countAll());
         verify(service).countAll();
+    }
+
+    @Test
+    void testSubscribe() {
+        when(service.subscribe(subscriptionRequest)).thenReturn(subscriptionResponse);
+
+        NewsletterSubscriptionResponse response = controller.subscribe(subscriptionRequest);
+        assertEquals(subscriptionResponse.getId(), response.getId());
+        assertEquals(subscriptionResponse.getEmail(), response.getEmail());
+
+        verify(service).subscribe(subscriptionRequest);
     }
 }

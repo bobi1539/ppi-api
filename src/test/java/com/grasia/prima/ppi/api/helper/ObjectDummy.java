@@ -634,21 +634,21 @@ public final class ObjectDummy {
                 .build();
     }
 
-    public static TNewsletterEmail getNewsletterEmail() {
-        return TNewsletterEmail.builder()
+    public static TNewsletterSubscription getNewsletterSubscription() {
+        return TNewsletterSubscription.builder()
                 .id(1L)
                 .email("admin@gmail.com")
                 .build();
     }
 
-    public static NewsletterEmailRequest getNewsletterEmailRequest() {
-        return NewsletterEmailRequest.builder()
+    public static NewsletterSubscriptionRequest getNewsletterSubscriptionRequest() {
+        return NewsletterSubscriptionRequest.builder()
                 .email("admin@gmail.com")
                 .build();
     }
 
-    public static NewsletterEmailResponse getNewsletterEmailResponse() {
-        return NewsletterEmailResponse.builder()
+    public static NewsletterSubscriptionResponse getNewsletterSubscriptionResponse() {
+        return NewsletterSubscriptionResponse.builder()
                 .id(1L)
                 .email("admin@gmail.com")
                 .build();

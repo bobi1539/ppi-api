@@ -1,7 +1,9 @@
 package com.grasia.prima.ppi.api.service;
 
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
+import com.grasia.prima.ppi.api.dto.request.NewsletterSubscriptionRequest;
 import com.grasia.prima.ppi.api.dto.request.NewsletterRequest;
+import com.grasia.prima.ppi.api.dto.response.NewsletterSubscriptionResponse;
 import com.grasia.prima.ppi.api.dto.response.NewsletterResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MNewsletter;
@@ -30,4 +32,6 @@ public interface NewsletterService {
     MNewsletter getNewsletterById(Long id);
 
     long countAll();
+
+    NewsletterSubscriptionResponse subscribe(NewsletterSubscriptionRequest request);
 }
