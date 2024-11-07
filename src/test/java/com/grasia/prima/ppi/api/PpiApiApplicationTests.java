@@ -14,6 +14,8 @@ class PpiApiApplicationTests {
     static void dynamicProperties(DynamicPropertyRegistry registry) {
         registry.add("PPI_SHOW_SQL", () -> "false");
         registry.add("PPI_DB_PORT", () -> "5432");
+        registry.add("MAIL_HOST", () -> "smtp.gmail.com");
+        registry.add("MAIL_PORT", () -> "587");
     }
 
     @Test
