@@ -24,6 +24,7 @@ public final class Constant {
     public static final String PASSWORD_CONFIRM_REQUIRED = "Password Confirm Is Required";
     public static final String NAME_REQUIRED = "Name Is Required";
     public static final String EMAIL_REQUIRED = "Email Is Required";
+    public static final String EMAIL_NOT_VALID = "Email Not Valid";
     public static final String USER_ROLE_ID_REQUIRED = "User Role Id Is Required";
     public static final String ROLE_NAME_REQUIRED = "Role Name Is Required";
     public static final String DIVISION_ID_REQUIRED = "Division Id Is Required";
@@ -99,4 +100,5 @@ public final class Constant {
     public static final String STUDENT_EDUCATION_REQUIRED = "Student Education Is Required";
     public static final String GENDER_REQUIRED = "Gender Is Required";
     public static final String ACCOUNT_NOT_ACTIVE = "Your Account Is Not Active";
+    public static final String EMAIL_HAS_BEEN_SUBSCRIBE = "Your Email Has Been Subscribed";
 }
