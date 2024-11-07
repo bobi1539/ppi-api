@@ -13,4 +13,8 @@ public class AppConfig {
     private String pathFile;
     private String jwtSecret;
     private String jwtExpiredDuration;
+    private String beHost;
+    private String bePort;
+    private String feHost;
+    private String fePort;
 }

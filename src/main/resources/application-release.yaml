@@ -6,6 +6,10 @@ app-config:
   pathFile: ${PPI_PATH_FILE} # /Users/bobirival/Documents/02-Work/07-Grasia-Prima/02-PPI-WARWICK/02-Path-File/
   jwtSecret: ${PPI_JWT_SECRET} # 256 bit : 357643192F423F44284GXabT72B4B6250655368566D597133743677397A2543164629
   jwtExpiredDuration: ${PPI_JWT_EXPIRED_DURATION} # 31536000000 = 1000L * 60L * 60L * 24L * 365L (1 year)
+  beHost: ${BE_HOST} # http://localhost
+  bePort: ${BE_PORT} # 8080
+  feHost: ${FE_HOST} # http://localhost
+  fePort: ${FE_PORT} # 8080
 spring:
   application:
     name: ppi-api
@@ -21,6 +25,17 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: ${MAIL_HOST} # smtp.gmail.com
+    port: ${MAIL_PORT} # 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 springdoc:
   swagger-ui:
     doc-expansion: none

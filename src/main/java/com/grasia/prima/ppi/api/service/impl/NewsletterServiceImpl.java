@@ -1,40 +1,48 @@
 package com.grasia.prima.ppi.api.service.impl;
 
+import com.grasia.prima.ppi.api.config.AppConfig;
+import com.grasia.prima.ppi.api.constant.Endpoint;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
-import com.grasia.prima.ppi.api.dto.request.FileRequest;
-import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
-import com.grasia.prima.ppi.api.dto.request.NewsletterSubscriptionRequest;
-import com.grasia.prima.ppi.api.dto.request.NewsletterRequest;
-import com.grasia.prima.ppi.api.dto.response.NewsletterSubscriptionResponse;
+import com.grasia.prima.ppi.api.dto.request.*;
 import com.grasia.prima.ppi.api.dto.response.NewsletterResponse;
+import com.grasia.prima.ppi.api.dto.response.NewsletterSubscriptionResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MNewsletter;
 import com.grasia.prima.ppi.api.entity.TNewsletterSubscription;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.helper.StringHelper;
-import com.grasia.prima.ppi.api.repository.NewsletterSubscriptionRepository;
 import com.grasia.prima.ppi.api.repository.NewsletterRepository;
+import com.grasia.prima.ppi.api.repository.NewsletterSubscriptionRepository;
 import com.grasia.prima.ppi.api.service.AbstractCrudService;
+import com.grasia.prima.ppi.api.service.EmailService;
 import com.grasia.prima.ppi.api.service.FileService;
 import com.grasia.prima.ppi.api.service.NewsletterService;
+import jakarta.annotation.PreDestroy;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class NewsletterServiceImpl extends AbstractCrudService implements NewsletterService {
 
     private final NewsletterRepository newsletterRepository;
     private final FileService fileService;
     private final NewsletterSubscriptionRepository newsletterSubscriptionRepository;
+    private final AppConfig appConfig;
+    private final EmailService emailService;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(5);
     private static final String DIRECTORY_NAME = "newsletter";
 
     @Override
@@ -72,6 +80,7 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
         newsletter.setContent(saveFile(request.getContent().getFileName(), request.getContent().getFileBase64()));
         setCreatedBy(newsletter, header);
         setUpdatedBy(newsletter, header);
+        executorService.submit(() -> sendEmail(newsletter));
 
         return toResponse(newsletterRepository.save(newsletter));
     }
@@ -134,6 +143,55 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
                 .email(request.getEmail())
                 .build();
         return toResponse(newsletterSubscriptionRepository.save(subscription));
+    }
+
+    @Override
+    public void sendEmail(MNewsletter newsletter) {
+        List<TNewsletterSubscription> subscriptions = newsletterSubscriptionRepository.findAll();
+        for (TNewsletterSubscription subscription : subscriptions) {
+            String feHost = String.format("%s:%s/newsletter", appConfig.getFeHost(), appConfig.getFePort());
+            String body = getBody(newsletter, feHost);
+            log.info("body : {}", body);
+
+            String subject = "PPI Warwick - Newsletter";
+            SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
+                    .to(subscription.getEmail())
+                    .subject(subject)
+                    .body(body)
+                    .build();
+            emailService.sendEmailHtmlContent(sendEmailRequest);
+        }
+    }
+
+    private String getBody(MNewsletter newsletter, String feHost) {
+        String cover = String.format(
+                "%s:%s%s/download?directoryName=%s&fileName=%s",
+                appConfig.getBeHost(),
+                appConfig.getBePort(),
+                Endpoint.FILE,
+                DIRECTORY_NAME,
+                newsletter.getCover()
+        );
+
+        return String.format("""
+                        <div>
+                            <a href="%s">
+                              <img src="%s" alt="%s">
+                              <h3>%s</h3>
+                            </a>
+                        </div>
+                          """,
+                feHost,
+                cover,
+                newsletter.getTitle(),
+                newsletter.getTitle()
+        );
+    }
+
+    @PreDestroy
+    public void shutdownExecutorService() {
+        log.info("Shutting down ExecutorService...");
+        executorService.shutdown();
     }
 
     private Specification<MNewsletter> getSpecificationFindAll(SearchDto searchDto) {
