@@ -633,4 +633,24 @@ public final class ObjectDummy {
                 .passwordConfirm("YourPassword88990")
                 .build();
     }
+
+    public static TNewsletterEmail getNewsletterEmail() {
+        return TNewsletterEmail.builder()
+                .id(1L)
+                .email("admin@gmail.com")
+                .build();
+    }
+
+    public static NewsletterEmailRequest getNewsletterEmailRequest() {
+        return NewsletterEmailRequest.builder()
+                .email("admin@gmail.com")
+                .build();
+    }
+
+    public static NewsletterEmailResponse getNewsletterEmailResponse() {
+        return NewsletterEmailResponse.builder()
+                .id(1L)
+                .email("admin@gmail.com")
+                .build();
+    }
 }
