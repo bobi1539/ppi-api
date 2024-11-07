@@ -1,5 +1,6 @@
 package com.grasia.prima.ppi.api.service.impl;
 
+import com.grasia.prima.ppi.api.config.AppConfig;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.NewsletterRequest;
 import com.grasia.prima.ppi.api.dto.request.NewsletterSubscriptionRequest;
@@ -11,6 +12,7 @@ import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.repository.NewsletterRepository;
 import com.grasia.prima.ppi.api.repository.NewsletterSubscriptionRepository;
+import com.grasia.prima.ppi.api.service.EmailService;
 import com.grasia.prima.ppi.api.service.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +45,12 @@ class NewsletterServiceImplTest extends ServiceTest {
 
     @Mock
     private NewsletterSubscriptionRepository subscriptionRepository;
+
+    @Mock
+    private AppConfig appConfig;
+
+    @Mock
+    private EmailService emailService;
 
     private final MNewsletter newsletter = ObjectDummy.getNewsletter();
     private final NewsletterRequest newsletterRequest = ObjectDummy.getNewsletterRequest();
@@ -268,5 +276,24 @@ class NewsletterServiceImplTest extends ServiceTest {
         assertEquals(GlobalMessage.EMAIL_HAS_BEEN_SUBSCRIBE.message, e.getMessage());
 
         verify(subscriptionRepository).findByEmail(email);
+    }
+
+    @Test
+    void testSendEmail() {
+        when(appConfig.getBeHost()).thenReturn("http://localhost");
+        when(appConfig.getBePort()).thenReturn("8080");
+        when(appConfig.getFeHost()).thenReturn("http://localhost");
+        when(appConfig.getFePort()).thenReturn("3000");
+        when(subscriptionRepository.findAll()).thenReturn(List.of(subscription));
+
+        assertDoesNotThrow(() -> newsletterService.sendEmail(newsletter));
+
+        verify(subscriptionRepository).findAll();
+        verify(emailService).sendEmailHtmlContent(any());
+    }
+
+    @Test
+    void testShutdownExecutorService() {
+        assertDoesNotThrow(() -> newsletterService.shutdownExecutorService());
     }
 }

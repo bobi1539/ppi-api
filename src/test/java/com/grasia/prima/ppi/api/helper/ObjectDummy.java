@@ -653,4 +653,12 @@ public final class ObjectDummy {
                 .email("admin@gmail.com")
                 .build();
     }
+
+    public static SendEmailRequest getSendEmailRequest() {
+        return SendEmailRequest.builder()
+                .to("test@gmail.com")
+                .subject("subject")
+                .body("body")
+                .build();
+    }
 }

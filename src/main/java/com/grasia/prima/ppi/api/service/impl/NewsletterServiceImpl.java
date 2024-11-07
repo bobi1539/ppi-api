@@ -149,43 +149,9 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
     public void sendEmail(MNewsletter newsletter) {
         List<TNewsletterSubscription> subscriptions = newsletterSubscriptionRepository.findAll();
         for (TNewsletterSubscription subscription : subscriptions) {
-            String feHost = String.format("%s:%s/newsletter", appConfig.getFeHost(), appConfig.getFePort());
-            String body = getBody(newsletter, feHost);
-            log.info("body : {}", body);
-
-            String subject = "PPI Warwick - Newsletter";
-            SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
-                    .to(subscription.getEmail())
-                    .subject(subject)
-                    .body(body)
-                    .build();
+            SendEmailRequest sendEmailRequest = getSendEmailRequest(newsletter, subscription);
             emailService.sendEmailHtmlContent(sendEmailRequest);
         }
-    }
-
-    private String getBody(MNewsletter newsletter, String feHost) {
-        String cover = String.format(
-                "%s:%s%s/download?directoryName=%s&fileName=%s",
-                appConfig.getBeHost(),
-                appConfig.getBePort(),
-                Endpoint.FILE,
-                DIRECTORY_NAME,
-                newsletter.getCover()
-        );
-
-        return String.format("""
-                        <div>
-                            <a href="%s">
-                              <img src="%s" alt="%s">
-                              <h3>%s</h3>
-                            </a>
-                        </div>
-                          """,
-                feHost,
-                cover,
-                newsletter.getTitle(),
-                newsletter.getTitle()
-        );
     }
 
     @PreDestroy
@@ -265,5 +231,44 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
 
     private NewsletterSubscriptionResponse toResponse(TNewsletterSubscription newsletterEmail) {
         return NewsletterSubscriptionResponse.toResponse(newsletterEmail);
+    }
+
+
+    private SendEmailRequest getSendEmailRequest(MNewsletter newsletter, TNewsletterSubscription subscription) {
+        String subject = "PPI Warwick - Newsletter";
+        String body = getEmailBody(newsletter);
+
+        log.info("body : {}", body);
+
+        return SendEmailRequest.builder()
+                .to(subscription.getEmail())
+                .subject(subject)
+                .body(body)
+                .build();
+    }
+
+    private String getEmailBody(MNewsletter newsletter) {
+        String feHost = createFeHost();
+        String coverUrl = createCoverUrl(newsletter.getCover());
+        String title = newsletter.getTitle();
+        return String.format(
+                "<div><a href='%s'><img src='%s' alt='%s'><h3>%s</h3></a></div>",
+                feHost, coverUrl, title, title
+        );
+    }
+
+    private String createFeHost() {
+        return String.format("%s:%s/newsletter", appConfig.getFeHost(), appConfig.getFePort());
+    }
+
+    private String createCoverUrl(String fileName) {
+        return String.format(
+                "%s:%s%s/download?directoryName=%s&fileName=%s",
+                appConfig.getBeHost(),
+                appConfig.getBePort(),
+                Endpoint.FILE,
+                DIRECTORY_NAME,
+                fileName
+        );
     }
 }

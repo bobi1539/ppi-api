@@ -4,7 +4,6 @@ import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.SendEmailRequest;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.service.EmailService;
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +30,8 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(request.getBody(), true);
 
             mailSender.send(message);
-            log.info("Mail send success");
-        } catch (MessagingException e) {
+            log.info("Mail send success to : {}", request.getTo());
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new BusinessException(GlobalMessage.INTERNAL_SERVER_ERROR);
         }
