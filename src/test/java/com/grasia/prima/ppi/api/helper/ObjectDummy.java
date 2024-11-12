@@ -254,6 +254,7 @@ public final class ObjectDummy {
                 .route("dashboard")
                 .icon("icon")
                 .sequence(1)
+                .subMenus(List.of(getSubMenuResponse()))
                 .build();
     }
 
