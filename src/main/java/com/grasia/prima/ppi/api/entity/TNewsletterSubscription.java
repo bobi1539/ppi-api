@@ -29,5 +29,5 @@ public class TNewsletterSubscription {
 
     @CreationTimestamp
     @Column(name = "created_at")
-    protected Timestamp createdAt;
+    private Timestamp createdAt;
 }

@@ -3,7 +3,11 @@ package com.grasia.prima.ppi.api.dto.request;
 import com.grasia.prima.ppi.api.constant.Constant;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -11,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 public class StudentRequest {
 
     @NotNull(message = Constant.STUDENT_NAME_REQUIRED)

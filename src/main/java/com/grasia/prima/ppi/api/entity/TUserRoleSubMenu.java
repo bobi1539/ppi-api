@@ -34,7 +34,7 @@ public class TUserRoleSubMenu {
 
     @CreationTimestamp
     @Column(name = "created_at")
-    protected Timestamp createdAt;
+    private Timestamp createdAt;
 
     public static final String FIELD_USER_ROLE = "userRole";
 }

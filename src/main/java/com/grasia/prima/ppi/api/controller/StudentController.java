@@ -4,6 +4,7 @@ import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.Endpoint;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.StudentRequest;
+import com.grasia.prima.ppi.api.dto.response.SecretKeyResponse;
 import com.grasia.prima.ppi.api.dto.response.StudentResponse;
 import com.grasia.prima.ppi.api.service.StudentService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -77,5 +78,10 @@ public class StudentController extends BaseController {
             @Parameter(hidden = true) @ModelAttribute(name = Constant.HEADER) HeaderRequest header
     ) {
         return studentService.restore(id, header);
+    }
+
+    @GetMapping("/student-form-key")
+    public SecretKeyResponse generateStudentFormKey() {
+        return studentService.generateStudentFormKey();
     }
 }

@@ -101,4 +101,6 @@ public final class Constant {
     public static final String GENDER_REQUIRED = "Gender Is Required";
     public static final String ACCOUNT_NOT_ACTIVE = "Your Account Is Not Active";
     public static final String EMAIL_HAS_BEEN_SUBSCRIBE = "Your Email Has Been Subscribed";
+    public static final String KEY_NOT_VALID = "Your Key Is Not Valid";
+    public static final String SECRET_KEY_REQUIRED = "Secret Key Is Required";
 }

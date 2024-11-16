@@ -110,3 +110,7 @@ INSERT INTO public.m_setting
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, banner, contact_email, contact_phone_number, instagram, linkedin, logo, qr_code, support_account_name, support_account_number, support_short_code, tiktok, youtube, event_id, period_id)
 VALUES('2024-11-03 20:53:01.886', 1, 'Super Admin', false, '2024-11-05 11:05:15.518', 1, 'Super Admin', 'PPI_Warwick_IelUKSV56R6h6SSnoSU7_1730779515467_banner.png', 'ppiwarwick@gmail.com', 'Angel : +447585423161', 'https://www.instagram.com/ppiwarwick/', 'https://www.linkedin.com/company/ppi-warwick/', 'PPI_Warwick_iwB1Rm9mhhQIHsjvyZ1t_1730773376533_logo.png', 'PPI_Warwick_f6nEOtxPdf5bYfGzocie_1730773376570_qr.png', 'DINA MAULIA', '93777928', '20-26-22', 'https://www.tiktok.com/@ppiwarwick', 'https://www.youtube.com/@ppiwarwick2502', NULL, NUll);
 
+INSERT INTO public.t_secret_key
+(created_at, "key", "name", valid_date)
+VALUES('2024-11-06 09:07:54.046', 'RjxCSsz4nFts54MvC8gv', 'student-form-key', '2024-11-18 17:06:20.803');
+

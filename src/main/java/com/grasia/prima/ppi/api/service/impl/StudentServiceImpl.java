@@ -4,15 +4,14 @@ import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
 import com.grasia.prima.ppi.api.dto.request.FileRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.StudentRequest;
+import com.grasia.prima.ppi.api.dto.request.WebStudentRequest;
+import com.grasia.prima.ppi.api.dto.response.SecretKeyResponse;
 import com.grasia.prima.ppi.api.dto.response.StudentResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MStudent;
 import com.grasia.prima.ppi.api.helper.SpecificationHelper;
 import com.grasia.prima.ppi.api.repository.StudentRepository;
-import com.grasia.prima.ppi.api.service.AbstractCrudService;
-import com.grasia.prima.ppi.api.service.FileService;
-import com.grasia.prima.ppi.api.service.StudentService;
-import com.grasia.prima.ppi.api.service.SystemParameterListService;
+import com.grasia.prima.ppi.api.service.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,7 +28,9 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
     private final StudentRepository studentRepository;
     private final FileService fileService;
     private final SystemParameterListService parameterListService;
+    private final SecretKeyService secretKeyService;
     private static final String DIRECTORY_NAME = "student";
+    private static final String STUDENT_FORM_KEY_NAME = "student-form-key";
 
     @Override
     public List<StudentResponse> findAll(SearchDto searchDto) {
@@ -103,6 +104,17 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
     @Override
     public long countAll() {
         return studentRepository.count();
+    }
+
+    @Override
+    public SecretKeyResponse generateStudentFormKey() {
+        return secretKeyService.generate(STUDENT_FORM_KEY_NAME);
+    }
+
+    @Override
+    public StudentResponse webCreate(WebStudentRequest request) {
+        secretKeyService.verify(request.getSecretKey());
+        return create(request, HeaderRequest.builder().build());
     }
 
     private Specification<MStudent> getSpecificationFindAll(SearchDto searchDto) {

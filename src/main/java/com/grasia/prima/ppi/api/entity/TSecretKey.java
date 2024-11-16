@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,25 +17,24 @@ import java.sql.Timestamp;
 @Setter
 @SuperBuilder
 @Entity
-@Table(name = "t_user_role_menu")
-public class TUserRoleMenu {
+@Table(name = "t_secret_key")
+public class TSecretKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_role_id")
-    private MUserRole userRole;
+    @Column(name = "name", unique = true)
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "menu_id")
-    private MMenu menu;
+    @Column(name = "key", unique = true)
+    private String key;
+
+    @Column(name = "valid_date")
+    private LocalDateTime validDate;
 
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
-
-    public static final String FIELD_USER_ROLE = "userRole";
 }
