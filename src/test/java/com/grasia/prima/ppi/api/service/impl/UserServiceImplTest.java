@@ -9,6 +9,7 @@ import com.grasia.prima.ppi.api.entity.MUser;
 import com.grasia.prima.ppi.api.entity.MUserRole;
 import com.grasia.prima.ppi.api.exception.BusinessException;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
+import com.grasia.prima.ppi.api.repository.LogAuthRepository;
 import com.grasia.prima.ppi.api.repository.UserRepository;
 import com.grasia.prima.ppi.api.service.FileService;
 import com.grasia.prima.ppi.api.service.UserRoleService;
@@ -46,6 +47,9 @@ class UserServiceImplTest extends ServiceTest {
 
     @Mock
     private FileService fileService;
+
+    @Mock
+    private LogAuthRepository logAuthRepository;
 
     private final MUser user = ObjectDummy.getUser();
     private final UserCreateRequest createRequest = ObjectDummy.getUserCreateRequest();
@@ -246,6 +250,7 @@ class UserServiceImplTest extends ServiceTest {
         assertTrue(response.isDeleted());
 
         verify(userRepository).findById(id);
+        verify(logAuthRepository).deleteByUser(any());
         verify(userRepository).delete(any());
     }
 
