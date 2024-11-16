@@ -5,10 +5,13 @@ VALUES('2024-10-15 21:35:35.535', 1, 'Super Admin', false, '2024-10-15 21:35:35.
 
 INSERT INTO public.m_system_parameter_list
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, "name", system_parameter_id)
-VALUES('2024-10-15 21:36:02.878', 1, 'Super Admin', false, '2024-10-15 21:36:23.425', 1, 'Super Admin', 'Man', 1);
+VALUES('2024-10-15 21:36:02.878', 1, 'Super Admin', false, '2024-10-15 21:36:23.425', 1, 'Super Admin', 'Male', 1);
 INSERT INTO public.m_system_parameter_list
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, "name", system_parameter_id)
-VALUES('2024-10-15 21:36:08.581', 1, 'Super Admin', false, '2024-10-15 21:36:28.907', 1, 'Super Admin', 'Woman', 1);
+VALUES('2024-10-15 21:36:08.581', 1, 'Super Admin', false, '2024-10-15 21:36:28.907', 1, 'Super Admin', 'Female', 1);
+INSERT INTO public.m_system_parameter_list
+(created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, "name", system_parameter_id)
+VALUES('2024-10-15 21:36:08.581', 1, 'Super Admin', false, '2024-10-15 21:36:28.907', 1, 'Super Admin', 'Prefer not to say', 1);
 
 
 INSERT INTO public.m_user_role
