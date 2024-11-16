@@ -28,8 +28,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class StudentServiceImplTest extends ServiceTest {
 
@@ -112,7 +111,7 @@ class StudentServiceImplTest extends ServiceTest {
         assertEquals(student.getId(), response.getId());
         assertEquals(student.getName(), response.getName());
 
-        verify(parameterListService).getSystemParameterListById(id);
+        verify(parameterListService, times(2)).getSystemParameterListById(id);
         verify(fileService).saveFileFromBase64(any());
         verify(studentRepository).save(any());
     }
@@ -128,7 +127,7 @@ class StudentServiceImplTest extends ServiceTest {
         assertEquals(student.getId(), response.getId());
         assertEquals(student.getName(), response.getName());
 
-        verify(parameterListService).getSystemParameterListById(id);
+        verify(parameterListService, times(2)).getSystemParameterListById(id);
         verify(studentRepository).save(any());
     }
 
@@ -144,7 +143,7 @@ class StudentServiceImplTest extends ServiceTest {
         assertEquals(student.getName(), response.getName());
 
         verify(studentRepository).findByIdAndIsDeleted(id, false);
-        verify(parameterListService).getSystemParameterListById(id);
+        verify(parameterListService, times(2)).getSystemParameterListById(id);
         verify(studentRepository).save(any());
     }
 
@@ -163,7 +162,7 @@ class StudentServiceImplTest extends ServiceTest {
         assertEquals(student.getName(), response.getName());
 
         verify(studentRepository).findByIdAndIsDeleted(id, false);
-        verify(parameterListService).getSystemParameterListById(id);
+        verify(parameterListService, times(2)).getSystemParameterListById(id);
         verify(studentRepository).save(any());
     }
 
@@ -183,7 +182,7 @@ class StudentServiceImplTest extends ServiceTest {
         assertEquals(student.getName(), response.getName());
 
         verify(studentRepository).findByIdAndIsDeleted(id, false);
-        verify(parameterListService).getSystemParameterListById(id);
+        verify(parameterListService, times(2)).getSystemParameterListById(id);
         verify(fileService).saveFileFromBase64(any());
         verify(fileService).deleteFile(any());
         verify(studentRepository).save(any());
@@ -270,7 +269,7 @@ class StudentServiceImplTest extends ServiceTest {
         assertEquals(student.getId(), response.getId());
         assertEquals(student.getName(), response.getName());
 
-        verify(parameterListService).getSystemParameterListById(id);
+        verify(parameterListService, times(2)).getSystemParameterListById(id);
         verify(fileService).saveFileFromBase64(any());
         verify(studentRepository).save(any());
     }

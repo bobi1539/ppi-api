@@ -18,13 +18,14 @@ import java.util.Objects;
 public class StudentResponse extends BaseEntityResponse {
     private Long id;
     private String name;
+    private String nickname;
     private String email;
     private String photo;
     private String major;
-    private String education;
-    private String graduation;
+    private String expectedGraduationYear;
     private LocalDate birthDate;
     private SystemParameterListResponse gender;
+    private SystemParameterListResponse education;
 
     public static StudentResponse toResponse(MStudent student) {
         if (Objects.isNull(student)) {
@@ -33,13 +34,14 @@ public class StudentResponse extends BaseEntityResponse {
         StudentResponse response = builder()
                 .id(student.getId())
                 .name(student.getName())
+                .nickname(student.getNickname())
                 .email(student.getEmail())
                 .photo(student.getPhoto())
                 .major(student.getMajor())
-                .education(student.getEducation())
-                .graduation(student.getGraduation())
+                .expectedGraduationYear(student.getExpectedGraduationYear().toString())
                 .birthDate(student.getBirthDate())
                 .gender(SystemParameterListResponse.toResponse(student.getGender()))
+                .education(SystemParameterListResponse.toResponse(student.getEducation()))
                 .build();
         BaseEntityResponse.setBaseEntity(response, student);
         return response;

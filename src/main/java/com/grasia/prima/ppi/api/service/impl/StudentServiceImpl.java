@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.List;
 import java.util.Objects;
 
@@ -124,12 +125,13 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
 
     private void setStudent(MStudent student, StudentRequest request) {
         student.setName(request.getName());
+        student.setNickname(request.getNickname());
         student.setEmail(request.getEmail());
         student.setMajor(request.getMajor());
-        student.setEducation(request.getEducation());
-        student.setGraduation(request.getGraduation());
+        student.setExpectedGraduationYear(Year.parse(request.getExpectedGraduationYear()));
         student.setBirthDate(request.getBirthDate());
         student.setGender(parameterListService.getSystemParameterListById(request.getGenderId()));
+        student.setEducation(parameterListService.getSystemParameterListById(request.getEducationId()));
     }
 
     private boolean isPhotoRequestNotNull(StudentRequest request) {

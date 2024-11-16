@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Year;
 import java.util.List;
 
 public final class ObjectDummy {
@@ -582,26 +583,28 @@ public final class ObjectDummy {
         return MStudent.builder()
                 .id(1L)
                 .name("student")
-                .education("student@gmail.com")
+                .nickname("student")
+                .email("student@gmail.com")
                 .photo("file.png")
                 .major("major")
-                .education("education")
-                .graduation("graduation")
+                .expectedGraduationYear(Year.of(2024))
                 .birthDate(LocalDate.of(1991, 10, 10))
                 .gender(getSystemParameterList())
+                .education(getSystemParameterList())
                 .build();
     }
 
     public static StudentRequest getStudentRequest() {
         return StudentRequest.builder()
                 .name("student")
-                .education("student@gmail.com")
-                .photo(getFileUploadRequest())
+                .nickname("student")
+                .email("student@gmail.com")
                 .major("major")
-                .education("education")
-                .graduation("graduation")
+                .expectedGraduationYear("2024")
                 .birthDate(LocalDate.of(1991, 10, 10))
                 .genderId(1L)
+                .educationId(1L)
+                .photo(getFileUploadRequest())
                 .build();
     }
 
@@ -609,13 +612,14 @@ public final class ObjectDummy {
         return StudentResponse.builder()
                 .id(1L)
                 .name("student")
-                .education("student@gmail.com")
+                .nickname("student")
+                .email("student@gmail.com")
                 .photo("file.png")
                 .major("major")
-                .education("education")
-                .graduation("graduation")
+                .expectedGraduationYear("2024")
                 .birthDate(LocalDate.of(1991, 10, 10))
                 .gender(getSystemParameterListResponse())
+                .education(getSystemParameterListResponse())
                 .build();
     }
 
@@ -684,13 +688,14 @@ public final class ObjectDummy {
     public static WebStudentRequest getWebStudentRequest() {
         return WebStudentRequest.builder()
                 .name("student")
-                .education("student@gmail.com")
-                .photo(getFileUploadRequest())
+                .nickname("student")
+                .email("student@gmail.com")
                 .major("major")
-                .education("education")
-                .graduation("graduation")
+                .expectedGraduationYear("2024")
                 .birthDate(LocalDate.of(1991, 10, 10))
                 .genderId(1L)
+                .educationId(1L)
+                .photo(getFileUploadRequest())
                 .secretKey("RjxCSsz4nFts54MvC8gv")
                 .build();
     }
