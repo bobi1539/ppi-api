@@ -56,16 +56,13 @@ INSERT INTO public.m_menu
 VALUES('2024-10-15 21:42:22.138', 1, 'Super Admin', false, '2024-10-15 21:42:22.138', 1, 'Super Admin', 'fa-solid fa-newspaper', 'Newsletter', '/office/newsletter', 4);
 INSERT INTO public.m_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
-VALUES('2024-10-15 21:43:02.259', 1, 'Super Admin', false, '2024-10-15 21:43:02.259', 1, 'Super Admin', 'fa-solid fa-image', 'Gallery', '/office/gallery', 5);
+VALUES('2024-10-15 21:44:26.023', 1, 'Super Admin', false, '2024-10-15 21:44:26.023', 1, 'Super Admin', 'fa-solid fa-calendar-week', 'Event', '/office/event', 5);
 INSERT INTO public.m_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
-VALUES('2024-10-15 21:44:26.023', 1, 'Super Admin', false, '2024-10-15 21:44:26.023', 1, 'Super Admin', 'fa-solid fa-calendar-week', 'Event', '/office/event', 6);
+VALUES('2024-10-15 21:43:02.259', 1, 'Super Admin', false, '2024-10-15 21:43:02.259', 1, 'Super Admin', 'fa-solid fa-image', 'Gallery', '/office/gallery', 6);
 INSERT INTO public.m_menu
 (created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
-VALUES('2024-10-15 21:47:08.878', 1, 'Super Admin', false, '2024-10-15 21:47:08.878', 1, 'Super Admin', 'fa-solid fa-list', 'Menu', '/office/menu', 7);
-INSERT INTO public.m_menu
-(created_at, created_by, created_by_name, is_deleted, updated_at, updated_by, updated_by_name, icon, "name", route, "sequence")
-VALUES('2024-10-15 21:47:08.878', 1, 'Super Admin', false, '2024-10-15 21:47:08.878', 1, 'Super Admin', 'fa-solid fa-gear', 'Setting', '/office/setting', 8);
+VALUES('2024-10-15 21:47:08.878', 1, 'Super Admin', false, '2024-10-15 21:47:08.878', 1, 'Super Admin', 'fa-solid fa-gear', 'Setting', '/office/setting', 7);
 
 
 INSERT INTO public.m_sub_menu
@@ -106,9 +103,6 @@ VALUES('2024-10-15 21:58:06.104', 6, 1);
 INSERT INTO public.t_user_role_menu
 (created_at, menu_id, user_role_id)
 VALUES('2024-10-15 21:58:06.121', 7, 1);
-INSERT INTO public.t_user_role_menu
-(created_at, menu_id, user_role_id)
-VALUES('2024-10-15 21:58:06.121', 8, 1);
 
 
 INSERT INTO public.t_user_role_sub_menu
