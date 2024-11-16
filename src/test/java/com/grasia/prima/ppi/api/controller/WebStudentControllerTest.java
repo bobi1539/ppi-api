@@ -1,5 +1,8 @@
 package com.grasia.prima.ppi.api.controller;
 
+import com.grasia.prima.ppi.api.dto.request.WebStudentRequest;
+import com.grasia.prima.ppi.api.dto.response.StudentResponse;
+import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.service.StudentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +22,9 @@ class WebStudentControllerTest {
     @Mock
     private StudentService service;
 
+    private final WebStudentRequest webStudentRequest = ObjectDummy.getWebStudentRequest();
+    private final StudentResponse studentResponse = ObjectDummy.getStudentResponse();
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -29,5 +35,16 @@ class WebStudentControllerTest {
         when(service.countAll()).thenReturn(10L);
         assertEquals(10L, controller.countAll());
         verify(service).countAll();
+    }
+
+    @Test
+    void testWebCreate() {
+        when(service.webCreate(webStudentRequest)).thenReturn(studentResponse);
+
+        StudentResponse response = controller.webCreate(webStudentRequest);
+        assertEquals(studentResponse.getId(), response.getId());
+        assertEquals(studentResponse.getName(), response.getName());
+
+        verify(service).webCreate(webStudentRequest);
     }
 }

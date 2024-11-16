@@ -662,4 +662,36 @@ public final class ObjectDummy {
                 .body("body")
                 .build();
     }
+
+    public static TSecretKey getSecretKey() {
+        return TSecretKey.builder()
+                .id(1L)
+                .name("secret-key-name")
+                .key("RjxCSsz4nFts54MvC8gv")
+                .validDate(LocalDateTime.now().plusDays(1))
+                .build();
+    }
+
+    public static SecretKeyResponse getSecretKeyResponse() {
+        return SecretKeyResponse.builder()
+                .id(1L)
+                .name("secret-key-name")
+                .key("RjxCSsz4nFts54MvC8gv")
+                .validDate(LocalDateTime.now().plusDays(1))
+                .build();
+    }
+
+    public static WebStudentRequest getWebStudentRequest() {
+        return WebStudentRequest.builder()
+                .name("student")
+                .education("student@gmail.com")
+                .photo(getFileUploadRequest())
+                .major("major")
+                .education("education")
+                .graduation("graduation")
+                .birthDate(LocalDate.of(1991, 10, 10))
+                .genderId(1L)
+                .secretKey("RjxCSsz4nFts54MvC8gv")
+                .build();
+    }
 }

@@ -1,6 +1,7 @@
 package com.grasia.prima.ppi.api.controller;
 
 import com.grasia.prima.ppi.api.dto.request.StudentRequest;
+import com.grasia.prima.ppi.api.dto.response.SecretKeyResponse;
 import com.grasia.prima.ppi.api.dto.response.StudentResponse;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.service.StudentService;
@@ -116,5 +117,17 @@ class StudentControllerTest extends ControllerTest {
         assertEquals(studentResponse.getName(), response.getName());
 
         verify(service).restore(any(), any());
+    }
+
+    @Test
+    void testGenerateStudentFormKey() {
+        SecretKeyResponse secretKeyResponse = ObjectDummy.getSecretKeyResponse();
+        when(service.generateStudentFormKey()).thenReturn(secretKeyResponse);
+
+        SecretKeyResponse response = controller.generateStudentFormKey();
+        assertEquals(secretKeyResponse.getName(), response.getName());
+        assertEquals(secretKeyResponse.getKey(), response.getKey());
+
+        verify(service).generateStudentFormKey();
     }
 }

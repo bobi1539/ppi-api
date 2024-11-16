@@ -2,12 +2,15 @@ package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.dto.request.FileUploadRequest;
 import com.grasia.prima.ppi.api.dto.request.StudentRequest;
+import com.grasia.prima.ppi.api.dto.request.WebStudentRequest;
+import com.grasia.prima.ppi.api.dto.response.SecretKeyResponse;
 import com.grasia.prima.ppi.api.dto.response.StudentResponse;
 import com.grasia.prima.ppi.api.entity.MStudent;
 import com.grasia.prima.ppi.api.entity.MSystemParameterList;
 import com.grasia.prima.ppi.api.helper.ObjectDummy;
 import com.grasia.prima.ppi.api.repository.StudentRepository;
 import com.grasia.prima.ppi.api.service.FileService;
+import com.grasia.prima.ppi.api.service.SecretKeyService;
 import com.grasia.prima.ppi.api.service.SystemParameterListService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,11 +43,16 @@ class StudentServiceImplTest extends ServiceTest {
     private FileService fileService;
 
     @Mock
+    private SecretKeyService secretKeyService;
+
+    @Mock
     private SystemParameterListService parameterListService;
 
     private final MStudent student = ObjectDummy.getStudent();
     private final StudentRequest request = ObjectDummy.getStudentRequest();
     private final MSystemParameterList parameterList = ObjectDummy.getSystemParameterList();
+    private final SecretKeyResponse secretKeyResponse = ObjectDummy.getSecretKeyResponse();
+    private final WebStudentRequest webStudentRequest = ObjectDummy.getWebStudentRequest();
 
     private final String fileName = "file.png";
 
@@ -239,5 +247,31 @@ class StudentServiceImplTest extends ServiceTest {
         when(studentRepository.count()).thenReturn(10L);
         assertEquals(10L, studentService.countAll());
         verify(studentRepository).count();
+    }
+
+    @Test
+    void testGenerateStudentFormKey() {
+        when(secretKeyService.generate(any())).thenReturn(secretKeyResponse);
+
+        SecretKeyResponse response = studentService.generateStudentFormKey();
+        assertEquals(secretKeyResponse.getName(), response.getName());
+        assertEquals(secretKeyResponse.getKey(), response.getKey());
+
+        verify(secretKeyService).generate(any());
+    }
+
+    @Test
+    void testWebCreate() {
+        when(parameterListService.getSystemParameterListById(id)).thenReturn(parameterList);
+        when(fileService.saveFileFromBase64(any())).thenReturn(fileName);
+        when(studentRepository.save(any())).thenReturn(student);
+
+        StudentResponse response = studentService.webCreate(webStudentRequest);
+        assertEquals(student.getId(), response.getId());
+        assertEquals(student.getName(), response.getName());
+
+        verify(parameterListService).getSystemParameterListById(id);
+        verify(fileService).saveFileFromBase64(any());
+        verify(studentRepository).save(any());
     }
 }
