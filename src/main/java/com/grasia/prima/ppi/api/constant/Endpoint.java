@@ -34,4 +34,5 @@ public final class Endpoint {
     public static final String WEB_STAFF = WEB + "/staffs";
     public static final String WEB_SETTING = WEB + "/settings";
     public static final String WEB_STUDENT = WEB + "/students";
+    public static final String WEB_SYSTEM_PARAMETER_LIST = WEB + "/system-parameter-lists";
 }
