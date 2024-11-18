@@ -81,6 +81,11 @@ public class StudentController extends BaseController {
     }
 
     @GetMapping("/student-form-key")
+    public SecretKeyResponse getStudentFormKey() {
+        return studentService.getStudentFormKey();
+    }
+
+    @PostMapping("/student-form-key")
     public SecretKeyResponse generateStudentFormKey() {
         return studentService.generateStudentFormKey();
     }

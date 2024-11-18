@@ -249,6 +249,17 @@ class StudentServiceImplTest extends ServiceTest {
     }
 
     @Test
+    void testGetStudentFormKey() {
+        when(secretKeyService.findByName(any())).thenReturn(secretKeyResponse);
+
+        SecretKeyResponse response = studentService.getStudentFormKey();
+        assertEquals(secretKeyResponse.getName(), response.getName());
+        assertEquals(secretKeyResponse.getKey(), response.getKey());
+
+        verify(secretKeyService).findByName(any());
+    }
+
+    @Test
     void testGenerateStudentFormKey() {
         when(secretKeyService.generate(any())).thenReturn(secretKeyResponse);
 

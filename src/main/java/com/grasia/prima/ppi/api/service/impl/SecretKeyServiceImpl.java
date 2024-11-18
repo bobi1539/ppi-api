@@ -20,8 +20,13 @@ public class SecretKeyServiceImpl implements SecretKeyService {
     private static final int VALID_IN_DAYS = 2;
 
     @Override
+    public SecretKeyResponse findByName(String name) {
+        return toResponse(getByName(name));
+    }
+
+    @Override
     public SecretKeyResponse generate(String name) {
-        TSecretKey secretKey = findByName(name);
+        TSecretKey secretKey = getByName(name);
         secretKey.setKey(StringHelper.random());
         secretKey.setValidDate(LocalDateTime.now().plusDays(VALID_IN_DAYS));
         return toResponse(secretKeyRepository.save(secretKey));
@@ -29,18 +34,18 @@ public class SecretKeyServiceImpl implements SecretKeyService {
 
     @Override
     public void verify(String key) {
-        TSecretKey secretKey = findByKey(key);
+        TSecretKey secretKey = getByKey(key);
         if (secretKey.getValidDate().isBefore(LocalDateTime.now())) {
             throw new BusinessException(GlobalMessage.KEY_NOT_VALID);
         }
     }
 
-    private TSecretKey findByName(String name) {
+    private TSecretKey getByName(String name) {
         return secretKeyRepository.findByName(name)
                 .orElseThrow(() -> new BusinessException(GlobalMessage.DATA_NOT_FOUND));
     }
 
-    private TSecretKey findByKey(String key) {
+    private TSecretKey getByKey(String key) {
         return secretKeyRepository.findByKey(key)
                 .orElseThrow(() -> new BusinessException(GlobalMessage.KEY_NOT_VALID));
     }

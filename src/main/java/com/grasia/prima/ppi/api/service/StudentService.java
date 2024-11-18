@@ -31,6 +31,8 @@ public interface StudentService {
 
     long countAll();
 
+    SecretKeyResponse getStudentFormKey();
+
     SecretKeyResponse generateStudentFormKey();
 
     StudentResponse webCreate(WebStudentRequest request);

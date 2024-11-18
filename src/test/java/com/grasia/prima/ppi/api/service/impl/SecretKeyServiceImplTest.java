@@ -38,6 +38,17 @@ class SecretKeyServiceImplTest {
     }
 
     @Test
+    void testFindByName() {
+        when(secretKeyRepository.findByName(secretKeyName)).thenReturn(Optional.of(secretKey));
+
+        SecretKeyResponse response = secretKeyService.findByName(secretKeyName);
+        assertEquals(secretKey.getName(), response.getName());
+        assertEquals(secretKey.getKey(), response.getKey());
+
+        verify(secretKeyRepository).findByName(secretKeyName);
+    }
+
+    @Test
     void testGenerate_Success() {
         when(secretKeyRepository.findByName(secretKeyName)).thenReturn(Optional.of(secretKey));
         when(secretKeyRepository.save(any())).thenReturn(secretKey);

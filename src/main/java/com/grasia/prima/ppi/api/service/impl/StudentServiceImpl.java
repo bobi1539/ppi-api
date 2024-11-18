@@ -108,6 +108,11 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
     }
 
     @Override
+    public SecretKeyResponse getStudentFormKey() {
+        return secretKeyService.findByName(STUDENT_FORM_KEY_NAME);
+    }
+
+    @Override
     public SecretKeyResponse generateStudentFormKey() {
         return secretKeyService.generate(STUDENT_FORM_KEY_NAME);
     }

@@ -30,6 +30,7 @@ class StudentControllerTest extends ControllerTest {
 
     private final StudentRequest studentRequest = ObjectDummy.getStudentRequest();
     private final StudentResponse studentResponse = ObjectDummy.getStudentResponse();
+    private final SecretKeyResponse secretKeyResponse = ObjectDummy.getSecretKeyResponse();
 
     @BeforeEach
     void setUp() {
@@ -120,8 +121,18 @@ class StudentControllerTest extends ControllerTest {
     }
 
     @Test
+    void testGetStudentFormKey() {
+        when(service.getStudentFormKey()).thenReturn(secretKeyResponse);
+
+        SecretKeyResponse response = controller.getStudentFormKey();
+        assertEquals(secretKeyResponse.getName(), response.getName());
+        assertEquals(secretKeyResponse.getKey(), response.getKey());
+
+        verify(service).getStudentFormKey();
+    }
+
+    @Test
     void testGenerateStudentFormKey() {
-        SecretKeyResponse secretKeyResponse = ObjectDummy.getSecretKeyResponse();
         when(service.generateStudentFormKey()).thenReturn(secretKeyResponse);
 
         SecretKeyResponse response = controller.generateStudentFormKey();
