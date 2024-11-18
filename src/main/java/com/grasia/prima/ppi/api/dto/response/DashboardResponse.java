@@ -15,4 +15,5 @@ public class DashboardResponse {
     private long totalNewsletter;
     private long totalGallery;
     private List<StudentEducationResponse> studentEducations;
+    private List<EventPerMonthResponse> eventPerMonths;
 }

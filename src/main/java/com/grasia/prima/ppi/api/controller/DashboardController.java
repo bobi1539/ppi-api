@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,7 +20,7 @@ public class DashboardController {
     private final DashboardService dashboardService;
 
     @GetMapping
-    public DashboardResponse getDashboard() {
-        return dashboardService.getDashboard();
+    public DashboardResponse getDashboard(@RequestParam int year) {
+        return dashboardService.getDashboard(year);
     }
 }

@@ -2,6 +2,9 @@ package com.grasia.prima.ppi.api.constant;
 
 import com.grasia.prima.ppi.api.exception.BusinessException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Constant {
 
     private Constant() {
@@ -106,4 +109,20 @@ public final class Constant {
     public static final String EMAIL_HAS_BEEN_SUBSCRIBE = "Your Email Has Been Subscribed";
     public static final String KEY_NOT_VALID = "Your Key Is Not Valid";
     public static final String SECRET_KEY_REQUIRED = "Secret Key Is Required";
+    public static final Map<Integer, String> MONTH_MAP = new HashMap<>();
+
+    static {
+        MONTH_MAP.put(1, "Jan");
+        MONTH_MAP.put(2, "Feb");
+        MONTH_MAP.put(3, "Mar");
+        MONTH_MAP.put(4, "Apr");
+        MONTH_MAP.put(5, "Mei");
+        MONTH_MAP.put(6, "Jun");
+        MONTH_MAP.put(7, "Jul");
+        MONTH_MAP.put(8, "Aug");
+        MONTH_MAP.put(9, "Sep");
+        MONTH_MAP.put(10, "Oct");
+        MONTH_MAP.put(11, "Nov");
+        MONTH_MAP.put(12, "Dec");
+    }
 }

@@ -4,5 +4,5 @@ import com.grasia.prima.ppi.api.dto.response.DashboardResponse;
 
 public interface DashboardService {
 
-    DashboardResponse getDashboard();
+    DashboardResponse getDashboard(int year);
 }

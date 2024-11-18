@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.service;
 
 import com.grasia.prima.ppi.api.dto.request.EventRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
+import com.grasia.prima.ppi.api.dto.response.EventPerMonthResponse;
 import com.grasia.prima.ppi.api.dto.response.EventResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MEvent;
@@ -30,4 +31,6 @@ public interface EventService {
     MEvent getEventById(Long id);
 
     long countAll();
+
+    List<EventPerMonthResponse> countPerMonthByYear(int year);
 }

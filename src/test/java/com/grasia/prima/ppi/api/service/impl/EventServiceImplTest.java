@@ -2,6 +2,7 @@ package com.grasia.prima.ppi.api.service.impl;
 
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.request.EventRequest;
+import com.grasia.prima.ppi.api.dto.response.EventPerMonthResponse;
 import com.grasia.prima.ppi.api.dto.response.EventResponse;
 import com.grasia.prima.ppi.api.entity.MEvent;
 import com.grasia.prima.ppi.api.exception.BusinessException;
@@ -22,6 +23,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -256,5 +258,16 @@ class EventServiceImplTest extends ServiceTest {
         when(eventRepository.count()).thenReturn(10L);
         assertEquals(10L, eventService.countAll());
         verify(eventRepository).count();
+    }
+
+    @Test
+    void testCountPerMonthByYear() {
+        List<Map<String, Object>> maps = List.of(Map.of("event_month", 1, "total_event", 10L));
+        when(eventRepository.countPerMonthByYear(2024)).thenReturn(maps);
+
+        List<EventPerMonthResponse> responses = eventService.countPerMonthByYear(2024);
+        assertEquals(12, responses.size());
+
+        verify(eventRepository).countPerMonthByYear(2024);
     }
 }

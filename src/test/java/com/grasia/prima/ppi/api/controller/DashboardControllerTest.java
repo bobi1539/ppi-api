@@ -30,12 +30,12 @@ class DashboardControllerTest {
 
     @Test
     void testGetDashboard() {
-        when(service.getDashboard()).thenReturn(dashboardResponse);
-        DashboardResponse response = controller.getDashboard();
+        when(service.getDashboard(2024)).thenReturn(dashboardResponse);
+        DashboardResponse response = controller.getDashboard(2024);
         assertEquals(10L, response.getTotalStudent());
         assertEquals(10L, response.getTotalEvent());
         assertEquals(10L, response.getTotalNewsletter());
         assertEquals(10L, response.getTotalGallery());
-        verify(service).getDashboard();
+        verify(service).getDashboard(2024);
     }
 }

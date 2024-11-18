@@ -15,13 +15,14 @@ public class DashboardServiceImpl implements DashboardService {
     private final GalleryService galleryService;
 
     @Override
-    public DashboardResponse getDashboard() {
+    public DashboardResponse getDashboard(int year) {
         return DashboardResponse.builder()
                 .totalStudent(studentService.countAll())
                 .totalEvent(eventService.countAll())
                 .totalNewsletter(newsletterService.countAll())
                 .totalGallery(galleryService.countAll())
                 .studentEducations(studentService.countByEducation())
+                .eventPerMonths(eventService.countPerMonthByYear(year))
                 .build();
     }
 }

@@ -1,10 +1,12 @@
 package com.grasia.prima.ppi.api.service.impl;
 
+import com.grasia.prima.ppi.api.constant.Constant;
 import com.grasia.prima.ppi.api.constant.GlobalMessage;
 import com.grasia.prima.ppi.api.dto.Base64ToFileDto;
 import com.grasia.prima.ppi.api.dto.request.EventRequest;
 import com.grasia.prima.ppi.api.dto.request.FileRequest;
 import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
+import com.grasia.prima.ppi.api.dto.response.EventPerMonthResponse;
 import com.grasia.prima.ppi.api.dto.response.EventResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MEvent;
@@ -22,7 +24,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @AllArgsConstructor
 @Service
@@ -113,6 +117,25 @@ public class EventServiceImpl extends AbstractCrudService implements EventServic
     @Override
     public long countAll() {
         return eventRepository.count();
+    }
+
+    @Override
+    public List<EventPerMonthResponse> countPerMonthByYear(int year) {
+        List<EventPerMonthResponse> responses = IntStream.rangeClosed(1, 12)
+                .mapToObj(i -> EventPerMonthResponse.builder()
+                        .monthSequence(i)
+                        .month(Constant.MONTH_MAP.get(i))
+                        .totalEvent(0L)
+                        .build())
+                .toList();
+
+        List<Map<String, Object>> maps = eventRepository.countPerMonthByYear(year);
+        for (Map<String, Object> map : maps) {
+            int month = ((Number) map.get("event_month")).intValue();
+            long totalEvent = (long) map.get("total_event");
+            responses.get(month - 1).setTotalEvent(totalEvent);
+        }
+        return responses;
     }
 
     private Specification<MEvent> getSpecificationFindAll(SearchDto searchDto) {

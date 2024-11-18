@@ -44,7 +44,7 @@ class DashboardServiceImplTest {
         when(newsletterService.countAll()).thenReturn(10L);
         when(galleryService.countAll()).thenReturn(10L);
 
-        DashboardResponse response = dashboardService.getDashboard();
+        DashboardResponse response = dashboardService.getDashboard(2024);
         assertEquals(10L, response.getTotalStudent());
         assertEquals(10L, response.getTotalEvent());
         assertEquals(10L, response.getTotalNewsletter());
