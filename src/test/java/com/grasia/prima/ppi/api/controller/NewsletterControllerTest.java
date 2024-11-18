@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -130,4 +131,9 @@ class NewsletterControllerTest extends ControllerTest {
         verify(service).restore(any(), any());
     }
 
+    @Test
+    void testResendEmail() {
+        assertDoesNotThrow(() -> controller.resendEmail(id));
+        verify(service).resendEmail(id);
+    }
 }

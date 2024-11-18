@@ -36,4 +36,6 @@ public interface NewsletterService {
     NewsletterSubscriptionResponse subscribe(NewsletterSubscriptionRequest request);
 
     void sendEmail(MNewsletter newsletter);
+
+    void resendEmail(Long id);
 }

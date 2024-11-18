@@ -83,4 +83,9 @@ public class NewsletterController extends BaseController {
     ) {
         return newsletterService.restore(id, header);
     }
+
+    @PostMapping("/resend-email/{id}")
+    public void resendEmail(@PathVariable Long id) {
+        newsletterService.resendEmail(id);
+    }
 }

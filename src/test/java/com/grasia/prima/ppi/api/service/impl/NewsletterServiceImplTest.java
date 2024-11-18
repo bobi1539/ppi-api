@@ -293,6 +293,15 @@ class NewsletterServiceImplTest extends ServiceTest {
     }
 
     @Test
+    void testResendEmail() {
+        when(newsletterRepository.findByIdAndIsDeleted(id, false)).thenReturn(Optional.of(newsletter));
+
+        assertDoesNotThrow(() -> newsletterService.resendEmail(id));
+
+        verify(newsletterRepository).findByIdAndIsDeleted(id, false);
+    }
+
+    @Test
     void testShutdownExecutorService() {
         assertDoesNotThrow(() -> newsletterService.shutdownExecutorService());
     }

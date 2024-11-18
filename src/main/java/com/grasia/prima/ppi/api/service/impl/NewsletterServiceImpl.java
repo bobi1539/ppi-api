@@ -154,6 +154,12 @@ public class NewsletterServiceImpl extends AbstractCrudService implements Newsle
         }
     }
 
+    @Override
+    public void resendEmail(Long id) {
+        MNewsletter newsletter = getNewsletterById(id);
+        executorService.submit(() -> sendEmail(newsletter));
+    }
+
     @PreDestroy
     public void shutdownExecutorService() {
         log.info("Shutting down ExecutorService...");
