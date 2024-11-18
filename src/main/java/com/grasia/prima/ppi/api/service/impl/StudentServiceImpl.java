@@ -6,6 +6,7 @@ import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.StudentRequest;
 import com.grasia.prima.ppi.api.dto.request.WebStudentRequest;
 import com.grasia.prima.ppi.api.dto.response.SecretKeyResponse;
+import com.grasia.prima.ppi.api.dto.response.StudentEducationResponse;
 import com.grasia.prima.ppi.api.dto.response.StudentResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MStudent;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Year;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -121,6 +123,15 @@ public class StudentServiceImpl extends AbstractCrudService implements StudentSe
     public StudentResponse webCreate(WebStudentRequest request) {
         secretKeyService.verify(request.getSecretKey());
         return create(request, HeaderRequest.builder().build());
+    }
+
+    @Override
+    public List<StudentEducationResponse> countByEducation() {
+        List<Map<String, Object>> maps = studentRepository.countByEducation();
+        return maps.stream().map(map -> StudentEducationResponse.builder()
+                .name((String) map.get("name"))
+                .count((long) map.get("count"))
+                .build()).toList();
     }
 
     private Specification<MStudent> getSpecificationFindAll(SearchDto searchDto) {

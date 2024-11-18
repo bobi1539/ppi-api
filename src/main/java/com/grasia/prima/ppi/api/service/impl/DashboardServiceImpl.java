@@ -21,6 +21,7 @@ public class DashboardServiceImpl implements DashboardService {
                 .totalEvent(eventService.countAll())
                 .totalNewsletter(newsletterService.countAll())
                 .totalGallery(galleryService.countAll())
+                .studentEducations(studentService.countByEducation())
                 .build();
     }
 }

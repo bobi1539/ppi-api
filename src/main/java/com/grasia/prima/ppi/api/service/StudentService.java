@@ -4,6 +4,7 @@ import com.grasia.prima.ppi.api.dto.request.HeaderRequest;
 import com.grasia.prima.ppi.api.dto.request.StudentRequest;
 import com.grasia.prima.ppi.api.dto.request.WebStudentRequest;
 import com.grasia.prima.ppi.api.dto.response.SecretKeyResponse;
+import com.grasia.prima.ppi.api.dto.response.StudentEducationResponse;
 import com.grasia.prima.ppi.api.dto.response.StudentResponse;
 import com.grasia.prima.ppi.api.dto.search.SearchDto;
 import com.grasia.prima.ppi.api.entity.MStudent;
@@ -36,4 +37,6 @@ public interface StudentService {
     SecretKeyResponse generateStudentFormKey();
 
     StudentResponse webCreate(WebStudentRequest request);
+
+    List<StudentEducationResponse> countByEducation();
 }

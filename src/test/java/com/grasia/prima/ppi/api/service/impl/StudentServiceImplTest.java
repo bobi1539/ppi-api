@@ -4,6 +4,7 @@ import com.grasia.prima.ppi.api.dto.request.FileUploadRequest;
 import com.grasia.prima.ppi.api.dto.request.StudentRequest;
 import com.grasia.prima.ppi.api.dto.request.WebStudentRequest;
 import com.grasia.prima.ppi.api.dto.response.SecretKeyResponse;
+import com.grasia.prima.ppi.api.dto.response.StudentEducationResponse;
 import com.grasia.prima.ppi.api.dto.response.StudentResponse;
 import com.grasia.prima.ppi.api.entity.MStudent;
 import com.grasia.prima.ppi.api.entity.MSystemParameterList;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -283,5 +285,15 @@ class StudentServiceImplTest extends ServiceTest {
         verify(parameterListService, times(2)).getSystemParameterListById(id);
         verify(fileService).saveFileFromBase64(any());
         verify(studentRepository).save(any());
+    }
+
+    @Test
+    void testCountByEducation() {
+        when(studentRepository.countByEducation()).thenReturn(List.of(Map.of("name", "PhD", "count", 30L)));
+
+        List<StudentEducationResponse> responses = studentService.countByEducation();
+        assertEquals(1, responses.size());
+
+        verify(studentRepository).countByEducation();
     }
 }
